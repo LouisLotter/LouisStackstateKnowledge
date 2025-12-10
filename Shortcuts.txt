@@ -1,0 +1,3 @@
+Jira Filter: 
+
+(updated >= -14d OR created >= -14d ) AND Status != "To Bulk" AND Status != "Ready to work on" AND Status != "Needs more info" AND Status != Backlog order by created DESC
