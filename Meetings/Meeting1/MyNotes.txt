@@ -1,0 +1,28 @@
+Topics:
+
+
+Settings
+
+Decouple Settings from topology
+Settings, quite dependent on CRUD, transactionality and referential integrity. Easy with postgres but not clickhouse. Or sqlite.
+Not everything is behind the settings service.
+Keep settings in STackgraph first and make stackgraph non HA small instance.
+
+Health States are stored on topology. Should be easy.
+Events. How we trigger and rely on topology changed events.
+
+Benefits:	
+Clickhouse can:
+	Can enter data for any timestamp at any time. Stackgraph cannot
+	Much closer to observed time rather than ingestion time.
+	SQL to explore the data. Suggestions can be better etc.
+	Better Pagination.
+	Easier experimentation and troubleshooting.
+	Higher level API’s Dev ex is much better.
+	More transferable skills.
+
+Why use Clickhouse.
+	It’s a DB we already have. Are backing up etc.
+
+What would the success criteria look like ?
+Remove the risk. Know that performance is good enough.

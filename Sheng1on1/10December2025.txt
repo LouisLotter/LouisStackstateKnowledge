@@ -1,0 +1,68 @@
+# 1:1 with Sheng - December 10, 2025
+
+## 1. Goals Discussion
+- **Question:** Are we doing big team goals again or individual goals?
+- **Note:** Due date is coming up soon
+- **Action needed:** Clarify format and timeline
+
+## 2. Dashboards Release
+- Target: After new year
+- Status: In final stages (UI tests, docs, variable handling fixes in review)
+
+## 3. QA / Test Automation Progress
+- QASE Beest integration live: https://app.qase.io/run/STACKSTATE/dashboard/36
+is it all Beest tests ? why is it so fast.
+
+**Proposed Action Items for Test Coverage Expansion:**
+1. **Playwright → QASE Integration**
+   - Use Playwright for release validation within QASE framework
+2. **Rancher Test Scenarios**
+   - Add downstream cluster configurations
+   - StackState deployment scenarios in those environments
+3. **CLI Test Coverage**
+   - Scenarios across BEEST, Pipeline, and QASE
+4. **UI Test Scenarios**
+   - Extend coverage for existing components
+   - Add scenarios for new features (e.g., Dashboards)
+
+
+
+
+
+
+## 4. NeuVector Project Access Issue (BLOCKER)
+- **Problem:** No access to https://github.com/orgs/neuvector/projects/6
+- **Root cause:** Bin left, no one has admin access
+- **Options:**
+  1. Get admin access granted to someone on the team
+  2. Donate project to Kubewarden now (Flavio has admin there) - simplifies things
+
+**Recommendation:** Push for option 2 if donation was already planned. Less overhead.
+
+---
+
+## Tips for the Discussion
+
+**On Goals:**
+- Come prepared with a suggestion (team vs individual) and your preference
+- If team goals worked well before, advocate for continuity
+
+**On Dashboards:**
+- "After new year" is vague - try to pin down a more specific target (early Jan? mid-Jan?)
+- Mention the main blockers if asked (UI freeze issue, docs)
+
+**On NeuVector:**
+- This is a blocker - frame it as needing a decision today
+- Have a clear recommendation ready (sounds like Kubewarden donation is cleaner)
+- Ask: "Can we make this decision now so we're not stuck?"
+
+
+TODO
+
+How long does the nightly test run take.
+Full report of all the testing we have. coverage etc.
+
+The Rewrite needs to happen Stackgraph.
+
+File an EIO ticket to get access to neuvector.
+

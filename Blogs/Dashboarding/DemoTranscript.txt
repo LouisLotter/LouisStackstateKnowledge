@@ -1,0 +1,276 @@
+Nov 28, 2025
+Stackstate Sprint-Review - Transcript
+00:00:00
+ 
+Louis Lotter: Great, it's recording. Um, welcome everybody. Um, today we'll be showing our latest and greatest feature dashboards. It's been a long time coming. Um, the whole team has contributed to it. Um, but especially the two frontenders have been working really hard at it. Um, over I think it's nine months, right guys? Around that about that long. And we're super excited to show show it off and show how it all fits together and get it launched pretty soon and probably just after the hack week. We don't want to launch something in the middle of hack week. Um yeah. Um and then I'll hand over to Remco to show you guys
+Remco Beckers: All right. Um, well, like I said, like Louis said, we're going to talk about dashboards in Zoo's observability. Um, so I made a small presentation. Don't worry, it's going to be mostly a demo, but I thought a little bit of an introduction uh might be needed. Um, so I'm going to go over why, what we have in here, how does it work, and not on this slide, but some extras at the end.
+ 
+ 
+00:01:10
+ 
+Remco Beckers: Um, so why did we all of a sudden decide to add dashboarding to Zuzu observability while we haven't had it for quite a while? Um, so there are some obvious reasons. uh it is the number one requested feature by our customers. So we probably should listen to that. I mean one of our sales engineers uh remarked that he thought five out of five customers he talks to would start using dashboarding once we release it. So there you go. The expectations uh are high I guess. Um so but that's of course we don't do things just because customers ask for it. We also need to have like um something that we deliver with it, right? Some value that it brings. Um so what we already can do in zoo observability is you can already uh have metrics and and other information uh visualized per component and we ship a lot of out of the box defaults for that. Um those defaults are a little bit hard to add custom settings, custom metrics to for yourself.
+ 
+ 
+00:02:17
+ 
+Remco Beckers: for example, uh but also they are still tied to a component and sometimes you want to have an overview across multiple components. So you have um say you have a business process and you just want to take like three metrics from this one component and two from this other component and you want to show them in one dashboard so you know how your business is doing. Uh or you have a user flow through your application. Um maybe you're a web well the obvious example is a web shop and you want to monitor your checkout and payment process all the time. That's usually multiple components in your infrastructure but you do want to see everything together in one dashboard. And the same for data processing pipelines and you can think of many more examples. I'll I'll show a few in the demo. Um then another reason for dashboards is that um we've integrated dashboards into to observability in such a way that you can create uh quickly create a dashboard while troubleshooting and you can just uh add metrics from whatever you're troubleshooting at that moment to the dashboard.
+ 
+ 
+00:03:25
+ 
+Remco Beckers: uh so you gather all information in one place and then you can even share the dashboard with some uh colleagues and uh troubleshoot together on the same dashboard on the same data. Uh thirdly um many of our customers and many open source users are using uh Kafana and Prometheus Kafana and Prometheus stack um for monitoring and for alerting. So they are very familiar with dashboards because that's the main uh user interface for Kafana and uh they have multiple times already asked like hey can we use or can we make these same dashboards in the observability uh because I just want to you know copy over what I have in Kafana and then uh stop worrying um and of course uh it is also a quick and easy way to get started with SUS observability with your own custom metrics. So um if you add some metrics to your own application and you you collect them with the hotel collector for example you get them stored in Zoo's observability but then you also want to view them and viewing those metrics right now before dashboards would mean you would either need to use the metric explorer but then you're always writing your queries at the time that you want to view them and there's no way to store them easily or you have to make metric bindings which is also a bit uh more work then uh and less user friendly than most people like.
+ 
+ 
+00:04:55
+ 
+Remco Beckers: Uh so you only do that when you're satisfied with what you have and you know where you want to go. Um so uh more quick and easy way is the dashboard user interface where you can just click together a dashboard put in a promql query and show the metrics and immediately get some value out of it. So that's the why. Um, so what do we provide? Um, so I'm not going to go into all the details. I'll try in the demo to uh to show most of the things that we have. But here is just a quick overview to uh uh uh well to give some information on a high level. Uh we have u the ability to create private dashboards. So by default when you make a dashboard it will be private and you can make dashboards public. So everyone that has access to your zoo observability uh can view them. Um then in the dashboard uh you uh we support multiple widgets. Uh we have uh uh a number of widgets for visualizing metrics.
+ 
+ 
+00:06:02
+ 
+Remco Beckers: I'll show them all. It's a time series chart that we already had but you also have now the bar chart, a gates chart and a STS chart. You can see the many versions uh in the slide here. And to add some information like textual information to uh to a dashboard, we also have markdown. Um we came up with these uh widgets to be the most important ones to support initially uh by looking at uh the most used widgets in open source Kafana dashboards. And if you look at those, you see uh lots of time series uh and gauges and some stats and some bar charts. And then still like a few other things, but like the big chunk are these four. And then some markdown to uh to add some contextual information uh that's not uh visual. Um and then for most other features, we also looked at what people are using in Kafana or in other dashboarding tools. And then you already quickly find out that variables are something that's really needed on a dashboard.
+ 
+ 
+00:07:09
+ 
+Remco Beckers: So you don't have to copy and paste the same dashboard multiple times for different applications or for different namespaces for example in Kubernetes. Um then to integrate things properly into Z observability uh dashboards have also been integrated into stack packs. So when you create a stack pack you can also include one or more dashboards that you want to offer out of the box for the tool that you are supporting with the stack pack. Um, one important thing to note is that even though a user may have access to a dashboard, it doesn't mean the user can see the data that is visualized on the dashboard. It still depends on the arbback permissions the user has. So it could be one user sees more metrics in the same dashboard than another or maybe some users don't see any metrics in the dashboard because they are not allowed to see those those metrics. Um yeah and I already mentioned it that uh it's pretty well integrated into Zoo's observability I think uh also given the troubleshooting but I'll show in the demo what I mean by that in more detail.
+ 
+ 
+00:08:19
+ 
+Remco Beckers: And there we are at the demo. Um let me share my other browser window. Uh bit of a swapping I have to do here. um window that one. So now it's not sharing right. Can't share your screen. Something went wrong.
+Louis Lotter: Um, let's see.
+Remco Beckers: I'll try again.
+Louis Lotter: We have terrible luck with sharing. Um, Cool.
+Mark Bakker: That's the demo, guys.
+Louis Lotter: Do that.
+Remco Beckers: No, it can't use my camera either. It's No, that's not working either.
+Mark Bakker: That's less important if you can share now.
+Remco Beckers: Oh man, what is this? No, it's not working. Okay, I have one more.
+Louis Parkin: Kindly share with us which version of Linux you are using.
+Louis Lotter: But he's been sharing the all day. Um, let me just see if I can share if there's anything wrong with the
+Mark Bakker: Maybe he starts your computer. I've never seen that that you can't that that you can't share in general.
+Louis Parkin: Brahm has been having some difficulties since he switched to Wayland.
+ 
+ 
+00:10:57
+ 
+Louis Parkin: Um I had similar issues when I upgraded to 2404 back in the day. Um it it seems there's some some issue with screen sharing and and window rendering.
+Louis Lotter: That's showing right.
+Remco Beckers: Now it's Oh, well, I guess next time I'll just um not switch screen share.
+Louis Parkin: Yes,
+Mark Bakker: Yes.
+Louis Lotter: Cool. There you go. Yeah.
+Mark Bakker: Hey
+Remco Beckers: I'll just drag browser taps around or something. Um, okay. So about the demo, right? That's what I was going to do. Um so first this is like a normal view when you get into stack data and I I open it at the services. Um but then what's new now here you see a dashboards um entry in the in the main menu. I'll just well it's uh down here. And um just like views you can also start dashboard. So I start three important dashboards here and you get a list you can can get a overview of all dashboards. So if I go here you see all dashboards.
+ 
+ 
+00:12:13
+ 
+Remco Beckers: This is a bit messy because this is a test instance. Uh but uh that's why we have these filters on top here. And we will be adding actually a few more filters here to show your own dashboards and uh all dashboards that are shared with you. Um but for the demo I'm going to use uh uh the dashboards that I've got start here. Um so you can see here that the cluster nodes dashboard has an unlock uh an open lock here. So it's it's public. Um and you can see this one has a closed lock. It's private. Um and you uh this is also not uh my dashboard even. Um this however is my dashboard. I can edit it and I can uh make a copy and I can delete it. Um so but before we go into how to create your own dashboard, let's just first open this one and show you what we've got. So this is one that we also have available or something similar on the playground.
+ 
+ 
+00:13:19
+ 
+Remco Beckers: That's observability.susa.com I think. Um, and here you can see um most of the widgets that we have in action. It doesn't show the gauge, but we'll find that uh in another dashboard later. Um, so what I'll do is I'll just go shortly over all the all the all the widgets and what you see here. Uh, so on the left here we have the markdown widget. Um you can see um you can it gets rendered as markdown. You can use links in it and everything. Uh even uh even icons and uh and avatar u and uh well what do you call these things? So if you want to edit this you actually just get a big input field where you can type markdown and you can use uh links into zoo observability itself and you can also use external links. This is similar to the markdown support that we have in different places already. And when you edit the widget, you also get for every widget, you get a nice preview on the top right here.
+ 
+ 
+00:14:29
+ 
+Remco Beckers: Um, yeah, and the name is what you see here at the top of the widget. Um, and here you can switch between the type of widget. I won't be doing that now. I don't want to change this dashboard right now. I'll show that later. Um then you have the stats widget which its main goal is to show one big number and in this case uh I opened the telescope shop dashboard that's from the open that's based off the open telemetry telescope uh demo application. So um that's a shop selling telescopes. So what's interesting to us as a shop owner is the biggest the most important number is payments of course how many people could pay us. So this is just showing the payments over the last hour. Uh so in the last hour we received well people successfully paid 273 times. And if you look uh the there's a small chart here underneath it that's called the spark line. And if you have the widget big enough, it will show that.
+ 
+ 
+00:15:37
+ 
+Remco Beckers: And if you make it, oh no, sorry. It it will show it will show that always. But you can actually when you edit it, you can disable it. So if we then look at editing a widget, um you can see now we have the ST chart selected here and you get an input for a one or more PROMQL queries. So these are just the normal PRQL queries that we have uh support for in multiple places in Z observability already. So I won't go into too much details. Um alias is what you see in the legend and in this case it gets rendered at the top of the uh start. Um so you can also have multiple stats. We'll see that in the next dashboard I will show. Um then for most widgets, not for markdown, but for most other widgets, we have some settings to customize what the widget looks like. And many of these settings are the same for the different metric widgets, but not for all. So for example, here you can see the spark line I mentioned.
+ 
+ 
+00:16:37
+ 
+Remco Beckers: That's this little chart here. We can turn it off. So you just have the number. Uh you can also keep it and then you also get the historical uh data visible. Uh although just an indication, right? It's a summary. Uh some other things you can do that we already had available is like a units. You can change the unit for the chart. This is simply a number. So we use short. But in other charts we use percentage or uh maybe bytes or uh um well what do we have more any anything goes actually. Um, and let's see. Yeah, I think most of these things actually are reasonably self-explanatory. I'll get back to the thresholds when we look at the gauge or maybe I can show it now. Um, so what we have here is you can add thresholds and they will determine in this case what the color will be. Um, so now anything over 50 will be green and the default color will be orange.
+ 
+ 
+00:17:44
+ 
+Remco Beckers: But if you now say anything over 300 is only green, then uh the color will be orange. So it attracts more attention and you're like, "Wait a minute, what's going on with my payments, but we only expect to see at least 50 payments per hour." So, uh, we keep it like this. Um yeah, then the bar chart. We have two of these here. Uh I think this is pretty obvious what a bar chart is, right? I'll again quickly show the edit widget part. Again, the query part is exactly the same. So you notice you can also add more queries than one. Uh I have some examples of that as well. And then uh in the stats widget we didn't have a proper legend. Uh here we do. Uh and here we can also control where the legend goes. So now it's on the right but it can also be on the bottom. And you can also include a table um also something I'll show an example of later.
+ 
+ 
+00:18:51
+ 
+Remco Beckers: Um and some settings you can control on the on the y-axis. Um, and also here we can add thresholds. So now you can see a threshold at 10. I'll bump it up a bit to 50. You can see that appears here as a line on the chart and change the color. So we can do well can do quite a lot here. I'm you notice I'm clicking close every time so it doesn't change uh the current dashboard. And then I have um a bunch of time series charts. Um you see here this one has two queries except the second one doesn't have a result because there are no errors apparently. Um this has slightly more settings even. Um, yeah, I didn't show the min and max yet, but if you uh want to um fix the y-axis to a certain range, it's normally everything almost everything is automatically determined. But if you have a you want to fix it to a certain range, you can say, well, this should always be between zero and one. And now you see it starts at zero and top is one.
+ 
+ 
+00:20:06
+ 
+Remco Beckers: But I can also say it should be um between minus one and one. Um, but actually this is counts per second for payments and it's not that high. So maybe we should just leave it at auto and keep it like this. Right? So that's a quick overview of all the widgets we have. And then um when you just click add widget and you add it to the dashboard, it gets put into a a standard place on the left bottom. That's probably not what you want. you want to probably reorganize it. So, you can uh can just pick up any widget here and drag it around. Uh you can also resize it. And you'll notice they uh when you drag it around and resize it, things will shuffle around to make place for it. Um so, uh you can always uh organize it in whatever way you want. Um, so yeah, maybe I want to have that all over here and then this one over there. And what you see now is I I've been moving things around.
+ 
+ 
+00:21:17
+ 
+Remco Beckers: Um, and if I leave the dashboard now, this would not be saved. Um, so if I and I would if I would come back, it would refer to the original situation. So if I want to save this the the button on top here uh turn blue and it says save dashboard now. So if I want to save these changes I can say save dashboard. Let's do that. And now all changes have been saved and uh blue button is again back to its original state where you can say save dashboard as. So now I can decide like oh I want to make a copy of this dashboard. Um, and I make a new one like this. And now I can open the new one here. And it's the exact same dashboard, but now it's my dashboard. If it wasn't mine, if it if it was a public dashboard, for example, created by someone else, it would be now my dashboard. and um I would be in full control of it. So you can see here uh here is a new dashboard and it's locked and it's mine, right?
+ 
+ 
+00:22:34
+ 
+Remco Beckers: So let's say we start from scratch. Um, I just collected some metrics from my own application and I want to visualize them now. So, I want to add a new dashboard. I'll just call it my custom metrics. Well, my custom app. Um, I can add a description, but I won't be doing that now. I want to see it in the start dashboards. And, you know, while I'm working on it, I'm definitely not going to make it public. Um, so I'll just leave it like this. I can always make it public later by uh editing the dashboard properties. So now you see it's a perfectly empty dashboard with some hints on what you can do. So the quickest way to get started is to hit add widget here or over there. So I'll do that. So I'm just going to show a very basic flow what you need to do to make a dashboard. Uh, and I'll not go into uh not going to tweak it to make it really nice right now, but uh I'll just use uh well memory usage as an example.
+ 
+ 
+00:23:47
+ 
+Remco Beckers: And then we um we can say we can take the container memory usage. That's just a metric I pick now because I know this metric pretty well and what what kind of labels it has. Um so I don't want to show the um memory usage for everything. I want to show it for uh maybe this pots in this cluster or for containers in this cluster. And I probably want to be specific about the namespace. So I'll take the sock shop for an example which is another demo setup we have. And um yeah, let's maybe uh keep it like this. But I don't I'm not interested in actually the containers. I want to do it in uh per pod. So I'll just say some by pod name. And then what I now want to do is I don't want to have this ugly uh legend entry here which is like the the all the labels that are in the output but I want to say well just use the pot name label now and what you can see here is that we get a nice suggestion of the labels that are available.
+ 
+ 
+00:25:04
+ 
+Remco Beckers: So because I did the sum by pot name that's the only label that's available. But if I would remove it like this start again. So now you see you get the whole list. All the labels are there and I can still uh select the pot name. But now to get correct data I still want to make sure I assume by pot name. So, still quite a lot of parts, but I'll leave it for the example. I'll leave it like this. Um, yeah, let's um create the widget. So, now you see it gets with a standard size to the top left. I want to make it a little bit bigger because we like this chart a lot. And so one thing that's um a bit inconvenient now is that um yeah this is for a fixed cluster and for a fixed namespace. I don't I don't really like that because now if I want to if I deploy my application to another cluster or to another namespace maybe I have a an instance per customer running and I want to uh you know u have um be able to quickly see the data for different uh customers.
+ 
+ 
+00:26:24
+ 
+Remco Beckers: So I want to make I want to parameterize this chart. So what I'll do is I'll start adding some variables to the dashboard. So I didn't open this yet. I think but under the drop down here you have the save dashboard button. Wait, let's do that just to be sure that it's saved. Um we have uh some options to um to change the dashboard. So we have the dashboard properties. You already saw the same dialogue when creating it. Um but what I'm interested now is uh variables. So let's add a variable. Um so maybe um we want to switch uh cluster names first. So if we run the same application in a different cluster, we can show the same metrics. So let's add a cluster variable. Um so we have multiple types of variables. We have text and list variables. So a list variable you can get the data from multiple data sources. Um the most basic one is a static list actually.
+ 
+ 
+00:27:36
+ 
+Remco Beckers: Here you just have to type in a list of values. I don't want to do that because you know the list of values is actually in our metric store and we can query the metric store for the list. You already saw the label names. So this is all the labels that are on all the metrics in our metric store. Um, but I'm not looking for the label names. I'm looking for actually the values of the cluster name label. So I'll now pick the metric label values source. And then I'll just see if I can find a cluster name label. So let's try the first one. That doesn't look like what I need. So I do know what I actually want to use uh because we standardize on cluster_ame for the cluster name label in zuza observability. Uh and you see here these are all the clusters that we have available on this SU observability instance. Um so yeah let's sort them in alphabetical order so it's easy to pick one of them.
+ 
+ 
+00:28:44
+ 
+Remco Beckers: Um I'm not going to allow multiple values or include everything or something because that will just clutter the chart even more. Um so let's create this uh and update the dashboard. So now we see here the cluster variable appeared and we can select the cluster. So now we have demo selected. So it's not used in the dashboard and the widget though. So let's update the query as well. So let's replace demo defaf here with dollar cluster. So this is how you use a variable. We interpolate it before executing the query with a dollar curly cluster curly close. So we see we we get the exact same data because now I have the same cluster selected. But for example in sandbox main there is also a a demo setup running uh in the same namespace. So here we see a different chart. Um so we can make this more fancy but um you know these cooking shows what they do they prepare something beforehand so it doesn't take that long.
+ 
+ 
+00:29:56
+ 
+Remco Beckers: I did the same thing here. I cooked up a dashboard beforehand. So I'll switch to that one first. Um, and I'll So now I accidentally I'm showing off what happens when you close a dashboard without saving it. You get this nice notification here that says you have unsaved changes. Uh, and I can either go back to the dashboard to finish my work there or I can hit save changes. So I don't want to go back now. I'll just hit save changes and it saves the changes I made. Um so I wouldn't forget. Um so what I made is a dashboard that um shows um uh an overview of our uh topology processing pipeline for Zuzu observability. It's something we uh something like this dashboard we want to include in the Zoo's observability stack pack for a quick overview of your SUS observability health and in this case for topology specifically. And here you can see I've already um um how to say it there's a bunch of um uh widgets at the top here that gives you the really high level overview.
+ 
+ 
+00:31:17
+ 
+Remco Beckers: It's like stats widget a stats widget for the amount of incoming data. And I'm not sure if you can read it because I made this on a slightly bigger screen and I noticed that now the text gets a bit smaller than I had anticipated. Um, no, that doesn't help. Oh, wow. That helped exactly enough. A 90% zoom. Um so now you might be wondering how do I get these four stats in the same widget right? So this is what you get uh when uh well you put in multiple queries each query will result in one or more of these start entries but also when uh a single query returns multiple time series each time series will be rendered like a separate uh value here. So uh while making this I noticed that uh this query uh returns exactly one result that's the node one and this one returns the other tree and you can just group them like this and uh get a nice overview and the one thing I didn't show yet is the gauge widget and that's this one.
+ 
+ 
+00:32:33
+ 
+Remco Beckers: Um so the idea here is that you can uh um show um uh in this case usage compared to a limit for example. Uh so it's a lot like your speedometer in a car, right? Uh if you get into the orange things get dangerous. If you get into the red it's really dangerous. Um so in this case it's a budget saturation. If you hit the budget limits you will start missing some data in Zoo's observability. So you want to have this clear. So for this setup, we're very safe still. Um so how do you configure this? Again, this is simply a metric query. Won't go into the details of the metrics query right now, but uh um and then in this case, the metric query returns a percentage u in the range of 0 to one. So we use that uh unit here. Um then we don't want to go over 100% with this setting uh with this chart. So we say the maximum is one which is the default.
+ 
+ 
+00:33:36
+ 
+Remco Beckers: So I left it as the default. And then we can configure thresholds. Um so in this case I put a threshold at 08 and at 0.9 which is at 80 and 90% of the full range. So, uh, if you look at the thresholds here, you can also toggle to a percentage, um, which actually allows you to, um, put in a real percentage of the maximum. So, I put in now 80 and 90%. Uh, but this is dependent on the maximum here. So if I now put in 300, you can see that um this guy shrinks and the um 80 and 90% is still at the same place. So this is um more useful if your maximum is not 100% but something else and you still want to put in thresholds based on the percentage. I'll leave it as it was though. Um we also did something more fancy with the uh with the variables. Here we have two variables. So uh one is the cluster. So I can switch to another cluster and then there we have different name spaces.
+ 
+ 
+00:34:56
+ 
+Remco Beckers: So let me inspect this instance itself. So this is now the data for the instance we're using for the demo. Um so we can see we have a bit of a high topology sync latency because normally this would be in the low uh in the single digits. So I'm getting a bit curious why that is. But I'll not go into the details now to investigate that. Um let's see what do I else want to show. Oh there's one thing I want to show still here. Um, so I didn't show off all the legend options. Let me pop this one out so you can see how we do this. Um so what we do here is we selected instead of a list for the legends table legend we selected a table and in the table um you actually can select uh some aggregations that you want to do over the data that is in the in the chart and then you can uh get those uh summarized uh at the end here. So uh what I have now is the maximum, the minimum and the average value.
+ 
+ 
+00:36:10
+ 
+Remco Beckers: But you can also do some other aggregations like the first or the last value uh or the sum of the values. I mean doesn't make sense for this metric but for some metrics it does make sense. Uh so let's add the last value and then you see it appears here and you can even sort on these. Um, and uh, what I didn't show yet, uh, but this also works on the normal legend is that you can, uh, hide some of the lines, uh, or all of them and then show them again. Uh, yeah. And then one thing that I personally really like for quickly editing um a dashboard uh and what I didn't show yet is the YAML section here. So the whole dashboard is YAML or JSON uh whatever you prefer. We show it always as YAML in the UI because we do that everywhere everywhere in the UI. Um, but a widget is defined with a bit of YAML and every setting here corresponds to a setting here uh or here or even in the links that I didn't show yet.
+ 
+ 
+00:37:24
+ 
+Remco Beckers: Um, so you can also simply um like make changes here like I can hide the legend now. Um, and you see it automatically updates here. And if I now go back here, you can also see that the legend got disabled here. Uh I can toggle it on again. We go back and you see that the legend is back on again. So all these options have a YAML equivalent that you can edit and also can copy and paste around. So what I sometimes do to make a quick new widget that is something like this but not the same. I'll just copy the YAML, add a new widget, and paste the YAML. So now I have the exact same thing, but now I'll just like, yeah, I want to save the same styling, but actually it's, you know, it's a different it's a different thing uh with um um different query. Um now this probably doesn't make any sense what I did now, but uh you get the gist of it. Um so we have this per widget, but you can also do it on the dashboard level.
+ 
+ 
+00:38:34
+ 
+Remco Beckers: So this is the entire dashboard in YAML. Um you can copy and paste this around. Uh you can even copy it to a different instance and paste it in there into your dashboard that you just created from scratch and it will also it will work. I mean it depends if the the same data is there obviously if it will if everything will work. But if the data is there it will show you um the same thing. Um yeah that's about what I wanted to show here I think um let's see I have one more thing I want to show and that is uh how you could troubleshoot using a dashboard. So, let's suppose we have a problem in our sock shop, but it doesn't have a problem at the moment. That's unfortunate. Uh, it did a while ago. Let's go there. Um, so we see the sock shop has a problem. So, let's pretend we go troubleshooting, but we have no clue what to do now. And I'm just going to gather some information first.
+ 
+ 
+00:39:54
+ 
+Remco Beckers: I mean, you can use all the ways to do this smarter with the monitors we have and everything, but uh that doesn't allow me to show off the uh the dashboarding very well. So, I'll just do the naive way. Um, so what we already support is that you can pin some things here. So you can um we we now look at this catalog service which has a critical response time and we can see here there is something u really iffy going on here indeed. So let's you know let's pin these metrics um oh I had some more metrics pinned. Wait let's pin them all. So I start with a clean slate. Let's spin only these. Let's spin only these two. Um, but oh, I don't like this. This is really tiny, right? So, you know what? Let's add them all to a dashboard. And now I get the option, do you want to add um to an existing dashboard? Well, I don't because I don't have anything yet.
+ 
+ 
+00:41:00
+ 
+Remco Beckers: So, let's um let's make a new one. So let's say we call this a troubleshooting uh downtime during demo. Uh let's create a dashboard. So I now put this on a dashboard. But you know what? Let's first continue a bit further uh troubleshooting to seeuh what else uh we can find. You know services great but what are the pods doing? They are doing the actual work right. So here we have also the catalog part and uh wait this looks weird. The memory usage looks weird. Oh wait, I already pinned those. Let's not pin it. Let's just add it to the dashboard straight away. So that's maybe this went a bit quick actually. Um and there's now the dot the triple dot menu on every metric that you can see here. And you can also there say add to dashboard. So now I already have the dashboard. Here it is. So, I'll just add them there. And well, you know, HTTP latency also looks weird.
+ 
+ 
+00:42:14
+ 
+Remco Beckers: Add that one as well. So, let's now go to the dashboard. So, we put them, we have to put them in some place. So, we now order them like this. But, you know, I already showed you, you can quickly reorganize them like this. And then, we save it. Um so now we can um start our investigation and correlating things. Uh maybe like we see here lots of memory usage. So let's put a marker there. Does that correlate with the other ones? Yeah, looks like it. Right here we and then up to here things are weird and then it just dies again. So here we can see that indeed the uh the latency on the service is high when the memory usage is out of control. So that's a good hint for us to continue our troubleshooting. Right? So this is a way how you can can use this dashboarding functionality integration in the troubleshooting. And uh you know we can also um uh uh what did I want to show?
+ 
+ 
+00:43:26
+ 
+Mark Bakker: Getting back to the component
+Remco Beckers: No. Ah yeah that's what I wanted to show indeed. Yeah sorry. Um so we now put these things on the dashboard. Uh but it just says memory usage and HTTP latency. So we need to know how or what this is for. And that's why we have the links. Um, so when you add uh a metric from another place in Zoo observability, you get a link automatically added back to the component where it came from. So here you can see that it came from the catalog part. So we can click here and uh we jump straight back to this component and can continue here and maybe we missed the monitor issue before. So we maybe open this and now figure out like oh wait, there is a whole remediation guide here. Maybe I should have paid more attention previously, but you know, not everything is as simple as our demo scenario, of course. Um, so if I now go back to the dashboard, I'll show you what this looks like.
+ 
+ 
+00:44:27
+ 
+Remco Beckers: Uh, when you go to the link section, so this is the link that got automatically added. Um, you can see it's a relative link into U Suz observability. Um this is simply the URL you would get when you click on the component as well in the UI. So it's it's exactly the same uh that you would get there and uh you can change uh also the name that you show. So we don't um so that controls what you see here and this is all automatically done. And this one will open in the same tab so it goes uh smooth. But you can also say I want to add my own link. Um, I don't know. I really quickly want to get to google.com now. Um, so I can do it like this. And now it would open in the same tab. But I don't like that because I want to Google in my another tab. So I change that as well. Open in a new tab. Um, so now you see the first link that was there that is there still shows as uh the full link and then it says like there is one more link here.
+ 
+ 
+00:45:37
+ 
+Remco Beckers: You can click that and then you can see it goes to Google and there is a small icon that shows that it's in a new tab. So here we go.
+Ovidiu Boc: Renco, can I ask you something? So, in between adding these uh metric widgets, right, the same dashboard, let's say I change the time frame uh in between. So, the first set of metric widgets will have a certain timeline um and the second set will have a different uh time frame. What happens when they all land on the same dashboard?
+Remco Beckers: uh well the so the time frame of the dashboard is actually uh the same time frame that you have selected throughout the application by default. So you see here the time frame I have selected is 9:41 to 1541 because I started time traveling. So maybe I should zoom in a bit here to show that. Um so I added these widgets in a certain time frame, right? Um let's get back to the dashboard. Well, we can click here even. Um and now it didn't update.
+ 
+ 
+00:46:49
+ 
+Remco Beckers: Oh no. It should have updated like this. Maybe I should save the dashboard or maybe you found a bug. That's also possible.
+Ovidiu Boc: Nice. Okay.
+Remco Beckers: But the idea is that this uh that the that the time range you have selected um uh globally also gets applied here. Um unless you actually save the time range into the dashboard. Um, so say you want to put this dashboard. Well, this maybe doesn't make that much sense, but say you want to put um the shop dashboard, right? This is really important to you. So, you want to have this in your control room on the wall and it should simply always show you the last hour. Um, and wait, there's something really weird going on with this time range now to be honest. Um, then you want to save this and you can save it in the dashboard and then whenever you open this, it will always use the same time range that you configured here uh no matter what uh what is selected.
+ 
+ 
+00:48:07
+ 
+Remco Beckers: Uh, so you can simply put this dashboard there and don't have to worry about it instead of having to make a pre-selection first, copy the exact right URL with the exact correct time range in there to the to your control room dashboard. Now it wants to now it accepts it. Something weird going on just now, but now I got last one hour here again. So now it seems to be in sync. Um there was still one thing I wanted to show actually on the on the links. Uh where did I leave my dashboard? Down here. And now I changed the timer so much there is no more data. But I wanted to show the links. Um so the what about the links? So the first link is shown fully and the other ones are hidden behind the dropdown. So if you don't want this um or if you want this one to be the one link, you put it there and that one will show up here. So it's not that this can only be done via the autocreation.
+ 
+ 
+00:49:17
+ 
+Remco Beckers: Uh but you can also do it yourself if you just just the first link will be shown here and uh any other links will uh get hidden behind the one more link dropdown. Um, what more? Oh, there is one more thing that you can do. Um, and it's a bit hard to show now because I also didn't really prepare that, but uh I can make this dashboard now public. Um, and if I've made it public, I can just copy and paste this link. Um, select it to a colleague and they can open it as well, right? I can just Oh, let me just open it in a new tab. I can just copy and paste it here and it will open again. I mean this is still the same user but imagine that another user does this and it will work in the same way and you will be looking at the same time range and everything. Um and they can also find it in the public dashboards list of course. So let's see that's all I had for the demo I think.
+ 
+ 
+00:50:34
+ 
+Remco Beckers: Um let me just uh wrap up the presentation. Um so what we have now for dashboarding I mean there is a ton of more things we can actually do with dashboarding. If you just look at Kafana there there are a gazillion more features in there that we don't support. Um but we don't want to start supporting them all. probably never all of them because we're not a dashboarding tool. Um but we do see that there's probably some widget that people would really like to have and um that's why uh we are happy to get feedback on what people are still missing or what they would maybe want to work differently. Maybe there are some things that work nicer in other tools and they're like h can we make it work like that? So if you get that feedback from customers or you have that feedback yourself, I would just want to say try to be as specific as possible. So if you want to if someone asks for an additional widget, um ask some more questions like which data you want and which kind of visualization should it be?
+ 
+ 
+00:51:47
+ 
+Remco Beckers: What's the goal? Like why do you need this specific widget and why can't you not do it with another widget? Um uh or if the if it is like I want to see health states here, it's also like which health states and what's the goal that you want to get to with showing them on a dashboard so we understand um the reasoning behind it. I mean don't build something in the end that doesn't make sense. Um um yeah and the same with extra features on the widget like maybe you want to have more control over the y-axis or the x-axis in some way. Uh so also specificity there helps um to pin down what we can do and then I definitely can't promise we'll do all of them because we will be very busy soon with some other work but um the most requested features will definitely um get collected and we will uh at some point uh revisit this to uh improve the dashboarding I think. Well that's all I have. Um maybe some more questions that people have.
+ 
+ 
+00:52:58
+ 
+Remco Beckers: There's now a chance.
+Mark Bakker: No, just one addition one of the u one of the things which is requested for many people uh is having the ability to share uh uh monitors, metric bindings and now also dashboards uh with a particular team which is not possible with this first release.
+Remco Beckers: Yeah.
+Mark Bakker: Um and basically that's something which uh we plan to do at some moment. Uh but be aware it will take quite some time before we get to that.
+Louis Lotter: No video.
+Remco Beckers: over here.
+Ovidiu Boc: Yeah. So, first of all, I just want to say uh a huge congrats to everybody involved in shipping this. I'm really glad and excited to see this happening after so long. Um but the so the question that I have is you know with security hub around the corner how hard would it be um to get these dashboards to support security states instead of and security metrics and whatnot as
+Remco Beckers: All right.
+Ovidiu Boc: um or next to the uh observability ones.
+Alessio Biancalana: Next question.
+Mark Bakker: Basically when we get started with security hub we will get uh specific is uh specific visualizations etc for security hub into account and take them with the overview uh uh widgets but also with the widgets in dashboarding and it's also good to know that our aim is to support all the widgets we have now in dashboarding and some point also have metric bindings and that might uh gradually uh grow
+ 
+ 
+00:54:41
+ 
+Remco Beckers: Yeah. But to be clear, if there's metrics for security, they will already work with this dash with the current dashboarding that we now going to release because it's it's just metrics.
+Ovidiu Boc: Yeah, that was my my question like how hard would be uh to support them.
+Mark Bakker: only if we need visualizations.
+Remco Beckers: Yeah.
+Mark Bakker: Indeed, the the aim is to have basically the same widget available for uh all the overview and highlight pages and the dashboards, but it will take some time before we get to that.
+Remco Beckers: Yeah.
+Ovidiu Boc: Okay. Right. Cool. Thanks. And again, huge congrats
+Mark Bakker: Huge congrats to the team indeed.
+Louis Lotter: Mhm. Any other questions?
+Remco Beckers: Okay, then I'll stop sharing now because
+Louis Lotter: Then thanks a lot, Remco. And for um just some extra information, Remco has been the the person doing most of the kind of product management and writing the tickets and doing all of that stuff. So, thanks a lot for all of that hard work as well, Remco. And then of course, um Sam and um Anton did a lot of the front end work. Thanks a lot for that. Um you guys really kicked ass with this. It's It looks so professional. I I I have to say I'm really impressed and I'm really really happy we can release this. Um but that and that's it then. Everybody must have an amazing weekend. Um yeah and go team
+Anton Ovechkin: Oh dear. Thanks, buddy.
+ 
+ 
+Transcription ended after 01:03:42
+
+This editable transcript was computer generated and might contain errors. People can also change the text after it was created.

@@ -1,0 +1,29 @@
+# Todo - December 10, 2025
+
+## Follow-ups from 1:1 with Sheng
+
+### 1. Test Coverage & Duration Report
+- [ ] Ask QA team (Daniel, Raju, Yash) for a report on:
+  - Current test coverage (what's covered, what's not)
+  - Test execution times (how long do full test runs take?)
+  - Breakdown by test type (unit, integration, E2E, Playwright)
+- **Why:** Couldn't answer questions about this in the meeting, need to be better prepared
+
+### 2. StackGraph Rewrite - Make Time for Team
+- [ ] Review current sprint/backlog and carve out capacity
+- [ ] Discuss with Remco/Bram about allocating dedicated time
+- [ ] Consider: Should this be a formal epic with protected time?
+- **Context:** Team needs space to continue this work alongside other priorities
+
+### 3. NeuVector Project Access
+- [ ] File EIO ticket to get admin access to https://github.com/orgs/neuvector/projects/6
+- [ ] Alternative: Confirm if donating to Kubewarden is still the plan (Flavio has admin there)
+- **Blocker:** Bin left and no one can manage the project currently
+
+
+Write Blogs for Suse Observability
+Series of blogs about Dashboarding.
+
+Follow up on Zendesk
+
+Discuss the testing report with Daniel etc.

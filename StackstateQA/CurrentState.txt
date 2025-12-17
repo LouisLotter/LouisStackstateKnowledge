@@ -1,0 +1,44 @@
+@Rajukumar Macha, @Yash Tripathi pls check if a let something pass! :slightly_smiling_face:
+@Louis Lotter I create this short summary, we can explore in details anything I put here.
+1. Pipelines & Continuous Integration
+All core Suse Observability projects have active pipelines, which generally run linting and unit tests on every commit and merge request.
+Projects with Pipelines (Status: Yes for all):
+Suse Observability Agent
+Suse Observability backend platform
+Suse Observability UI
+Suse Observability Rancher Extension
+Suse Observability CLI
+Stackgraph
+Helm chart
+Deployment Process:
+Merge to ```master``` (Platform/UI): Triggers a new deployment on the Development Environment (https://master.dev.stackstate.io/) for monitoring and some manual tests.
+Nightly Schedule: Triggers a deployment on the Pre-production (Preprod) Environment (https://nightly-champagne.preprod.stackstate.io/). This includes all standard validations and automatic integration tests. This version is monitored by developers and is the one used for the final release.
+Weekly Schedule: Runs pipelines on Preprod, specifically checking the Rancher extension and the ARM version of the Agent.
+2. Code Coverage (Line Coverage)
+Suse Observability CLI: 90.2%
+Suse Observability Agent: 79.8%
+Suse Observability UI: 74.56%
+Suse Observability Rancher Extension: 24.5%
+Suse Observability backend platform: ?
+Stackgraph: ?
+Helm chart: N/A
+3. Functional Coverage & Automation
+We continuously test the following core functionalities for new merges and releases, with ongoing efforts to maximize automation:
+Monitors, Metrics, Components view, Components List, Events, Topology, Rancher Integration, Rbac, Agent X86, Agent Arm, and CLI.
+4. Expansions for Automation
+Plans for increasing automation include:
+Write more Playwright scenarios (e.g., validate dashboards, validate metrics queries, topology).
+Expand agent tests (check viability of manipulation telemetry).
+Expand Rancher tests (e.g., downstream cluster).
+Integrated CLI with beest/pipeline/qase.
+Create scenarios related with Stackgraph (check the viability).
+5. Execution Times (High-Level Overview)
+Beest (x86 tests): ~50 minutes (runs once per day).
+Rancher Integration: ~40 minutes for installation and integration with Suse Observability.
+Release Manual Testing: At least 8 hours dedicated for manual tests and exploration before a release.
+6. QASE Status (Test Management)
+Beest K8s scenario: Full Integrated
+Beest Rancher scenario: Full Integrated
+UI Inspection: On progress (Integrated but requires small adjustments)
+CLI: Not integrated
+Note on QASE Reporting: QASE does not report accurate running times, as it does not include the essential infrastructure environment setup time. (edited) 

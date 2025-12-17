@@ -1,0 +1,336 @@
+ifdef::dashboards_enabled[]
+= Organize a dashboard
+:revdate: 2025-11-24
+:page-revdate: {revdate}
+:description: Organize, resize, edit and delete widgets on a dashboard.
+
+== Arrange and resize widgets
+
+You can organize the widgets on a dashboard to create a layout that works for you.
+
+* To move a widget, click and drag the title area of the widget to a new position.
+* To resize a widget, click and drag the bottom right corner of the widget.
+
+Other widgets on the dashboard will automatically rearrange themselves when you move or resize a widget.
+
+== Edit or delete a widget
+
+. To edit or delete a widget, click the more actions icon in the top-right of the widget. 
+
+. Select *Edit widget* or *Delete widget*.
+
+To inspect the data of the widget in more detail, click the icon beside the "more actions" button in the metric inspector drawer.
+
+image::dashboards/widget-organization.png[Editing, deleting and inspecting widgets]
+
+endif::[]
+
+
+ifdef::dashboards_enabled[]
+= Dashboard variables
+:revdate: 2025-11-24
+:page-revdate: {revdate}
+:description: Use variables to create dynamic dashboards.
+
+By configuring variables for a dashboard, you can create dashboards with dynamic widgets. Variables enable the reuse of a single dashboard definition for different use-cases. 
+
+== Viewing dashboard variables
+In the top navigation bar, use the dropdown menu next to the "Save..." button, and click "Edit dashboard variables".
+
+image::dashboards/open-variables-drawer.png[Adding all pinned items]
+
+=== Built-in variables
+There are variables that are built-in to {stackstate-product-name}. The names of these variables are reserved, and you cannot give your own variables the same names.
+
+To view all built-in variables, click the accordion titled "SUSE Observability PromQL variables".
+
+== Adding a new variable
+
+. Open the "Edit dashboard variables" drawer. 
+. Click the "Add variable" button to open a second drawer where you can configure the new variable.
+
+image::dashboards/variable-drawer-example.png[An example variable]
+
+The configuration fields for a variable are as follows:
+
+|===
+| Field name | Description
+
+| Name
+| The name identifier of the variable. This is the name that you can <<using-variables, use in compatible fields>>.
+
+| Display label
+| A friendly name for the variable that is shown on the dashboard when <<selecting-variables, selecting the variable>>. This helps you identify the variable.
+
+| Description
+| A description to understand the purpose for the variable. This description is shown in the "Edit dashboard variables" drawer.
+
+| Type
+| The type of the variable.
+|===
+
+== Variable types
+=== Text variable
+
+A text variable contains simple text. You can set an initial value and make the variable read-only.
+
+=== List variable
+
+A list variable has possible values which are defined by the "Source" field. Each source type provides additional fields which allow you to narrow down the possible values for the variable.
+
+|===
+| Source type | Source fields
+
+| Metric label names
+| Enter zero or more series selectors to refine which metric label names are present.
+
+| Metric label values
+| Enter a metric label name, and zero or more series selectors to refine which metric label values are present.
+
+| Metric PromQL
+| Enter a custom PromQL query, and a label name. The resulting possible values are the values for the given label name.
+
+| Static list
+| Enter one or more label and value pairs to construct a static list of possible values.
+|===
+
+As you change the source type and their related fields, the preview on the right-hand-side of the drawer will update with the new possible values.
+
+
+==== Common list variable settings
+
+All list variable sources also have the following common settings:
+
+|===
+| Field name | Description
+
+| Sort
+| Sort the values in the list. For example, alphabetically or numerically.
+
+| Allow multiple values
+| Allow users to select more than one value at a time.
+
+| Enable "Include Everything"
+| Adds an item to select all values to the list that the user sees. You can optionally specify a custom value for this item, or let it be automatically generated. 
+|===
+
+== Using variables [[using-variables]]
+Once a variable is defined, it can be used to populate various fields in the dashboard:
+
+* Other variables
+* Widget name and description
+* Widget link fields: URL, Name, and Tooltip
+* Widget query fields: PromQL Expression, Alias, and Min Step
+* Markdown widget's editor
+
+To use a variable in a compatible field, use the variable name wrapped in `${}` (for example, `${my_variable}`). The value of the variable is interpolated.
+
+=== How variables are interpolated
+Text variables are interpolated as the string that is written in the textbox of the variable.
+
+Similarly, list variables that do not allow multiple values nor "Include Everything" are interpolated as the value of the selected item from the list.
+
+List variables that allow multiple values are interpolated as a regular expression capturing group of the selected values (for example `(value_1|value_2)`) regardless of whether one or multiple options are selected.
+
+List variables that have the "Include Everything" option enabled and selected for that variable will either interpolate as:
+* The custom value if defined, or
+* A generated regular expression capturing group of all possible values (for example `(value_1|value_2|value_3)`)
+
+You can use the PromQL regular expression matcher `=~` when consuming variables that are interpolated as regular expression capturing groups.
+
+== Selecting variables [[selecting-variables]]
+Variables are listed towards the top of the dashboard, next to the time range selector. Only the first few variables are shown. To see the rest of the variables, use the "More" dropdown.
+
+Click a variable to open its selector and select the values you wish to show on the dashboard.
+
+As you select different values, the widgets using the variable will react to the changes.
+
+endif::[]
+
+
+ifdef::dashboards_enabled[]
+= Dashboard widgets
+:revdate: 2025-11-24
+:page-revdate: {revdate}
+:description: Visualize data from your resources with various widgets.
+
+Widgets are the building blocks of your dashboard. They visualize data, usually from one or many Kubernetes resources. Widgets can also show static text information to viewers of the dashboard.
+
+== Adding a new widget
+
+You can add a new widget in either of the two ways:
+
+* Click the *Add Widget* button in the top right of a dashboard.
+
+* On an empty dashboard, click the *Add Widget* section in the middle of the screen. A drawer opens where you can configure the new widget.
+
+image::dashboards/add-a-widget.png[Different ways to add a widget]
+
+== Adding an existing widget
+
+When viewing an individual component in {stackstate-product-name}, you can add charts directly to a dashboard by using the "more actions" menu and selecting "Add to dashboard".
+
+image::dashboards/add-existing-widget.png[Adding an existing widget]
+
+This is also available for any pinned items, via the same "more actions" menu on an individual widget.
+
+Additionally, you can add all pinned items to a dashboard, by using the "more actions" in the pinned items drawer or by clicking the "Add all items to dashboard" button at the bottom of the drawer.
+
+image::dashboards/add-all-pinned-items.png[Adding all pinned items]
+
+The resulting widgets in the dashboard has a link to the resource it was added from.
+
+== Configuring a widget
+
+Each widget has a number of configuration options. Some are common to all widgets, others are based on the widget type.
+
+To edit a widget's configuration, use the "more actions" menu and select "Edit widget".
+
+image::dashboards/configure-a-widget.png[Adding all pinned items]
+
+=== Common widget fields
+
+|===
+| Field name | Description
+
+| Name
+| A short, descriptive name shown in the header of the widget.
+
+| Description
+| Additional details shown in the header of the widget behind a tooltip.
+
+| Type
+| The <<types, type of visualization>>.
+|===
+
+In addition to these fields, there are some common tabs to all widgets: 
+
+|===
+| Tab name | Description
+
+| Links
+| Related resource links, shown underneath the name of the widget. The first link is always displayed. Other links are available in a dropdown menu.
+
+| YAML
+| The raw YAML configuration for the widget, which can be viewed and edited.
+|===
+
+
+=== Queries tab
+
+Widget types intended to show data from resources will have a *Queries* tab. You can add one or more PromQL queries to retrieve the data for the widget.
+
+
+=== Types [[types]]
+
+==== TimeSeriesChart
+
+The `TimeSeriesChart` visualizes time series data in a line chart. Each query in the widget configuration produces a line on the chart.
+
+image::dashboards/time-series-chart-example.png[Example time series chart]
+
+You can configure the following settings:
+
+* *Legend* - The position and mode of the legend.
+* **Visual** - Connect null values to create a continuous line.
+* **Y Axis** - The unit, label and min/max values for the Y-axis.
+* **Thresholds** - Add horizontal lines to the chart to mark important value thresholds.
+
+==== BarChart
+
+The `BarChart` visualizes time series data in a bar chart. It has the same settings for legend, Y-axis and thresholds as the `TimeSeriesChart`.
+
+image::dashboards/bar-chart-example.png[Example bar chart]
+
+==== StatChart
+
+The `StatChart` shows a sparkline chart and a single value that is easy to read at a glance. Thresholds can be configured to change the color of the text based on the value.
+
+image::dashboards/gauge-chart-example.png[Example gauge chart]
+
+You can configure the following settings:
+
+* **Sparkline** - Show or hide the sparkline chart.
+* **Unit** - The unit of the value.
+* **Decimals** - The number of decimals to show.
+* **Calculation** - The method used to calculate the value from the time series data.
+
+==== GaugeChart
+
+The `GaugeChart` displays a gauge with a value in the middle. The color of the gauge and the text change when the value crosses a threshold.
+
+image::dashboards/stat-chart-example.png[Example stat chart]
+
+You can configure the following settings:
+
+* **Unit** - The unit of the value.
+* **Decimals** - The number of decimals to show.
+* **Max** - The maximum value of the gauge.
+* **Calculation** - The method used to calculate the value from the time series data.
+
+==== Markdown
+
+The `Markdown` widget displays markdown text. This can be used to add explanations or other information to your dashboard.
+
+image::dashboards/markdown-chart-example.png[Example markdown chart]
+
+endif::[]
+
+ifdef::dashboards_enabled[]
+= Dashboards
+:revdate: 2025-11-24
+:page-revdate: {revdate}
+:description: Create and manage dashboards to visualize data from your resources.
+
+A dashboard visualizes data from your resources and can be created and customized to suit your needs. A dashboard can include resources from distinct parts of your IT environment.
+
+== Create a new dashboard
+
+To create your first dashboard:
+
+. In the main menu, click **Dashboards**.
+. Click the **Add new dashboard** button in the middle of the screen.
+
+To create a new dashboard:
+
+. In the main menu, click **Dashboards**.
+. Click the **Add new dashboard** button in the top-right.
+. Fill in the **Name** and **Description**.
+. (Optional) Select **Public** to make the dashboard visible to all users.
+. (Optional) Select **Starred** to add the dashboard to the main menu for quick access.
+. Click **Create dashboard**.
+
+You will be navigated to the new empty dashboard.
+
+image::dashboards/add-new-dashboard-button.png[Create a new dashboard button location]
+
+image::dashboards/add-new-dashboard-drawer.png[Create a new dashboard drawer]
+
+
+== Dashboard properties
+
+Once on a dashboard, you can edit the properties of a dashboard by using the dropdown menu next to the *Save...* button in the top navigation bar and selecting **Edit dashboard properties**. From here, you can update the name and description, and whether the dashboard is public or starred.
+
+image::dashboards/edit-dashboard-properties-button.png[Edit dashboard properties location]
+
+image::dashboards/edit-dashboard-properties-drawer.png[Edit dashboard properties drawer]
+
+=== Public dashboards
+By default, only you can see your dashboards. Making a dashboard public makes it visible to all users. Public dashbords are viewable but not editable by others.
+
+=== Starred dashboards
+Starring a dashboard makes it appear mroe prominently in the main menu, and when adding widgets from other pages. Star a dashboard when you want quick access to it.
+
+Starred dashboards are scoped to your user. Other users have their own starred dashboards.
+
+You can also star or unstar a dashboard wherever you see the star icon next to a dashboard's name.
+
+== Dashboard settings
+
+Dashboard settings give you control over whether the time range, data refresh interval and variables are saved in the dashboard or customizable by viewers. Click the cog icon in the top right of a dashboard to open the dashboard settings.
+
+When you enable one of the checkboxes under the "Saving..." heading, for example the time range, the dashboard will be fixed to the chosen time range once it has been saved. When it is disabled, the time range can be chosen by the viewer of the dashboard; the change is reflected in the URL, so the link can be shared with other people, who can then view the dashboard with the same time range.
+
+image::dashboards/edit-dashboard-settings.png[Edit dashboard settings]
+
+endif::[]

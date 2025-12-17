@@ -1,0 +1,108 @@
+Dashboards
+SUSE Observability
+1
+
+Why?
+What’s included?
+How does it work?
+2
+Dashboards in SUSE Observability
+
+Why?
+The #1 requested feature by customers
+Visualize data from different components in one place, for example:
+Business processes
+User flows through application
+Data processing pipelines
+Troubleshooting: Create ad-hoc dashboards while investigating an incident
+Easier migration from tools like Grafana + Prometheus:
+Users already know dashboards
+Recreating Grafana dashboards in SUSE Observability
+Quick and easy way to visualize user-defined metrics
+
+Create private dashboards
+And make dashboards “public” (for everyone with access to SUSE Observability)
+Widgets supported:
+Visualizing metrics: 
+timeseries chart 📈
+bar chart 📊
+Gauge 
+stats
+Markdown
+Define variables on the dashboard to use in queries and text fields
+Dashboards can be included in StackPacks (always public)
+Data shown is subject to RBAC permissions
+Integrated into SUSE Observability
+4
+What’s included
+Highlights only
+
+DEMO
+5
+How does it work?
+
+Manual refresh option on Dashboards, but also on Logs, Metrics, Traces, etc.
+Improvement notifications
+Auto-complete suggestions for metric labels in chart legend
+
+6
+Dashboards triggered overall product improvements
+
+Feedback
+Try to be as specific as possible
+Additional widgets? 
+Which data and visualization?
+What’s the goal? Why is this specific widget needed on the dashboard? 
+What should it be able to do?
+Extra features on a widget?
+What’s the goal?
+What should it do / look like?
+
+
+8
+Questions?
+
+Show dashboards menu item 
+Starred dashboards
+Show dashboards overview
+And filters on it
+Show public/private dashboards
+Open first demo dashboard
+9
+Dashboards menu
+
+New dashboard?
+OTel demo dashboard we already have on playground
+Explain/show:
+Gauge or Stat
+Timeseries chart
+Markdown chart
+Dragging/resizing widgets
+Save/Save as
+10
+Demo basic
+A dashboard without variables showing for example metrics for a business process 
+
+Show
+Create a new dashboard and add one widget
+Add one variable and use in the query
+Switch to a fully prepared dashboard with more widgets and variables (of all types)
+Show different (and the same) options for different widgets:
+Usage of variables
+Thresholds
+Show yaml editing capability, copying/pasting into a new widget quickly
+Show Legend options, specifically the table with stats
+Saving of timerange, refresh interval for usage as a Control Room wall dashboard
+11
+Creating a new dashboard
+Use one of our dashboards in the SUSE Observability stackpack, maybe lightly customized for the demo
+
+Use OTEL demo or sock-shop at time of problem
+Show:
+Open component, add response time or error metric to a newly created dashboard
+Open a few more components and pin some metrics, add them in one go to the dashboard
+Open dashboard, organize a bit, save and make public to share link with someone else (Anton or Sam?)
+Show links back to components
+They open dashboard and can continue troubleshooting
+12
+Troubleshooting dashboard

@@ -763,3 +763,83 @@ Done:
 
 ---
 
+
+**Louis Lotter** (2025-12-10 14:52):
+This Week's Update
+• Team Borg:
+    ◦ In progress: Dashboarding
+        ▪︎ UI automation tests being added
+        ▪︎ Variable handling improvements in review
+        ▪︎ Documentation in review
+        ▪︎ Approaching release readiness
+        ▪︎ Discussed with Mark that it's probably best to release first working week of January.
+    ◦ In Progress: Stackpacks 2.0 (OTEL Topology)
+        ▪︎ OTel Mapping API in progress
+        ▪︎ Span-to-topology deduplication in progress
+        ▪︎ Done: Support for additional otel fields (span.name, metric.name)
+    ◦ Developer Experience
+        ▪︎ Done: TypeScript 5.x upgrade
+        ▪︎ Biome migration (replacing Prettier+ESLint) in review
+    ◦ Infrastructure
+        ▪︎ Helm chart value generation replacement in progress
+        ▪︎ Done: Clickhouse backup restore CLI command
+• Team Marvin:
+    ◦ *In Progress: StackGraph Data Corruption - Primary focus*
+        ▪︎ Multiple fixes in progress/review for nightly champagne corruption
+        ▪︎ Extended integrity checker, WAL improvements, increased flush frequency
+    ◦ In Progress: Stackpacks 2.0
+        ▪︎ Converting light stackpacks to full ones - merging
+        ▪︎ Done: Stackpacks2 branch deploy and helm chart auto-flags
+    ◦ Agent
+        ▪︎ Datadog upstream merge [7.71.2] continues
+        ▪︎ Done: Multiple CVE fixes, K8s RBAC agent resources fix, Splunk credential logging fix
+    ◦ QA
+        ▪︎ Done: QASE integration with Go tests, K8s 1.30/1.31/1.32 compatibility testing
+        ▪︎ Python QASE integration in progress
+
+
+
+**Louis Lotter** (2025-12-17 10:00):
+This Week's Update (December 17, 2025)
+
+*TL;DR:*
+• Dashboarding: Nearing release - bug fixes done, documentation complete, UI tests being added
+• Stackpacks 2.0: OTel Mapping API progressing, light-to-full stackpack conversion done
+• StackGraph Data Corruption: Multiple fixes shipped for nightly champagne, HDFS underreplication resolved
+• Agent: RBAC token refresh fix merging, SLES 16 OOM fix done, Slack rate limiting fixed
+• QA: QASE integration complete for both Playwright and Python tests
+• Infrastructure: Elasticsearch startup improvements, chaos-2 cluster decommissioned
+
+*Team Borg:*
+• In progress: Dashboarding
+    ◦ UI automation tests being added
+    ◦ Example dashboard for data ingestion in progress
+    ◦ Documentation links update in progress
+    ◦ Consistent text copy casing - Merging
+    ◦ Done: Variable default value handling, Save as public flag fix, Decimal places validation, Documentation
+• In Progress: Stackpacks 2.0 (OTEL Topology)
+    ◦ OTel Mapping API - OpenAPI spec and code generation
+    ◦ Deduplication of otel-to-topology data in review
+• Infrastructure
+    ◦ CLI settings backup source fix in progress
+    ◦ Done: Elasticsearch startupProbe improvement, sts-backup version fix, Decommissioned chaos-2 cluster
+
+*Team Marvin:*
+• *In Progress: StackGraph Data Corruption*
+    ◦ Investigating corruption on performance champagne
+    ◦ Done: HDFS underreplication fix, Reorder buffer logging improvements, Multiple nightly champagne fixes
+• In Progress: Stackpacks 2.0
+    ◦ Done: Light stackpacks converted to full ones, Sync service crash fix
+• Agent
+    ◦ K8s RBAC agent token refresh fix - Merging
+    ◦ Omnibus branding revisit in progress
+    ◦ Done: Pod OOM on SLES 16 cgroups v2 fix, Slack integration rate limiting fix
+• QA
+    ◦ Playwright scenarios in progress
+    ◦ Done: QASE integration for playwright and python/beest
+• Documentation
+    ◦ Release version placeholder in progress
+    ◦ Done: OTel mapping CLI documentation scaffold
+• Done: ViewSnapshotError handling improvements
+
+---

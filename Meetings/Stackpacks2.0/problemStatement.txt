@@ -1,0 +1,155 @@
+Current api (questions around those)
+MainMenu (MainMenuGroup)
+Do we want to compose more view into  an already existing main menu group?
+HighlightPages (ComponentTypeHighlight part of ComponentType) 
+Should a single component type have multiple highlight pages?
+Should we be able to extend a component type highlight in multiple stackpacks?
+Related resources
+Pin it down to a type to match the viewtype (maybe replace viewtype)
+Fields
+Has propertySource, maybe should be template
+Standardize data access with viewtype
+Events (related events)???
+ComponentTypeAbout
+Do we enable sql for related resources/events
+Componenttypexternalcomponent <- for status hardcoded/externalIdSelector.
+showStatus/showConfiguration
+showLastChange?
+OverviewPages (ViewType)
+Should it be tied to QueryView?
+Should it be tied with a component type?
+Filters are defined, but why are they not in otel?
+cluster/namespace use different tags, how does that work logical for a user? Do we want to filter on any tag? When different viewtypes have different sets of tags, how do they carry when navigating? Wheeelp Ovidiu
+Do we want to compose more column? Do we want columns compositional?
+Do we keep CardLayout? No
+Do we keep NoTopologyFilters flag?
+Do we document topology properties for columns? Properties can only be done by mapping functions which are not accessible to users.
+pathToIdentifier based on template?
+QueryView
+Revisit flags HideFromViewsOverview/DisableEventHandler/NotLockable. Drop this?
+Restrict views to not do withNeighbours and require a fixed type?
+Group view settings in query view
+Limit query settings to subset that make sense for stored views (no indirect relations/groupbylayer/groupbydomain?)
+Layers/Domain/Environment
+Do we want people to provide these in a stackpack or predefined?
+Do we go with the weak binding proposed in hackweek work?
+Remove entirely? People are actually asking questions about environment now (and its not really configurable so really just confusing at the moment)
+ComponentType/RelationType
+Do we want to support multiple component types?
+Clean up the dtos with unused fields
+TraceBindings
+No questions
+Should be unified with the trace topology spec? With all otel datatypes?
+For trace/logs yes, metrics not so much
+
+
+Extracted problems:
+Compositionality
+CRDs multiple types
+Dimensions?
+Naming (do later)
+
+Future API
+Use-cases that affect the solution
+Extending highlights pages from different stackpacks
+Multiple dimensions to look at the data (security, observability, cost, etc)
+Supporting “all” CRDs
+Decoupling of data from settings
+See more detailed use-cases at the end of this document
+Proposed solution (not anymore, see second tab)
+ComponentTypes become the central concept for organizing the UI:
+Components can have multiple component types, avoiding the loss of information due to merging. This already results in support for multiple highlight and overview pages for a single component. It will require merging the different highlight pages and overview pages at display time. 
+Highlights and overview page definitions refer to a component type. Contrary to the current situation this allows for multiple highlight and overview definitions for a single component type. This is intentional and allows users to extend them with customizations. For example a Kafka stackpack could enrich Kafka pods (created by the kubernetes sync) or Kafka services (created by the otel sync) with Kafka specific information on the highlights page.
+The merging behavior should be well-defined. For example:
+Component types can be ordered
+Fields and related resources in highlight pages are added based on the ordering of the types and the ordering of the highlight pages. This can be guided by a priority field or simply alphabetical order of the identifiers
+For overview columns the same is done
+Later, when needed, the ordering can be pushed into the different parts (i.e. the columns of an overview page could get a priority field as well allowing to mix the order)
+When there is at least one highlight definition for a component that enables events, events will be enabled. The same applies for the other toggles.
+The Main menu starts referring to the component types and then opens the combined overview pages for that specific type (by merging the data)
+We can include selectors to only show the highlight page for a single component type if the component has multiple types
+We can also include a selector to switch between the different highlight pages for the same component type
+But metric bindings and monitors remain separate and use scope to connect to components. Later it can be made simpler by allowing a simplified version of scope that just requires a component type (by identifier)
+Supporting other “dimensions” like security and cost becomes easier now: they all have their own overview page, highlight page (, main menu entry?), monitors and metrics bindings. Each is labeled with a “dimension”. We add a global selector (possibly also allowing multi-select, not something we want to support) to select the dimensions. This automatically only shows the data for that dimension.
+All binding to component types happens via the component type identifier. The component type is loosely coupled and via a ComponentType definition it can be assigned a name and an icon (as is now the case).
+For displaying a component the first component type with a ComponentType definition can be used to provide th display name and icon.
+When needed the highlight page could be split up into smaller pieces, not something we want to do anytime soon
+
+Main changes:
+Overview pages are not QuerViews any more but are tied to component type
+Therefore main menu can simply list component types (we do keep the definitions to structure these)
+
+Questions:
+Do we still want to introduce major breaking changes by refactoring the way labels etc are referenced in the highlights and/or overview pages? The goal being to make them more consistent.
+We want to show a summary for other dimensions than the selected dimension. How to do that?
+Initial idea (not used in favor of proposed solution)
+We have an idea to squash the entire thing into a simplified (?) model: Every component can have multiple component types. Component types become the central “linking pin”:
+Topology syncs can each assign their own component type. We store a set of component types that have a well-defined order 
+ComponentHighlight definition is rebranded to ComponentTypeVisualization. Every visualization applies to one component type, with potentially multiple visualizations for each component types (from different stackpacks)
+Only at “render” time the component types and visualisations get merged into a priority based list, this allows each stackpack to add its own visualization for a component type or even, via a sync, add its component type (next to other component types). The idea is that the most specific component type gets to determine the icon (for example for “database” and “Postgresql” component types the latter should “win”).
+A visualization has a dimension (e.g. “Observability” or “Security”) that defines when it should be visible or not
+The benefit of having a single Visualization type is that it can encapsulate many of the “*bindings” we have now. To be more flexible and compositional we would want to introduce more bindings (for related resources, for fields, etc). But that gets complicated and likely will have poor performance. By consolidating this in a single Visualization we avoid having many small bindings by instead having a single big “binding” per type per stackpack. This could also absorb the metric binding and trace binding types (hence the rename from highlight page to component type visualization)
+For OverviewPages we support the same mechanism: instead of a QueryView referencing a ViewType, a ViewType (or better OverviewType) applies to a ComponentType. The main menu lists component types instead of query views, but component types must be opted-in to be listed there (and under a certain header).
+
+
+Questions:
+How does this work with RBAC and users being able to define their own metric bindings outside of StackPacks? Do we allow visualizations (or highlight pages) to be defined like that instead or too?
+Dashboards?
+Is it too restrictive to bind visualizations to component types? It could also still be a topology scope instead (like with metric bindings)
+Is it too restrictive to have main menu defined only from component types
+How can we give someone with a basic use-case (I just want to see my (monitor) health states based of some metrics I just scraped) a very quick way to get that without having to define half a dozen types (main menu, overview, highlight, sync, component type)? See also https://suse.slack.com/archives/C079ANFDS2C/p1746715692910129. Or we can we already do that because there are defaults for everything (except adding to the main menu)
+Not supported in v2
+For these we've already decided they won't go public:
+Anything related to topology sync: should be replaced by a new otel topology sync
+Component actions
+Monitor functions
+Analytics (already disabled)
+
+Input from discussion with Ravan
+We can view all existing integrations developed here https://sa-experimental.app.stackstate.io/ . 
+
+First write examples and/or first version of documentation 
+Component actions are still important. Often used for creating deep links into other systems like Rancher UI for the virtualization stackpacks. We can replace these specific use-cases 1-by-1, for example by allowing generic links from certain locations that can be build using the same templating used in other places in StackState
+Configuration from CRDs would be very much appreciated and easier to understand for users (replacement for creating your own stackpacks). In the end we can start adding this, but it is on the long-term roadmap only and it will use the same definitions that we are now introducing for stackpacks (except embedded in a K8s custom resource)
+There’s a trade-off where 
+Use-cases for StackPacks v2
+Add detailed observability for other SUSE products
+Teams within SUSE want their products to have out-of-the-box support for observability. We want to offer them a smooth experience that is free from accidental complexity.
+
+Usually, they will run on Kubernetes and make some use of Kubernetes topology. But they may also want to add custom topology (like SUSE AI). We have been recommending other data, i.e. metrics, traces, to be added via Open Telemetry. The teams then want to make full use of the capabilities to:
+Most important remarks is that it should become easy to use and support:
+A clear yaml definition without generic node ids or complex resolves
+Moving away from STQL for overview pages should help
+Ability to configure via CRDs
+Exposing data in an overview page now takes multiple steps:
+First extract in mapping function and expose in properties
+Then extract in overview page
+Then also extract in highlight page
+Some of the overview and highlight page visualization types mix extraction with representation
+A language for data extraction and data binding:
+There are differences for highlight pages and overview pages
+Instead of encoding this in yaml use something more standard like JSONPath (also JmesPath looks like an even nicer extension of this https://jmespath.site/main/) 
+Create new components/relations from their data
+Add metrics (metric bindings), traces, and monitors to components (existing or new) and highlight pages (existing, default or new)
+Add their product into the main menu, either under an existing heading or an entirely new heading
+There is a tension between preferring central processing on the platform side to avoid the hassle of configuring agents and having high decentralized load. While still needing this to be very configurable also for SAAS solutions.
+If we have a first version that can be tested Ravan would be happy to test-drive it and even present it at the Solution Architect bi-weekly meeting (this also applies for the OtelComponentMapping).
+
+Given these are SUSE applications we are likely to make the stackpacks available as part of SUSE Observability and distribute them. They are maintained by their SUSE teams.
+Add observability for non-SUSE applications
+Most customers also have other applications, open Source, purchased, or home-grown, that are not supported out-of-the-box (yet). With Open Telemetry we explain them that it is easy to get their data into SUSE Observability (at least for metrics and traces, logs is almost always requested too). 
+
+They will often already have a Grafana dashboard (especially for open source apps they are readily available) that they imported into Grafana. So they expect something that works similarly. 
+
+What they don’t want to spend time on is creating a stackpack with its requirements (a stackpack.conf file, readme’s, a logo image etc.). 
+What seems to be another hurdle, at least at first, is that they have to create components (or find existing components) before they can even start visualizing their metrics and logs or add monitors. 
+
+It might be that users will default to creating dashboards first (or only), but later they are likely to want to create monitors too and have metrics in the right context (which often is on a specific component that ties everything together).
+
+
+I think this shouldn’t be a stackpack but much more straightforward, almost as simple as an import. Grafana for example allows importing a dashboard etc also by simply uploading the dashboard json definition. The problem with imports however is that the imported settings are not grouped together, so removal is fully manual (especially for some of our UI enhancements that means it is only possible via the cli).
+It should be easy to convert into a stackpack though.
+Add observability for non-Kubernetes applications
+Customers are asking about support for non-Kubernetes applications, but also cloud environments etc. In practice this overlaps almost entirely with the non-SUSE applications use-case. Only the data that is collected by OTel is coming not from a Kubernetes application but from something running, for example, in the cloud. 
+
+Most importantly, they almost certainly need to add topology components to be able to visualize metrics or create monitors because SUSE Observability doesn’t create any topology by default. Again people are probably not immediately aware of that nor interested in doing that until (hopefully) they see the benefits later (there are benefits, right?)

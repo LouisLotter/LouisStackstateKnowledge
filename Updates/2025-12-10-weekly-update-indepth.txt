@@ -1,0 +1,331 @@
+================================================================================
+WEEKLY UPDATE - IN DEPTH REFERENCE
+December 10, 2025 (covering 14 days ending Dec 10)
+================================================================================
+
+================================================================================
+TEAM BORG
+================================================================================
+
+DASHBOARDING (Epic: STAC-22375)
+--------------------------------------------------------------------------------
+Status: Approaching release readiness
+
+In Progress:
+- STAC-24050: Adding Dashboard tests into UI automation framework
+  - Covers: Dashboard Access, Widget Presence, Data validation
+  - Assignee: rajukumar.macha
+  
+- STAC-23989: Variable default value handling fix (In Review)
+  - When "save variables" is off, no default value should be saved
+  - Frontend should run queries and pick first sorted option
+  - Assignee: Samuel Jones
+  - Story Points: 5
+
+- STAC-23733: Metrics freezing UI issue (In Progress)
+  - Switching time ranges (1h to 15min) causes UI freeze
+  - Only appears in Chrome, Firefox marginally affected
+  - Assignee: Anton Ovechkin
+  - Story Points: 5
+
+- STAC-22767: Document first version of dashboarding (In Review)
+  - Dashboard section under "Usage" in docs
+  - Covers: CRUD, sharing, starring, widgets, variables, CLI/API support
+  - Assignee: Samuel Jones
+  - Story Points: 8
+
+- STAC-23449: Example dashboard for data ingestion (In Progress)
+  - Metrics on agents and otel collectors
+  - Ingested data volume on API
+  - Sizing/Capacity planning dashboards
+  - Assignee: Remco Beckers
+  - Story Points: 5
+
+- STAC-22521: Handling ViewSnapshotError errors (In Review)
+  - Proper handling of topology snapshot endpoint errors
+  - ViewSnapshotDataUnavailable, ViewSnapshotFetchTimeout, etc.
+  - Assignee: Samuel Jones
+  - Story Points: 3
+
+Done:
+- STAC-23755: Metric Variable Names Data Mismatch fix
+  - Series selector was not applied in dashboard dropdown
+  - Assignee: Samuel Jones
+
+- STAC-24006: Exploring UI Automation framework - Closed
+
+
+STACKPACKS 2.0 - OTEL TOPOLOGY (Epic: STAC-22861)
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-23427: Create OTel Mapping API (In Progress)
+  - OpenAPI endpoint for CRUD on Component/Relation mappings
+  - Instance permissions for CRUD interactions
+  - Assignee: Lukasz Marchewka
+  - Story Points: 5
+
+- STAC-23253: Deduplicate span to topology data (In Progress)
+  - TTL-aware deduplication in collector
+  - Minimize memory usage using hashes
+  - Assignee: Deon Taljaard
+  - Story Points: 8
+
+- STAC-23615: Make plugin names in collector consistent (Ready to Refine)
+  - Uniform naming: prefix 'sts', separate words with '_'
+  - Update metadata.yaml
+  - Story Points: 3
+
+Done:
+- STAC-23654: Support for span.name, metric.name and other otel fields
+  - Added scope properties (name, version)
+  - Added span properties (name, kind, status)
+  - Added metric properties (name, unit)
+  - Assignee: Deon Taljaard
+  - Story Points: 4
+
+
+DEVELOPER EXPERIENCE
+--------------------------------------------------------------------------------
+Done:
+- STAC-24028: TypeScript 5.x upgrade
+  - Performance improvements, DX improvements
+  - Positions for upgrade to 6 (10x performance)
+  - Assignee: Samuel Jones
+
+In Review (Biome Migration - STAC-24016):
+- STAC-24017: Replace Prettier by Biome assist+formatter
+- STAC-24019: Run Biome in CI
+- STAC-24024: Replace spaces by tabs
+- STAC-24025: Enable organizeImports
+- STAC-24026: Enable useSortedAttributes
+  - All assigned to: Anton Ovechkin
+
+
+INFRASTRUCTURE
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-23392: Replace value generation helm chart with global values
+  - Eliminate quirky helm template + helm install flow
+  - Better gitops and Rancher installation compatibility
+  - Assignee: Fedor Zhdanov
+  - Story Points: 13
+
+- STAC-24003: Decommission chaos-2 instance and cluster (Merging)
+  - Sufficient testing with chaos-1
+  - Assignee: Vladimir Iliakov
+
+- STAC-24020: sts-backup version command returns nothing (Merging)
+  - Build issue causing empty version output
+  - Assignee: Vladimir Iliakov
+  - Story Points: 1
+
+Done:
+- STAC-23600: Clickhouse backup restore single CLI command
+  - Lists backups with dates, asks confirmation
+  - Supports --latest flag
+  - Assignee: Vladimir Iliakov
+
+
+CVE FIXES (Team Borg)
+--------------------------------------------------------------------------------
+Done:
+- STAC-23727: Fix biggest impact non-os platform CVEs
+  - Updates to jmx-exporter, kafkaup-operator, clickhouse-backup, kafka images
+  - Assignee: Deon Taljaard
+  - Story Points: 5
+
+
+================================================================================
+TEAM MARVIN
+================================================================================
+
+STACKGRAPH DATA CORRUPTION (STAC-24014) - PRIMARY FOCUS
+--------------------------------------------------------------------------------
+Context: Too many customer cases of data corruption. Primary focus is improving
+error reporting and test environments to simulate conditions and find root cause.
+
+Parent Issue: STAC-24014 - Data corruption on nightly champagne
+- Assignee: Bram Schuur
+- Detailed timeline analysis of transaction rollbacks and HBase flushes
+
+Sub-tasks:
+- STAC-24039: Extend integrity checker - DONE
+  - Assignee: Bram Schuur
+
+- STAC-24040: Add command to repair nightly champagne integrity issue (Merging)
+  - Assignee: Bram Schuur
+
+- STAC-24041: Add logging lines for non-invalid rollback in tephra (In Review)
+  - Assignee: Bram Schuur
+
+- STAC-24042: Add timestamp to all WAL entries (In Progress)
+  - Assignee: Alejandro Acevedo Osorio
+
+- STAC-24043: Retain region WALs for longer time (In Review)
+  - Assignee: Alejandro Acevedo Osorio
+
+- STAC-24044: Increase flushing frequency on nightly and chaos (In Review)
+  - Assignee: Alejandro Acevedo Osorio
+
+- STAC-24045: Make readcachetest more stressful for hbase (In Review)
+  - Assignee: Bram Schuur
+
+Related Done:
+- STAC-23934: Investigate corruption on chaos-1 - Done
+- STAC-23810: Backup configurable amount of tephra WALs - Done
+  - Thrift API to expose WAL data
+  - Exposed through stackgraph CLI
+
+
+STACKPACKS 2.0 (Epic: STAC-23383)
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-23593: Convert light stackpacks into full ones (Merging)
+  - Drop concept of light stackPacks
+  - Move k8s-common-v2 and agent-common content to parent stackpacks
+  - Assignee: Frank van Lankvelt
+  - Story Points: 8
+
+- STAC-23693: Scaffold otel mapping CLI documentation (In Progress)
+  - Assignee: Alejandro Acevedo Osorio
+  - Story Points: 3
+
+Done:
+- STAC-23914: Create stackpacks2 branch deploy
+  - Assignee: Remco Beckers
+
+- STAC-24005: Update helm chart to auto-set all stackpacks2 flags
+  - global.enableStackpacks2 is the only flag needed
+  - Assignee: Remco Beckers
+
+
+AGENT (Epic: STAC-22483)
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-22523: Update main agent to latest datadog tag [7.71.2]
+  - Stay ahead of CVEs and k8s compatibility
+  - Assignee: Louis Parkin
+  - Story Points: 13
+
+- STAC-23625: Bring in latest upstream images for agent (In Progress)
+  - Assignee: Louis Parkin
+
+Done:
+- STAC-24000: K8s RBAC agent does not adhere to helm provided resources
+  - Fix provided in Slack discussion
+  - Assignee: Alessio Biancalana
+
+- STAC-23997: Avoid logging credentials in splunk debug logging
+  - Assignee: Bram Schuur
+
+
+CVE FIXES (Team Marvin - STAC-23387)
+--------------------------------------------------------------------------------
+Done:
+- STAC-23990: generic-sidecar-injector CVEs
+- STAC-23991: http-header-injector-proxy CVEs
+- STAC-23992: http-header-injector-proxy-init CVEs
+- STAC-24002: nginx-prometheus-exporter CVEs
+  - All assigned to: Louis Parkin
+
+
+QA (Epic: STAC-22482)
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-23764: QASE integration for beest
+  - Automated push of test results to QASE
+  - Assignee: daniel.barra
+  - Story Points: 13
+
+- STAC-23765: QASE integration with python tests (In Progress)
+  - Assignee: daniel.barra
+
+Done:
+- STAC-23766: QASE integration with go tests
+  - Assignee: daniel.barra
+
+Kubernetes Compatibility (STAC-23522):
+- STAC-23801: K8S 1.30 Compatibility tests - Done
+- STAC-23803: K8S 1.32 Compatibility tests - Done
+- STAC-23744: Populate compatibility matrix on documentation - Done
+- STAC-23743: Documentation around testing process - Done
+  - Assignees: yash.tripathi, rajukumar.macha
+
+
+RELEASE
+--------------------------------------------------------------------------------
+- STAC-23862: v2.6.3 released November 24, 2025
+  - Included: Kafka JMX OOM fix (STAC-23856)
+  - Included: OTEL metrics missing _scope_ label fix (STAC-23828)
+
+Done:
+- STAC-23763: Clean install HA setup Kafka stuck on startup - Fixed
+  - Kafka operator not configuring broker protocol in pods
+  - Assignee: Bram Schuur
+  - Story Points: 5
+
+
+OTHER COMPLETED ITEMS
+--------------------------------------------------------------------------------
+- STAC-23995: Airgapped documentation refers to non-airgapped helm repository - Fixed
+- STAC-23604: Show 'unconfigured' in health fields when rancher extension not configured - Done
+- STAC-23551: 'Big' sync pod scheduling guidance for Bosch - Done
+  - Provided guidance on dedicated nodes, bigger nodes, or autoscaling
+
+
+================================================================================
+KEY METRICS / NOTES
+================================================================================
+
+Teams:
+- Team Borg: Led by Remco Beckers
+- Team Marvin: Led by Bram Schuur
+
+Current Sprint Focus:
+- Borg: "Prepare dashboards release" / "Dashboards release?"
+- Marvin: "Marvin - Spacks2 & AgentBump 2"
+
+Stability Note (from Nov 5 Slack):
+"We've had too many customer cases of Data corruption at customers. We have 
+already found and fixed some causes but it is still happening so the team's 
+primary focus is now to improve our error reporting and test environments to 
+simulate the conditions where this happens at customers so we can find the 
+root cause and get it fixed."
+
+Customer Focus:
+- Rabobank: Agent migration support
+- Bosch: Scalability investigation, sync pod scheduling guidance
+
+
+================================================================================
+POTENTIAL QUESTIONS & ANSWERS
+================================================================================
+
+Q: What's blocking the dashboards release?
+A: Final items: UI automation tests (STAC-24050), variable handling fix 
+   (STAC-23989), documentation (STAC-22767), and metrics freezing issue 
+   (STAC-23733). All in progress or review.
+
+Q: What's the status of the data corruption issue?
+A: Primary focus for Team Marvin. Multiple fixes in flight targeting nightly 
+   champagne corruption. Extended integrity checker done, WAL improvements 
+   and logging enhancements in review. Root cause investigation ongoing.
+
+Q: When is the next release?
+A: v2.6.3 was released Nov 24. Next release timing TBD based on dashboards 
+   readiness and corruption fixes.
+
+Q: What's happening with Stackpacks 2.0?
+A: Two tracks: 
+   1) OTEL Topology - API work in progress, deduplication in progress, 
+      additional field support done
+   2) Architecture - Converting light stackpacks to full ones (merging), 
+      branch deploy and helm auto-flags done
+
+Q: Agent update status?
+A: Datadog upstream merge to 7.71.2 continues. Multiple CVE fixes completed.
+   K8s RBAC agent resources fix done.
+
+Q: QA automation progress?
+A: QASE integration with Go tests done, Python integration in progress.
+   K8s 1.30/1.31/1.32 compatibility testing completed.

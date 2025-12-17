@@ -1,0 +1,983 @@
+Dec 8, 2025
+Discuss Time Travelling Topology - Transcript
+00:00:00
+ 
+Remco Beckers: Yeah.
+Bram Schuur: Okay. Exactly.
+Louis Lotter: I wonder how well he understands Dutch. Should be pretty well.
+Remco Beckers: Yeah. Maybe you should just do it in English, not to have a useless uh summary now later.
+Louis Lotter: Um but yeah, let me then worry about the notes and that and everything and you guys just flow naturally.
+Bram Schuur: I had a Yeah, I had a flashback to two years ago when we also chatted a bit about straph and I think the first thing we also said then was like hey you know we do two things with straph restore you know settings and we store topology and I think um that is also the moment we said Okay, you know, one of the first steps we need to take is to decouple.
+Remco Beckers: Yeah.
+Bram Schuur: Uh, and with settings, Lou, we mean like our configuration items, right? Like these are like layers, domains, metric bindings. Um, we need to decouple those to be able to um well to ultimately put topology into its separate store. Um, I think we're kind of getting there, right?
+ 
+ 
+00:01:20
+ 
+Remco Beckers: No. Yeah,
+Bram Schuur: Um so I think that's good news. I think not so really good news is that if you would want to replace the topology store that's okay but we also need to migrate the domain to a different store which might actually also be quite uh time consuming um in its own right.
+Louis Lotter: What do you What do you mean with migrate domain?
+Bram Schuur: Oh, domain settings. I mean, sorry, the settings.
+Remco Beckers: the settings.
+Louis Lotter: Uhuh.
+Remco Beckers: Yeah, this was the biggest note I made actually when uh when No, it's not.
+Bram Schuur: Um, it's ah
+Louis Lotter: But shouldn't that be trivial compared to the topology?
+Remco Beckers: Um I can tell you why because I wrote this down already. Um I mean we do have um a design and a partial implementation for having these settings decoupled but also for distributing them. We have a settings provider that we use in many places. Now we even made the settings now available on Kafka for the auto collector for a very specific subset.
+ 
+ 
+00:02:16
+ 
+Louis Lotter: Okay.
+Remco Beckers: Um we have an idea of how to do this for almost any service in stack state but the settings are still stored in stack graph. So this one service that manages settings would still need to be on straph even ignoring the fact that all the other ones also still read from stackraph right now via the settings provider.
+Louis Lotter: Oops.
+Remco Beckers: But actually in the settings is the place where we make most use of all the fancy features of stack graph right now. um like all the uh constraints and transactionality like ensuring we have um a consistent data model or domain model. Um that's all covered by the object mapping uh of stack graph and the constraints we have on that of stack graph but also validating that the relation is not a relation an edge is there between two things like we can say a monitor must have a monitor function and you cannot delete the monitor function if there is a monitor attached to it like that kind of logic is in there.
+Louis Lotter: like referential integrity type stuff.
+ 
+ 
+00:03:22
+ 
+Remco Beckers: Yeah, like the full consistency of the settings is managed is is uh protected by stackcraft now and the large chunk is hibernate validator actually that does all the constraint validations but another large chunk is actually uh the graph level validations that ensure that you cannot delete something for example and I mean in theory we could move this to anything. We could literally write it out in um in a JSON in a huge JSON object. Like we could do the backup every time we change a setting and when you start it we do an import and then we modify everything in memory.
+Bram Schuur: All right.
+Remco Beckers: That would be like a way to do it and not the best way probably. Um but um we would still need to have a solution for at least making sure that we are confident that we have a consistent set of settings and not uh
+Bram Schuur: Yeah.
+Louis Lotter: Is this stuff that's completely solved by the normal um like post race integrity type things.
+Bram Schuur: Yes.
+Remco Beckers: yeah if we would switch to Postgress with I don't know hibernate form.
+ 
+ 
+00:04:30
+ 
+Bram Schuur: Yes.
+Remco Beckers: I mean, that's probably going to be the easiest route, something like that, because it's really close to what we actually do.
+Louis Lotter: And Click doesn't support this kind of stuff, right?
+Remco Beckers: No, no, Click House doesn't um Click House works differently than a normal SQL database, especially for writes because it um I mean, we could make it work on Click House, but it I don't think it's supported by any
+Bram Schuur: Oh, that's unfortunate actually.
+Remco Beckers: ROM solution. Um so, it would be custom on top of that. at least as far as I know. I didn't look too deep into that. But you could also use something like a sec SQite. Um if you want to have a lightweight version of a database and not have to run Postgress, but then you come into the situation like what do you do for HA setups? Do you then just rely on backups or um I mean do we say we run two setting services and then do all the things in parallel and have their own copy of the data?
+ 
+ 
+00:05:33
+ 
+Bram Schuur: One of the things you said there is that we actually um but I'm I think for that we would not use um database level conflict detection but rather use like like say microservices way of having a single writer
+Remco Beckers: Yeah. Yeah.
+Bram Schuur: service for these settings and then it can Click house again with let's say master master fill over right um that yeah
+Remco Beckers: Yeah. Yeah. Anyway. Yeah. Yeah. Yeah. I mean what I said you can write the JSON to a to a file but you can also write uh like hood aggregates to a table in click house for example and then we do have to do the some validation um in memory and it would mean the service will have all the settings in memory but that's fine it's not I mean it's going to be a few gigabytes so it's yeah sure yeah we do we
+Bram Schuur: no exactly exactly yeah I don't think we it can actually also be in click house I
+Remco Beckers: just have to then take over some of the things that we would be able to shell out to something else But it's not that's not the hard part to be honest because we have already root aggregates and there are pretty separate you only have like monitors monitor functions and a few of those.
+ 
+ 
+00:06:33
+ 
+Bram Schuur: Yeah.
+Remco Beckers: Uh the complexity was actually in the relations between topology and um settings there.
+Bram Schuur: Yeah.
+Louis Lotter: Yeah, I'm And that's where she gone now, right?
+Remco Beckers: We had lots of these constraints that made it really hard to deal with mostly.
+Bram Schuur: Yeah. Yeah. Indeed.
+Remco Beckers: Yeah, I'm not sure.
+Bram Schuur: Nice. Yeah. And there's two I see two more like one is just this is pretty pervasive. So you know like we try to put everything behind the setting service but it's not there by a long shot.
+Remco Beckers: No, no, indeed like layers domains.
+Bram Schuur: Um so is touching I think like 70% of our code base. So you know it's it's it's it's just but it's like all over the place. Um so it is it is a little bit uh it will be a huge refactoring I'm sure and the second thing is but that's a minor but then the is the what I I or we did with let's say the agent leases for example also relies quite heavily on the transactional system so that would probably need its own kind of um micros service or something but I think it's all solvable
+ 
+ 
+00:07:37
+ 
+Louis Lotter: Is this then something we would do first? So we do first migrate the settings, finish this refactoring, and then once that's done and we're happy with it, then we look at the bigger job.
+Remco Beckers: Well, there's two ways to look at it, I think. Um, where do we have the most problems with um with with stack graph?
+Bram Schuur: Yeah, exactly.
+Remco Beckers: I don't think it's with settings. I think it's with topology getting corrupt because there are like settings get written a few times a day. Maybe topology all the time.
+Bram Schuur: Yeah. Yeah. Yeah.
+Louis Lotter: But it will be pretty crazy if we have to run HP just for the settings.
+Bram Schuur: Yeah. But then we might actually say like, well, this thing is still HA and we we, you know, make those settings into not so HA store. I mean, it's it's I think it's defensible actually.
+Remco Beckers: Yeah.
+Bram Schuur: U Exactly.
+Remco Beckers: Also, because we have a settings backup that is always on, for example, is really quick to restore and then you don't lose topology anymore.
+ 
+ 
+00:08:28
+ 
+Bram Schuur: Yeah. Yeah. Yeah.
+Remco Beckers: So yeah, there's a small we already run now for trials and stuff like that.
+Louis Lotter: So you're saying we keep it in stag graph but we run stagraph just as a single node.
+Bram Schuur: Yeah. Yeah. Exactly.
+Remco Beckers: I mean and it could be even smaller than that potentially if all the processes are happy with that because processing settings is not much work at all.
+Bram Schuur: No, I would but I and I also agree like it it works smoothest typically by tackling the the part that has the most problem like the topology.
+Louis Lotter: Okay, that's interesting.
+Bram Schuur: Uh yeah.
+Remco Beckers: There's most most to be had there, right? Moving settings out and then finding that topology is still broken is like, yeah.
+Bram Schuur: Yeah.
+Louis Lotter: No. Yeah.
+Remco Beckers: Um should we switch to another consideration here?
+Bram Schuur: Yeah.
+Remco Beckers: Um I mean I'm not sure if we should now first think about uh why do we have stagraph or if you want to I mean I can also give you a few things that will also be heavily affected by not doing stagraph the way we do it now.
+ 
+ 
+00:09:54
+ 
+Bram Schuur: go if you no ads you know share
+Remco Beckers: Okay, so a few things that are built fully on top of stack graph or even integrated into stack graph is obviously health states. They're stored on the topology right now that would need work. Um but the solution there is pretty straightforward probably because it's a really simple version of we need to store data somewhere and be able to read it back quickly. So if we can get topology to work on something like click house or whatever store I bet hell states is going to be the easy part.
+Bram Schuur: Yes.
+Remco Beckers: Um so I'm not too worried about that one. The one that's more tricky I think is going to be events. And then I'm not necessarily talking about external events because we anyway wanted to move them already to a different store, but uh the way we trigger and rely on uh topology changed events specifically actually.
+Bram Schuur: Okay.
+Remco Beckers: I mean, I think all the other events we could still uh fake or not even fake, just create like when a uh when a monitor is created, we could still trigger events even if it's not stored in stack graph.
+ 
+ 
+00:11:05
+ 
+Remco Beckers: I mean, it's just the thing that does the storing needs to create the event and put it on Kafka and we don't have to change much there. But the topology change event if you if you would use the approach I use now there is not really a topology change event in the sense that it was there before because the topology didn't change in that way
+Bram Schuur: Ah, that's interesting. Yeah.
+Louis Lotter: Because you only figure out the changes when you at time, right?
+Remco Beckers: well you you figure out the whole topology in real time only um so the I mean you could still do it in a way that we could still still make events but they would have a different meaning so it with a slightly different meaning. It's like still there like it would be more like hey there is an update to the data of a component with this identifier so you might want to recalculate. So I think it could still be done but then we would also have to look at like is it worth is it worth it to do this or do we just choose a simpler solution for what we use events for now because I don't have the complete overview of what we use it for.
+ 
+ 
+00:12:05
+ 
+Remco Beckers: I mean we optimize topology query service with it and and event querying I think um but for the rest I'm not sure if we have more occurrences of it and then we could consider like tradeoffs there um if
+Bram Schuur: indeed those trade-offs will change and um um Yeah.
+Remco Beckers: it's worth it or not. Yeah, if it's really cheap to query these things, you might not care anymore. uh or if it's, you know, it's a Yeah, although it's probably not going to be really cheap to be honest.
+Bram Schuur: Yeah.
+Louis Lotter: I would I would say like we've spent four years or what six years optimizing age based deferra you spent a week on click house I wouldn't take your first comparisons too seriously I'm sure you guys can come up
+Remco Beckers: Yeah. No, but that's that's really the problem I can tell you.
+Louis Lotter: with a lot of improvements
+Remco Beckers: It's like we spend so much time also with caches on the client side optimizing queries on stack graph. It's um we will lose some of that but I realize that too.
+ 
+ 
+00:13:10
+ 
+Louis Lotter: Yeah, of course we will.
+Remco Beckers: Yeah, that there is lots of optimizations that might actually work counter productive even if you use a different store. though I probably not I mean some
+Bram Schuur: Oh yeah, for sure. For sure. But indeed we don't have to kind of pin ourselves down to it. I do think Yeah. Okay. But I think the events the topology changed one is interesting indeed. Um
+Remco Beckers: let's see yeah that's that's the settings and those events were the biggest things I was like well handheld states then but that's that's one I have confidence we can solve in settings and events is the thing that I have like we need to see how we want to do it if we want to do it that's the three biggest things that I figured last out last week
+Louis Lotter: How hard would it how hard would it be for you to build a little prototype just a specific event based on a specific topology change thing triggering trying to figure out how you would do it?
+ 
+ 
+00:14:25
+ 
+Remco Beckers: Um well it would it would go from the code that I have now that is a little bit hacky to extremely hacky because I have to fake so much information in those events that are tied to stack graph now. So I would actually end up doing having to do the whole setup um in parallel next to what we have probably just to not have to hack everything together there. So, so I'm I'm trying to say I'm not sure. Maybe it's super easy.
+Bram Schuur: But I yeah but isn't is not the problem here that there is um how do I how do I phrase this? Is it not the case that there's a bit of an an impetence mismatch between how you know the click house approach works and how you know so um how do I put this um want to phrase it the
+Remco Beckers: Yeah. Yeah.
+Bram Schuur: right way um the solution for this will always be suboptimal in some um um in some metric I guess right because um either we have to kind of and that makes it you can hack something together but but because it's it's it's got an impetence mismatch with the store uh this this is one of the places that that needs very careful design to still be able to work with the store that's I think at least my
+ 
+ 
+00:15:51
+ 
+Remco Beckers: Yeah.
+Bram Schuur: my intuition with it right like
+Remco Beckers: Yeah. So, so, so what I've what I've been doing up until now is I've been going very low level on the query side to just try to um implement the same APIs uh but with click house because that's easy to get something to work but it's not what you want to do in the end because I mean there is a kind of neat cutff point uh but it's not that clean because the APIs on top of it
+Bram Schuur: Yes.
+Remco Beckers: still use stack graph for example to pull in layers and domains and they want to have an observable slice to read from uh while I only have a time stamp ideally um and dealing all that is like I now just you know make up an observable slice based on a time stamp and instead of responding to events I just pull every 15 seconds to the database to keep a stream going.
+Bram Schuur: Yeah.
+Remco Beckers: um rerunning the query. I was using first the eventsbased approach but I thought let's see if I can swap this out and it and it's was pretty easy to swap it out but that didn't solve all the stack graph dependencies it still has some uh so if then you have to go all the way up through all the services to the API to get rid of all the stack graph references and then we still have layers and domains and types
+ 
+ 
+00:17:00
+ 
+Remco Beckers: in stack graph so there is still a place where you have to pull in that data so there's still going to be a stack graph transaction right now somewhere popping Um yeah.
+Bram Schuur: Yeah, but it's not it's not I'm very spec specifically think about the topology changed events. Um I mean the implementation I see here is just a pull loop, right? Like pull what?
+Remco Beckers: Yeah, that's literally what I do now. The stream is like every 15 seconds um run again with time is now uh in instead of listening to events.
+Bram Schuur: Yeah. Yeah. Yeah. Yeah.
+Remco Beckers: And I mean if that doesn't have severe um if that doesn't overload the database easily or whatever I mean with straph we don't do it right.
+Bram Schuur: But it's not it's not the approach with click house predicated on that being possible almost like I I feel like the the the the no but but but there's so much in that stack that allows that incremental processing
+Remco Beckers: We do this.
+Bram Schuur: whereas what I see with click house is that it's really like fire and forget with the rights and then you know do your reads.
+ 
+ 
+00:18:03
+ 
+Remco Beckers: Yeah, you you could do that.
+Bram Schuur: So I I feel like it's
+Remco Beckers: But I I think maybe for performance reasons we would need to go a little bit beyond fire and forget with re with rights in the end after all. so that you would actually read the data and then conditionally write or something like that potentially.
+Bram Schuur: Oh yeah.
+Remco Beckers: Um I'm not sure. I mean I hope not but um there are some cases where that may be useful to do that.
+Bram Schuur: Yeah.
+Remco Beckers: Uh but what you could also do is if you write something you also write something to Kafka that says topology change for these identifiers and then you have the events again in the slightly different form.
+Bram Schuur: Yeah. Would you don't double check them with the database where they ultimately committed dep like or would you like not care?
+Remco Beckers: Um then I would say that that these events we write them optimistically more or less and that you always have to go to the database to check it.
+Bram Schuur: But then anyone need to be checked real time, right?
+ 
+ 
+00:18:53
+ 
+Bram Schuur: They need to be checked real time.
+Remco Beckers: Yeah. Yeah. So if you see the events you just assume something change and then you just run the query again but you shouldn't use them as the source of truth than the events for example.
+Bram Schuur: Yeah, exactly. No, exactly.
+Remco Beckers: That would be then a change that would be a change in behavior and a meaning as well.
+Bram Schuur: Yeah.
+Remco Beckers: Um but but I mean it's all possible.
+Bram Schuur: Yeah. But I if I Okay.
+Remco Beckers: It's just what's needed and what's not needed, right? That's something we have to experimentally find out as well. I think
+Bram Schuur: Yeah. Exactly. because it could also be that we don't I mean I'm thinking about like you said topology changed events which are more like derivations from your topology data into an event format. So I'm not thinking about like the Kafka way of events just you know having this this kind of law store which actually does events and I don't think any of that like like the the concurrency that we're talking about right like does it commit or not is even applicable there.
+ 
+ 
+00:19:46
+ 
+Bram Schuur: If you just pull your topology on on the regular and say like, "Oh, was there a change in the last 15 minutes or the last time since I pulled?"
+Remco Beckers: No. Yeah.
+Bram Schuur: Then I turn that change in topology into a topology changed event that just goes into the store and and for the other parts I I also see other like we might do other things indeed. Uh you could even have like a secondary click house table that just is just there for change tracking probably something right like that's basically uh instead of bringing it to Kafka just says I got query my the last
+Remco Beckers: Yeah.
+Bram Schuur: 15 minutes and I know roughly what to query for. Um yeah but yeah that's all that's all to be figured out then.
+Remco Beckers: Yeah. Maybe. Yeah.
+Bram Schuur: Uh yeah, yeah, yeah, the configuration.
+Remco Beckers: Yeah. We could also say these topology change events are not interesting at all. Only technically interesting. And if we don't need them technically, we just ignore them. The re the thing that's really interesting is actually all the other stuff.
+ 
+ 
+00:20:38
+ 
+Remco Beckers: Uh although we do have some diffs there, right, for um
+Bram Schuur: But you could also say like, oh, don't store those. I actually calculated those right out of my topology query, right? Because you're querying for this one component and all the data is in there and you just just compute them on the fly. So um uh um changes to failure.
+Louis Lotter: What is the primary use case for the topology change events?
+Bram Schuur: So if I um um have a problem in a service, I get this overview of what happened to the service alerts and everything. And part of that is topology changed events which show you um uh how the configuration changed in Kubernetes like oh we the image was built to this version or there was an environment variable change in the container. Um that's what it shows.
+Louis Lotter: Okay. So, these are events that the user can see and help with the investigation, but it's not events that we trigger other behavior off of.
+Bram Schuur: No. In it.
+Remco Beckers: No, we do have those as well and that's was what I was discussing initially and that's like more internal technical events that tell us like this component got an update whatever it could also be a tag or label
+ 
+ 
+00:21:35
+ 
+Bram Schuur: In it.
+Louis Lotter: Okay.
+Bram Schuur: In it. Yeah. Yeah.
+Remco Beckers: update and then we don't show it as changes to failure part part of it.
+Bram Schuur: But that's pretty much uh Yeah. But that's optimization like we have the state service only running um when there's a change.
+Remco Beckers: Yeah.
+Bram Schuur: But if Click House, it seems as long as I understand it now, you'd rather just run your query once every so often um without being too smart about what you run, right? Then we can dispense with that whole um with that whole system.
+Louis Lotter: Yeah. Okay.
+Bram Schuur: Um and that's something we don't I mean I don't know yet and maybe you also know Remco, right? like how Click House really behaves and whether we should force Click House into a um an update based or just like a raw scan kind of um use.
+Remco Beckers: Yeah.
+Bram Schuur: Yeah, the raw scan is always a bit scary because it basically means calculating health is always proportional to the size of your landscape, right?
+ 
+ 
+00:22:32
+ 
+Remco Beckers: Yeah.
+Bram Schuur: So that's all that's why why we always like this update approach.
+Remco Beckers: Yeah. So, yeah. So clickos doesn't Yeah.
+Bram Schuur: But the claim to fame with Click House is that it's so ridiculously fast uh that that that we never reach reach that plateau. Um right, I'm saying it right. Yeah.
+Remco Beckers: Yeah.
+Bram Schuur: Yeah.
+Remco Beckers: Well, there is there is it never does a real scan in the terms age base would do a scan.
+Bram Schuur: Exact.
+Remco Beckers: Um yeah, it's smarter.
+Bram Schuur: Yeah. Does lot smarter, right? Uh yeah.
+Remco Beckers: So, and it in the end in the end you can get to the point that if you have um like you can do a query just to get the the health state for all the components in your view
+Bram Schuur: Yeah.
+Remco Beckers: but there's still a limit. I mean with with HBS we also set a limit of 10k components for some reason right clickout will also have a limit to how fast well there's a limit I mean it can still calculate the health state for
+ 
+ 
+00:23:22
+ 
+Bram Schuur: Yeah, right.
+Remco Beckers: 10k components or maybe for 100k it will just take longer and then the question is uh where's the limit and is it even a relevant limit because showing more than 10k components we anyway don't do because it doesn't
+Bram Schuur: Yeah.
+Louis Lotter: I mean 10K I always thought is way too high.
+Remco Beckers: make much sense anymore.
+Louis Lotter: like 500 to a,000 is already too many, right?
+Remco Beckers: Yeah.
+Louis Lotter: How many can you process as a human being?
+Remco Beckers: Yeah. Yeah. So that's that's indeed where it's um and and the other thing is in click you should be able should uh emphasis on that. I think uh depending on your data model exactly you should be able to do it incrementally uh with pagionation and everything um in theory but but it's not transactional so maybe not reliably actually.
+Bram Schuur: Yeah. So this is but this also ah right exactly yeah yeah indeed that's interesting actually not in that read kind of way that you say like oh let me kind of pageionate that snapshot also what we what you're now
+ 
+ 
+00:24:17
+ 
+Remco Beckers: It it does have transactions but not in um yeah there are tricks to work around all of that obviously but it's not um yeah clearcut.
+Bram Schuur: saying is like um yeah do you feel like the the the the because we're talking about let's say result set size right like 500 to a thousand that's what talking about. Do you feel like the schema you have now has a has a clear uh coupling between amount of data scanned versus the result set size? Because that's you you get the question.
+Remco Beckers: Yeah. Um I'm thinking um well there there is to a certain uh to a certain extent because there are some subselects in there and they only use one or they only use two or three columns but you know they will um uh the deepest one is the one that determines what the total result set can be and then it gets narrowed down a little bit and then we fetch all the columns that are needed. for the for the query component for example for the actual result we need. Um so in the end there is a there is an effect there.
+ 
+ 
+00:25:39
+ 
+Remco Beckers: Yeah. Uh so if the result set will have a million components it will scan more data then when the result set has only but if you can put a limit on it you can put a limit on the deepest
+Bram Schuur: Yeah.
+Remco Beckers: level potentially and then it will be super fast because it will just stop after a certain amount and then it depends of course on the ordering that you use if it u if it is a is if it
+Bram Schuur: Yeah.
+Remco Beckers: is a useful limit or not if it's if The ordering you use in click house is uh is encoded in the primary key. The whole thing will be really fast because you say an order by primary key means that the limit will just read a bunch of files and then just go with the data in those files only while the key is not in the ordering it will read random stuff. So it needs to read many files again.
+Bram Schuur: it can prune them still right based on some bloom filters.
+Remco Beckers: It can still prune them, but the effect of that may vary a lot depending on.
+ 
+ 
+00:26:42
+ 
+Bram Schuur: I mean what I remember with the traces that it was quite some hassle to kind of match the the keys and and the bloom filters with the queries in a way that indeed result set size and query volume or amount of data processed are roughly in the same ballpark. Uh yeah, right.
+Remco Beckers: Yeah. Yeah. Yeah. Yeah. That that's the same thing that we need to deal with here. I mean now I did it the last change I made uh actually after Friday was to include the type name in the in the key because we literally always include the type name in any query. Um uh so that already cuts down on the amount of data clicks would need to look at.
+Bram Schuur: Yeah. Yeah.
+Louis Lotter: So tricky is fine, right? As long as it's doable and it's stable and it works after that. Or is it is it constantly tricky and every change we make makes everything hard again?
+Remco Beckers: Well, the it depends there. Um, if we come up with entirely new use cases which require different ways of querying topology, completely different um subsets that you start querying.
+ 
+ 
+00:27:53
+ 
+Remco Beckers: um then you might end up with a uh in a in a case that we didn't optimize for and that's actually completely the opposite of optimize. It's actually deoptimize because we optimize for the opposite case like I now did something to optimize more for querying by type because we do that a lot. Um yeah, you can you can make a view that produces the other index as well and then you have uh one join.
+Louis Lotter: But can't you bolt multiple indexes?
+Remco Beckers: Uh so that's that's a possibility. It doesn't make you don't get to the most optimized version, but it's still possible. I mean, there is always a way around it, but it does you don't get to the raw performance that you could have had maybe. Um, and there is what I now noticed is that there seems to be um well, I don't know. I don't actually know what I notice. there is some some interesting behaviors that I'm still trying to understand how the query performance gets is now affected by this because I sometimes see the same query taking 200 milliseconds and then one and a half second and I suspect it's related to the rights going on in the back end or at the same time um but I'm not sure and that could be due to uh limitations in resources and everything that I didn't look at
+ 
+ 
+00:29:11
+ 
+Louis Lotter: What is that?
+Remco Beckers: at all yet. I I just ran with what we had set up for this size and I didn't even look at the uh request and limits and everything much much better than for stag graph.
+Louis Lotter: What is the tooling like around query optimization for tick house?
+Bram Schuur: It's got very very well explained queries, right?
+Remco Beckers: Yeah, it can explain queries.
+Bram Schuur: Yeah.
+Remco Beckers: You have a you have a query log. Um, it literally locks every query you see in in a table of its own and it has super detailed information in there about the query itself but also the duration of the query stuff like that. So it this and then you have a console u a CLI that I use actually what I've been doing is I take the last query that was produced by the UI in the end copy and paste in the CLI and start modifying it and then I you can even um what I did for traces a lot is make a new schema create the tables with a different name copy the data out of the old table into the new table um you can all do that from the CLI Okay.
+ 
+ 
+00:30:22
+ 
+Remco Beckers: And then run the same queries or actually the same well with the same intention. Maybe the query has to be different now uh against the new schema and see if it performs better. There are some caveats there because there will be no rights going on in that table and stuff like that. But uh uh you can u quickly test uh ideas like that which is a lot harder and Yeah, that's that's not so easy.
+Louis Lotter: You can also just create some random writing in a separate terminal right to that table. And then
+Remco Beckers: But yeah, you could do that. You could make a materialized. You could also make um so I say it's not what actually it would be really easy because you can make a view out of the copy action that I now did manually and then it will keep updating the table with new writes that come in on the original table even. So you could mimic the whole thing um to just put extra load on the whole setup as well.
+ 
+ 
+00:31:16
+ 
+Remco Beckers: So you would have to verify it, but it's all doable. And if you want to experiment a lot, you might want to do that and then just start throwing some ideas at it. Um, yeah. One thing we didn't discuss yet, but that's worth emphasizing, I think, is that I didn't implement with neighbors off. I think you knew that but I also didn't implement indirect relations. I think that's if we want to keep topology as it is that's probably a feature we don't want to lose.
+Bram Schuur: Oh yeah. Yeah.
+Louis Lotter: I I almost coupled those two in my head. Don't indirect relationships use with neighbors to calculate?
+Bram Schuur: Yes.
+Louis Lotter: No. There.
+Remco Beckers: Yeah.
+Bram Schuur: Yeah. So we I think I may use the term preversal, right? So with so yeah um
+Remco Beckers: that are underneath that they are but they have a different they have a separate implementation right now. So you can choose to implement uh one or not the other or vice versa.
+Louis Lotter: Yeah.
+ 
+ 
+00:32:20
+ 
+Louis Lotter: and still you guys for optimizing that and working on that stuff. It's like three four years ago I think. So you're saying we can do without with neighbors off but indirect relations we need. Why? What is the Nice.
+Remco Beckers: No, I don't know. I don't know if we can do without with neighbors off to be honest, but uh yeah.
+Bram Schuur: We said we could go with a limited version of with neighbors of but I think indirect relation is a good uh and and we could also go with a more analytical approach to let's say oh you want indirect relations here's your spinner right boing boing here come your indirect relation Um so I would that's something I would and I that we can write down.
+Remco Beckers: Yeah. Yeah. Yeah. Yeah. That that's for sure can work there. Yeah.
+Bram Schuur: Um I think yeah it is a bit heavier on let's say
+Remco Beckers: Yeah. We can take some time to calculate that. It would also make the topology UI more snappy to work with because you already see topology and then the calculations come in a little bit later potentially, but now you just sit waiting for them.
+ 
+ 
+00:33:21
+ 
+Louis Lotter: There we are. Okay.
+Bram Schuur: on the interaction right between front and back and typically um yeah exactly so That's not that's not not this is not what you do in version one ever.
+Remco Beckers: Yeah.
+Louis Lotter: Big the biggest issue there is does it trigger constant redraws of your topology as it
+Remco Beckers: Oh yeah, that would need to be fixed as well then which is not the trivial. Yeah.
+Bram Schuur: It's like uh well not I'm not like version one of the product not version one of click house implementation but um
+Remco Beckers: No indeed. Yeah. Yeah. And maybe I mean this is all working with the hypothesis that in the regulations on clickout would be slow. I don't know actually.
+Bram Schuur: yeah I I mean what what what do indirect relations require? they have already been optimized for age base and probably the optimization would be the same for click house it's a bread first search uh there so as long as click house can do u reasonably fast batched uh lookups
+Remco Beckers: Yeah.
+ 
+ 
+00:34:18
+ 
+Remco Beckers: And that's it. Can Yeah.
+Bram Schuur: um yeah but you don't hand out vertx ids right so uh paste Yeah.
+Remco Beckers: No, the the only thing is it would be identifier based. So it would be what I have now is relations are stored as source identifier, target identifier and then some metadata. Um which works uh which you can also use for this except then the keys are a lot bigger in data volume.
+Bram Schuur: Yeah. Yeah.
+Remco Beckers: Although to optimize that, you could even hash these things if if you're worried about that kind of stuff. So there's like everything I can think of. Oh, this might be a problem. I can also think about a potential workaround. Not maybe a solution, but something that makes it easier or better. Um yeah.
+Louis Lotter: But in software engineering workarounds are solutions, right?
+Remco Beckers: Yeah, exactly. So the the so the thing is um this depends a lot on uh how fast uh like a single round trip to click houses.
+Bram Schuur: Yes.
+ 
+ 
+00:35:27
+ 
+Remco Beckers: Um and in HBase we even hide a bit of that because um in HBase we on the stackraph client we do quite heavy caching of a whole bunch of stuff up to the point that sometimes when stack say just starts a query will not finish and after that it will only take a half a second to finish.
+Bram Schuur: It's cash on cash on cashes, right?
+Remco Beckers: I suspect that's partially because of caching and partially because of startup stuff being going on in the background. Yeah, exactly. And for Click House, the client doesn't have any cache as far as I know.
+Bram Schuur: I
+Remco Beckers: Um I'm using the standard Click House client, which is according to them the fastest one, the most efficient one. But um if you would use a JDBC uh client in between it would be able to uh you would be able to put a caching library in between more easily.
+Bram Schuur: think uh that I also now realize um yeah indeed indeed um I I do wonder how let's say let me phrase it like this I think uh right now stcraft can do pretty effective caching due to the transaction system uh because um we actually know exactly what data should be when and click house has a little bit more liberal data format so you probably would use timebased caching right and now you now you start trading latency
+ 
+ 
+00:36:45
+ 
+Remco Beckers: Yeah, I think so.
+Bram Schuur: for cachability so if you want update your view every 30 seconds then caching for 30 seconds makes no sense because so you would your caches to 2 minutes but then your update frequency does not become 30 seconds anymore
+Remco Beckers: Yeah.
+Bram Schuur: because your cash was was was longer.
+Remco Beckers: Yeah. Yeah. Yeah. You're right.
+Bram Schuur: So, um I think that is one of the well one of the trade-offs will then also be kind of um
+Remco Beckers: Yeah. Well, so so what I did now in a topology query or what the topology query service does is already caching and you do notice it because if I time travel the query takes a bit a bit of time to run and if I just go to live for pots and I've opened it once it's instant because it's obviously cached because it already did that.
+Bram Schuur: Yeah. Yeah.
+Remco Beckers: I didn't do that.
+Bram Schuur: Yeah.
+Remco Beckers: it already existed all that plugg um and um it will remain cached as well just like stack graph because it it keeps running for a little bit even when you navigate away um so on that level we do
+ 
+ 
+00:37:34
+ 
+Bram Schuur: Yeah. Yeah. So I Yeah. Tell Right.
+Remco Beckers: have caching and you do notice the difference it's a lot faster for live topology after you click it once um so for so that's also the thing I guess for live stuff it can be really efficient for historic queries. By the way, caching would work because you could say cache uh cache the results for um well there are different options here even different ways of caching you can say cach the result of a query even that's options that these libraries have I think Yeah.
+Bram Schuur: Yeah, there's there's quite a bit of engineering there I feel of MCO because I do think the implementation you you propose now with click house will um allow late arriving events. So um but then you know so with that in mind and you could you know one of the things we've wanted for a long time is actually being able to replay topology data right um but that's already a
+Remco Beckers: Yeah. Yeah. I feel Yeah. Yeah.
+ 
+ 
+00:38:48
+ 
+Bram Schuur: lot rougher. Um but then obviously also caching in the past becomes more of a of a hazard. So there's like a there's a bit of an engineering line to walk there between um when is data settled and and not I also like the other option a ton and it's it's actually more in line with what
+Remco Beckers: Yeah.
+Bram Schuur: let's say a Victoria metrics would do right I you can just shoot in old data like anyway in the past and also if the if the old data is actually slow might not be so bad right we can
+Remco Beckers: Yeah.
+Bram Schuur: again go back to let's say analytics mode for for time traveling I also like that uh daton and caching is not not much of a not even indeed indeed but we say like oh old old lookups are just
+Remco Beckers: Yeah. Yeah. Yeah. Yeah. Yeah. So the caching is also a question if we want to go there even. Yeah.
+Bram Schuur: you know we have to calculate uh Yeah.
+Remco Beckers: Yeah.
+ 
+ 
+00:39:38
+ 
+Remco Beckers: Yeah. So what I'm what I'm doing now is I leave it running for I want to leave the whole setup running for a week or so to see if uh the amount of time that we have collected data over affects the query performance.
+Bram Schuur: Yeah.
+Remco Beckers: Um, I suspect it might a bit, but on the other hand, I suspect it might not because I put the time stamp of the hour, an hour is time stamped in the key.
+Bram Schuur: In the key. Yeah.
+Remco Beckers: So, it would know it would only need to read two keys. But then it's not the first part of the key.
+Bram Schuur: Right.
+Remco Beckers: So, it it's not the perfect solution. But putting it as a perfect the first part of the key um is a problem uh identifier for components at least.
+Bram Schuur: What does what is the first part of the key?
+Remco Beckers: And that's that's good because that works very well for compression this storage compression because you know every hour the same data repeats.
+Bram Schuur: Good job.
+ 
+ 
+00:40:26
+ 
+Bram Schuur: Yeah. Yeah.
+Remco Beckers: Um but that doesn't matter because it is just like yeah it's now this column has now three times the same value. It can just write out like zip or whatever Z std I think it uses is smart enough to figure this out.
+Bram Schuur: Yeah. Yeah.
+Remco Beckers: So compression is crazy on these tables. I mean Clickhouse can report on compression. And on the components table I think compression is a factor 20 which is pretty crazy for any zip tool on just random data.
+Bram Schuur: Yeah.
+Remco Beckers: So that's why the key is like that. But to get better performance, we might want to put the time stamp first. But then you lose a lot of this compression potentially. So it's um something to experiment with again.
+Bram Schuur: Yeah. Yeah. Yeah. Yeah.
+Louis Lotter: Yeah. So I mean you're assuming the compression you're assuming the compression can't find other patterns but yeah probably it lucky to test Good time.
+Remco Beckers: The time stamp a second now is the key.
+ 
+ 
+00:41:27
+ 
+Remco Beckers: Yeah, maybe not. Maybe it will work be fine as well. I mean I had to choose something to get started and um maybe maybe it's also good to look at the benefits that we get from click house compared to stagraph things that we cannot do that we uh could do uh instead of instead of just looking at the problems and we mentioned two the two most important ones I think we already mentioned one is we can uh enter data so note well there's two sides to this
+Bram Schuur: Yeah. Like the feeling back feeling. Yeah.
+Remco Beckers: we can enter data uh for any time stamp at any time for topology which we cannot do now. Topology for stack graph is strictly in increasing I think is the term right monotonically increasing it always goes up the time now we can just insert some data for yesterday because it got lost and now the agent got
+Bram Schuur: Yeah. Yeah.
+Louis Lotter: Mhm.
+Remco Beckers: started again and it ships the data after all and we still know what the topology was like yesterday.
+ 
+ 
+00:42:22
+ 
+Remco Beckers: Um, at the same time, um, oh damn, now I lost my train of thought. s***. What was it again? Uh, so you can insert um data in any order. Oh yeah, and we get um we get uh observed uh time instead of uh no sorry not we get actual happens time instead of observe time or at least much closer to happen time.
+Bram Schuur: Yeah. Yeah. Yeah. I would call it observe time rather than ingestion time.
+Remco Beckers: Um yeah that's the one that's the one I was looking for. Yeah. So we get observe time. So when our agent or the collector observes a trace or a kubernetes resource change we can use that time stamp instead of when our synchronization in the back end of stack state writes it to stagger graph which we have now. Um that seems like a minor difference but it's an important difference uh because there can be lots of delays in between and the order might even get hustled and everything.
+Louis Lotter: That sounded great.
+ 
+ 
+00:43:29
+ 
+Louis Lotter: But but those delay should be a lot less because the car is much we're doing a lot less processing right havingups in the inest should
+Remco Beckers: Yeah, but Clickos doesn't have the Well, we can make up an ingested time stamp. I don't do that right now. we could just for troubleshooting and uh monitoring uh but I don't do that now. Um, and then well you could the third thing that we get that we don't have now and I think you can pile this into a big ticket item like um SQL to query data. Um but more specifically some features of SQL that we don't have now or that are that we could make on stack graph but require us to write a lot of code to make it. for example um suggestions um uh that look at that do more like a fuzzy search or that do a contain search if you now type in a label value like if you want to search for a cluster name you have to start typing from the beginning so you can only like start start with uh is what we can do and with SQL we can do just a like percent string percent and then you can get a contain search that's one thing pagenation is another thing that I mentioned that we could do.
+ 
+ 
+00:44:46
+ 
+Remco Beckers: There are still limitations there, but in principle it's kind of possible. Um um and I think there are some benefits to easier troubleshooting as well or easier experimentation. Um just because the APIs are more high level, it's much easier to experiment with I think. Um, so also def x-wise, I think it's a more it's it's a nicer experience for most people.
+Bram Schuur: Yep.
+Remco Beckers: Maybe except for Bhham and Alex who know all the internals, but it's still a beast to understand how things work though. not a beast as in HB plus techraph but it's uh it's it's well documented to start with.
+Louis Lotter: But it's a different kind of beast because it's a like I can and and an engineer I think the general average engineer is going to be much happier to learn about click house than to an esoteric.
+Bram Schuur: different kind of face.
+Remco Beckers: It is something you could know already or that you can take the knowledge somewhere else and still have useful knowledge.
+Bram Schuur: Good.
+Louis Lotter: No. Yeah.
+Remco Beckers: Yeah, the stag graph that's of course not going to happen really.
+ 
+ 
+00:45:54
+ 
+Remco Beckers: maybe HB, but even that's getting that's a bit niche to be honest.
+Bram Schuur: Yeah.
+Remco Beckers: Click is also a bit niche to be honest. Uh maybe less so than age base now, but I think this this these pros for a large part would apply to also a bunch of other solutions that you could think of. Uh if it's not click out.
+Louis Lotter: Maybe we should talk a little bit about that. Why would we choose clickout rather than post grace or some orox TV or I can tell you by far my biggest reason would be just it's it's the database we already have rather than adding another
+Bram Schuur: Rox DB, I feel like a fun.
+Remco Beckers: Yeah. Well, there is Yeah. Go ahead.
+Louis Lotter: thing.
+Remco Beckers: Yeah.
+Bram Schuur: Okay. Okay.
+Louis Lotter: Not saying that should be the reason. I'm just saying that is a reason for me.
+Remco Beckers: Yeah, run through threw some words at my own feed that I used when selecting Victoria metrics and that was we should use a database that works for the data that we want to store and query.
+ 
+ 
+00:47:14
+ 
+Remco Beckers: Um now for metrics and also for locks for example there is like a choice that makes sense. We have Victoria metrics for metrics or something similar right and for locks I can pretty well defend that clickout is probably one of the best solutions for it.
+Bram Schuur: I although there you don't get a query language right or do you so that's the that's the way you would yeah
+Remco Beckers: Um but yeah so so so what you could say also Victoria locks is the better option um um though maturity there is a thing maybe um and then click house you do get a query language but it's SQL um and you have to build something on top of that if you don't want to expose the full SQL which I'm pretty sure we don't want to expose Um, oh, you mean the one uh the one from the
+Bram Schuur: Mark shared this sequel thing that they were doing like the unified um observability language and I was not convinced it was too Yeah.
+Remco Beckers: hotel guys, uh, or well, the hotel working group.
+Louis Lotter: I I think it's Yeah.
+ 
+ 
+00:48:13
+ 
+Bram Schuur: Yeah.
+Remco Beckers: I don't I don't like it at all.
+Bram Schuur: Yeah.
+Remco Beckers: I I haven't looked at it recently because I just didn't like the whole angle they were going at. It's I mean, querying metrics with SQL is just not great.
+Bram Schuur: Yeah.
+Louis Lotter: No.
+Bram Schuur: But I'll make the point that I was making earlier and I think the Remco debunked it but we were we started out text state with elastic search next to um next to and we said and elastic search is
+Remco Beckers: Yeah, let's finish that point.
+Bram Schuur: the general purpose database. We said let's throw metrics in there, logs in there, uh you know, anything we can throw in there and topology was already there and then ultimately we figured like yeah it's a general purpose database but it's not good particularly good for metrics right and it's not particularly good for logs either because we build our own languages everything and that's when Victoria metrics came in right like we need because we have these different types of data we need a different store for each of them which has their own specialized query language and specialized execution model and and click house seems to be taking the same place uh as elless church could in the past and I know this time it's different.
+ 
+ 
+00:49:11
+ 
+Bram Schuur: Um but it's uh it's um it's a risk uh I guess.
+Remco Beckers: Yeah.
+Louis Lotter: Yes.
+Remco Beckers: Though I think I think the problem with topology data though is there is no um thing that is a perfect fit, right?
+Bram Schuur: No, exactly. Exactly. So you'll always be retrofitting it on something indeed.
+Remco Beckers: Yeah.
+Bram Schuur: And like and it's it's shown to be like and it's you could say like well if if topology looks anything like traces and and click house you know can do traces very well you know we're already off there. So there's definitely arguments why this might be different for what?
+Remco Beckers: Yeah, I mean there is though a reason why for example Honeycomb chose to build their own um storage solution, their own for telemetry in general and they say they use it for all the things.
+Bram Schuur: for the trace.
+Remco Beckers: Um but they specifically started out uh building it for traces I think uh because they want to treat everything like even traces they want to treat it like a kind of wide events where you just throw any data on there that you want to store and they in a recent blog post Twitter thread I don't know I read that they are still really well or like their c CTO um uh blocked about that again and they
+ 
+ 
+00:50:12
+ 
+Bram Schuur: Oh, yeah.
+Remco Beckers: were really happy they did that because you know it gave them abilities they would otherwise not have had and it's a benefit but it was also a risky investment they said well I thought we know all about that
+Louis Lotter: What's their name again?
+Remco Beckers: honeycomb
+Bram Schuur: I must say that I mean I'm I'm sorry to be a bit too on the negative side. I mean it's this database we already have is definitely a pro but it is for me never going to be like the the um the it's the the should not be the cutting argument because that's the path dependent argument pretty much
+Remco Beckers: Yeah.
+Louis Lotter: Yeah.
+Remco Beckers: Yeah.
+Louis Lotter: Yeah. Yeah.
+Remco Beckers: I know. And and you know what the thing is? Um they have it actually quite easy because they built the whole thing on top of object storage to start with. Um and they um they did something I think they probably did something like what Kafana did with um um their Cortex and their lock storage solution Loki uh like a thin layer on top of object storage to to store the data and and index the data.
+ 
+ 
+00:51:35
+ 
+Remco Beckers: Well, not thin but a layer on top of that. And they only run it in the cloud. They don't they don't have a self-hosted solution. They only have a software as a service. So they don't have to worry about complexity of deployment because what they even I now remember where I where I read is it is they moved all of the logic in the database they removed they don't run it as a service they don't run services anymore they run it as uh functions cloud functions almost all of it um yeah yeah exactly that's that's what that's why it works for them we that's I think that's the main
+Louis Lotter: And I mean they they 300 people and they only do SAS. So those two things combined just Yeah.
+Remco Beckers: reason for us why we cannot not do this is indeed we're not enough people to do it to pull it off and we want to make something that runs on prem. Um and that combination just makes things well more complicated or or more simple because it just cuts away a bunch of options and simply says pick something that is relatively easy reasonable to run.
+ 
+ 
+00:52:38
+ 
+Louis Lotter: Or at least well documented to run, right?
+Remco Beckers: Yeah. Yeah. Exactly.
+Louis Lotter: Um, I agree with you, Braum, that it shouldn't be the main concern. I'm just saying that is a that is a win for me.
+Bram Schuur: Yeah. Yeah. I mean for us it's very practical.
+Louis Lotter: But, but if we go from age base to another database that is just a lot more like supportable and easy to install and run and everything, that's still a win.
+Bram Schuur: I mean
+Louis Lotter: So, it doesn't have to go to goodness.
+Remco Beckers: I mean we I have looked before but that was more when I was thinking about storing things uh replacing the h base underneath stack graph. Uh I've looked at things like um well not Rox DB foundation foundation DB indeed for example um but that's all that that's more like Rox DB actually I think what fun did for Rox DB I still didn't get
+Bram Schuur: Foundation DB. Foundation DB. Yeah. Yeah. Yeah. Yeah.
+ 
+ 
+00:53:28
+ 
+Bram Schuur: Yeah.
+Remco Beckers: a chance to watch it but you probably could apply that roughly also on top of foundation DB the same idea uh to implement either stagger graph or to implement just topology storage there but foundation DB the name already says It's a foundation for a database. You still have to build a bunch of stuff on top of it. So you don't get a database out of the box that does your thing.
+Bram Schuur: No, I the one I I looked it up one like one and a half months ago or something.
+Louis Lotter: from me.
+Bram Schuur: Um they said they wanted to do something like a co-processor model uh where you basically uh share um the data through in-memory memory maps, right? So basically you get to implement your code processor in any language and then you communicate with the database with your local shard pretty much through and they never implemented that so far.
+Remco Beckers: Oh yeah.
+Bram Schuur: So it means that basically if you do your high volume you know chugging through your data it will all be over TCP sockets.
+ 
+ 
+00:54:19
+ 
+Remco Beckers: Yeah.
+Bram Schuur: So basically the co-processor use case there was somebody actually asking questions about the co-processor use case for foundation DB and it pretty much never materialized.
+Remco Beckers: Yeah.
+Bram Schuur: So yeah.
+Remco Beckers: Now the only thing you can do now is you can you need to make use of the key value structure that you get to implement topology in an optimized way so that you but you end up implementing indexes yourself again for example.
+Bram Schuur: Yeah. But you need a lot more indices let's say than what we would know with age base because you really need to think a lot more about uh how much data you're transferring.
+Remco Beckers: Yeah. Yeah. You need a time index as well for example. Yeah.
+Bram Schuur: And for example, that's also what Click House I feel has going for it. Like it's very olopy, like just chugging through lots of data. Um yeah.
+Remco Beckers: Yeah. Yeah. That's that's like one of the reasons why why it is a good fit to just it just absorbs this data at an insane rate without any hiccups any issues and Postgress probably couldn't do that in this with this
+ 
+ 
+00:55:10
+ 
+Louis Lotter: All right.
+Bram Schuur: Yeah. Indeed.
+Remco Beckers: amount of volume.
+Bram Schuur: Yeah.
+Louis Lotter: Um but why is Roxb an option at all if it doesn't allow clustering any multi h multi server set unode ha setups
+Bram Schuur: Um, it's Yeah.
+Remco Beckers: It's a I think it's a completely different approach to be honest because if I understood correctly what Frank wanted to try at least was to implement stackcraft on top of Roxy DB instead of HB.
+Bram Schuur: Yeah.
+Remco Beckers: So actually he placing HB not stack yeah.
+Bram Schuur: Yeah. But I think also you could use Roxb for less transactional model like he you brought it because it does.
+Louis Lotter: Do do we build our own HA thing then? So we run the individual RO.
+Bram Schuur: Yeah. So and you dragged in a library that basically implements raft. Um I was also Yeah.
+Remco Beckers: So so so we would be we would be picking some building blocks like Roxb and the consensus library and then building um something out of that. But they already like even describing it, it feels already again like we're building a database from building blocks.
+ 
+ 
+00:56:24
+ 
+Louis Lotter: Yeah.
+Bram Schuur: Yeah. Yeah. Yeah. For sure. For sure. Yeah.
+Remco Beckers: So I think I mean the advantage and disadvantage of clickout is it has a data model that is roughly predefined um and it has optimizations for it but if we can't fit our data into that optimiz into the
+Bram Schuur: Mhm.
+Remco Beckers: right optimization there we have a problem and we cannot use it in the end.
+Bram Schuur: Yeah.
+Remco Beckers: So that's the this that's the potential risk.
+Louis Lotter: Unless Unless we can sacrifice Unless we can sacrifice the things that need that stuff that we can't do.
+Bram Schuur: I had also Yeah.
+Remco Beckers: Yeah, that's the other option of course like we say we we sacrifice some things but it can also be that in the end it doesn't work at all right I mean we can't our queries are so random we cannot make it work for 50% of the cases and then we and it's probably out
+Bram Schuur: One of the things I was thinking about is um but I you know no time but is along the lines what uh well is basically do the Kafka streams route.
+ 
+ 
+00:57:20
+ 
+Bram Schuur: So that would also be with Rox DB but your um your sharding is from Kafka and you make and we make it all event sourced and um basically every shard would materialize you know uh into uh Rox DB um and there's no consensus really needed because you know your sharding is done uh through Kafka and you get to whenever you do a query you basically query your shorts kind Uh yeah yeah yeah oh yeah so there's
+Remco Beckers: Then you query. Well, depending on the sharding key and everything, you need to know where to query, of course. But yeah.
+Louis Lotter: Does that mean does that mean your queries can split across multiple shots?
+Bram Schuur: a bit of discovery there I think. Uh yeah exactly. So basically you use Kofka as your as your event source and Roxyb as basically just materializing your data. I think also Roxyb seems to be able to kind of time travel right. So um yeah so that was you know what I had in back of my mind when I heard fun version like hey that is also very close to the technologies we have right now but obviously I didn't spend
+ 
+ 
+00:58:16
+ 
+Remco Beckers: Yeah, I don't know about that. So, that's something I was curious about. Yeah.
+Bram Schuur: my week on that that version of of it. Uh yeah it is.
+Remco Beckers: Yeah. So that that would work but in the end uh query side of it would still be something like stack graph I guess. I mean, oh well. Yeah. I don't know how many query works to be. I literally I thought it was just a key value store is yeah.
+Bram Schuur: So you you still get something like you know um a let's say a table scan with with next using hint uh on um um on the data kind of right uh yeah and it probably some catches on top
+Remco Beckers: Mhm. Yeah.
+Bram Schuur: uh like it goes.
+Remco Beckers: Yeah. So if you give it lots of memory, it probably has lots of data in memory and it's going to be really fast. Sure.
+Bram Schuur: Yeah. and then maybe be shove some of the let's say the metadata into uh you know some some long-term storage.
+ 
+ 
+00:59:23
+ 
+Bram Schuur: Um I'm not sure we can don't have to write it down.
+Remco Beckers: Yeah.
+Bram Schuur: I I Yeah.
+Remco Beckers: Well, I think we still have so options that are quitely pretty much on the opposite end of the spectrum. um even if you do it like this because you would still need to write query APIs and implement those um up to the down to the low level um down to scanning through a table like structure to to
+Bram Schuur: Yeah. Yeah. Yeah.
+Remco Beckers: do implement queries which is not necessarily a problem because you could simply directly implement SQL I guess there uh instead of uh this in between layer we did for stack graph Um but yeah what I'm what I'm trying
+Bram Schuur: Yeah. Yeah, I think yeah need Yeah, that's the Yeah.
+Remco Beckers: to contrast it with is uh click which is already as a powerful query language. So that's the two approaches you get then yeah
+Bram Schuur: Yeah, indeed. Indeed. I would at least and what is also a little bit um on the cusp there is like um what I had in mind is also you know without transactions, right?
+ 
+ 
+01:00:39
+ 
+Bram Schuur: So I think that makes your whole whole corruption and data loss thing always a little a lot better. It's the same with Click House. I mean if Zookeeper falls over and Click House or they make an implementation mistake, it's just not going to show up in the query results.
+Remco Beckers: Yeah, it will just be temporary temporary missing data and then a little bit later it's updated again so it's back again.
+Bram Schuur: It's just just so simple. Yeah. and any Roxyb implementation I think I'm not can be made the same I feel right like just um the the problem with the whole that whole approach is more like the the concept of identities changes for components and
+Remco Beckers: Yeah. Yeah. Yeah. Yeah.
+Bram Schuur: ST elements so the whole whole buildup of your domain there becomes different and and we need to kind of change that in the product whether we use click house or rosb or or or whatever or even HB.
+Remco Beckers: Yeah, that's um that that's mostly the work like we have to go through but it's a lot of work and a bit of risk as well because we might end up with ah the merging of components becomes pretty
+ 
+ 
+01:01:34
+ 
+Bram Schuur: Yeah. Yeah. This is a lot of work. Yeah.
+Remco Beckers: expensive now or maybe not or the
+Bram Schuur: Yeah. Yeah.
+Louis Lotter: How much work will it be to build a prototype that kind of checks for most of these high-risisk cases? So the whole thing is not robust. It's a lot of hacking hacked code but it is at least verifying that most of the things that we want to do we can do.
+Remco Beckers: you mean now the clickout version that I partially did now or the Rox DB version as well maybe next to it I think we would need to identify what exactly we think is the high-risk parts Um, but I
+Louis Lotter: Yes. Well, first the kickass one. But yeah, if we go for a different option, different one
+Remco Beckers: think merging of components and maybe something with interculations is probably the two things that are still not covered by the Click House version that I have. Let's see if there's anything else that's really Yeah.
+Bram Schuur: because you now take it from the auto mapper to click house, right?
+ 
+ 
+01:02:54
+ 
+Bram Schuur: And then you bring it into the API.
+Remco Beckers: Well, I also implemented it uh next to the hotel mapper.
+Bram Schuur: Mhm.
+Remco Beckers: I also like I I replaced the Kafka exporter for that comes after the hotel mapper with the Click House exporter. And then uh to get enough data in for the testing purposes, I also um hacked it at a very specific point in the Xtoposync task to write to Click House as well there. So that Kubernetes and agent data also goes to Click House including all the source properties that we have for Kubernetes like the whole the whole bunch there.
+Bram Schuur: Okay. Okay. Cool. Cool. Yeah.
+Remco Beckers: Um I I might have put it I put it in the place and later I thought maybe I should have done it after the mapping but then I got into the point that that's unmaterialized or what do we call it? So I thought h I'm happy I didn't put it there probably because then I might not have finished it. Um so there were some assumptions in there but it works and it and it generates lots of data volume now.
+ 
+ 
+01:03:48
+ 
+Bram Schuur: Cool.
+Remco Beckers: So um even we could even make it work um also for existing stack packs. So we wouldn't even need to change the stack packs there yet for this purpose. Um though it's very hacky especially that part is pretty hacky with hardcoded assumptions about what's in the data.
+Louis Lotter: How much is AI going to potentially help us with this rewrite?
+Remco Beckers: Well, for the PC, it helped a lot actually with cloth code at least. Um, I could literally what I literally did is I the the thing I did the last thing that I did now was that's that's maybe one of the better examples is the topology query service. I had I had it already implement the actual query part in click house and I just told it like I want you to replace reimplement this trait uh here in this file uh but now use click house and
+Bram Schuur: H. Oh, nice.
+Remco Beckers: don't use anything from stag graph I had to make a plan and it asked it came back asking hey these methods they uh take an observable slices and input parameter what do you want me to do and then it had two more of those questions I was like oh s*** I didn't spot that right away when scanning the file.
+ 
+ 
+01:05:08
+ 
+Remco Beckers: So we together we figured it out. Let's put it that way. And then I had it do it and I tweaked it a little bit. But then I went this weekend I said to it also let's do the the service that's on top of that the topology query service implementation itself because I thought let's see if I can get rid of stagger graph entirely. And I it was hard to even spot what that service all was doing because it's doing quite a lot it seems but it's all tied to stack graph. Um, so I just gave it like ah just do pulling every 15 minutes and it just it scanned the code and made a whole plan and it it explained the code as well in the plan and like what it was doing and then what it was going to skip and then it did it and it I just it ran SBT itself to verify that it compiled and then I committed it and pushed it and deployed it and it worked. Um, so I'm pretty much amazed with that.
+ 
+ 
+01:06:05
+ 
+Remco Beckers: I wouldn't want to ship this code to be honest.
+Louis Lotter: No, but I mean But remember that is it opus or
+Remco Beckers: Uh, there's a lot more details here and there that need work, but um, I mean I I was surprised how good it was with Scala now because last time I tried anything on Scala, it was a mess. So either cloth code is a lot better than anything else I tried or I mean so it can help.
+Louis Lotter: son that is I I paying for a lot of that myself now like It's I find opus to be really incredible.
+Remco Beckers: And now the last thing I did with Opus indeed because since the weekend opus is uh part of the subscription um but for Opus though you burn through credits or tokens really fast.
+Louis Lotter: But I think I completely agree with you like we will have to verify and and change a lot of the code later. But the hardest part with a rewrite like this is just figuring out what t code was doing right and remembering all the detail.
+Remco Beckers: Yeah, it was re it was actually really good at that because I also asked it already earlier uh but when it was using sonnet like what does this code all what what what are events doing in this code exactly because I had the feeling it was more than just triggering the changes and then indeed it was more than triggering the changes but drilling through three flows and two files there that were pretty big.
+ 
+ 
+01:07:07
+ 
+Louis Lotter: Yeah.
+Remco Beckers: I was like hm maybe cloth can help here and it did.
+Bram Schuur: I think so.
+Remco Beckers: So it can it can help uh for sure.
+Bram Schuur: I think I think what we should define what would be a su success. Oh, sorry.
+Louis Lotter: Yeah. The the reason I'm asking about AI here is purely because I I'm just want you guys to think before you start figuring like when you get a gut feeling about how much work all of this is to just kind of take that into account because it'll be based your your feelings will be based on historical stuff but I don't think you've ever really had AI this level to help with something like this.
+Remco Beckers: No, I think what what makes would make this different from previous changes I tried to do with AI well was one I wasn't using Gemini which fails to replace strings now and then which is like f****** annoying. Um, but also I could just tell it, hey, I want to change this thing that already exists into something that does some that uses something else.
+ 
+ 
+01:08:21
+ 
+Remco Beckers: And that
+Louis Lotter: Yeah, but but from what I've read online, by far the most successful usage of AI at the moment by by big engineering um teams and so on at the moment is refactoring not novel code it's refactoring or changes do make this code now do something slightly different because it has a lot of structure already it doesn't have to be that creative right
+Bram Schuur: Okay. So let's say for example if you're talking about train changing the domain for example, right? Maybe that's going to be like a walk in the park. What do you what do you know?
+Remco Beckers: Yeah.
+Bram Schuur: Right. We talked about CR earlier. Um the
+Remco Beckers: Yeah. No, I think I think that's a place where it would work probably pretty well because I did this. I said, "Here is the protobuff. Um, can you implement the collector?" And it did. I mean, that was actually Gemini still, by the way, when I tried that. Um, it it wasn't as good as Claude though because I had to fix it myself.
+ 
+ 
+01:09:11
+ 
+Remco Beckers: But yeah.
+Bram Schuur: the so the the thing I let's I mean yeah we can talk a bit about you the first I was I was actually going to react a little bit to the first question you asked like you know um
+Remco Beckers: Yeah.
+Louis Lotter: Hey
+Remco Beckers: Let's go back to that.
+Bram Schuur: the not about AI but about what's how would much time would it take to do a proof of concept here right and I think it is very important to define what is then like what what we want to
+Remco Beckers: Yeah.
+Bram Schuur: see there. Um um let's say as far as I understand it's not I mean let me let um let me ask a following question. Do you feel like for example how easy are migrations in click house and they run then on the entire table or they uh
+Remco Beckers: We have uh migrations for traces already in place. Um yeah. Yeah. Um well I don't know the details anymore but there you can just simply provide an SQL script to run migrations on startup um similar to what we have for staggerraph and then I think you just provide the SQL
+ 
+ 
+01:10:18
+ 
+Bram Schuur: Okay. Yeah.
+Remco Beckers: for it um and in principle you can do anything in the SQL that you want to do.
+Bram Schuur: Yeah.
+Remco Beckers: You can do a select insert and two select from for example. So you could even just create a new table, fill it, uh drop the old table, rename the original table, etc. That's all things you could do.
+Bram Schuur: Yeah. So if you want to Yeah.
+Remco Beckers: I think we did that even for one case when we changed stuff, we changed prior key. I think even later on.
+Bram Schuur: Oh yeah. Yeah. Gotcha.
+Louis Lotter: So the purpose of a profit concept for me is de-risking the whole thing, right? Like being able to answer when Shing asked me, okay, what's the most longest this will take?
+Bram Schuur: Yeah. Yeah.
+Louis Lotter: What's your chances of success?
+Bram Schuur: Yeah.
+Louis Lotter: Like how much unknown is there in terms of actually making this work? questions, things like that.
+Remco Beckers: Yeah, I think the biggest risk there is that performance will not be good enough especially while querying.
+ 
+ 
+01:11:20
+ 
+Remco Beckers: Um so we would need to and and then I mean including time travel.
+Bram Schuur: Yeah.
+Remco Beckers: Um, so that's what I try that's what I try to answer to now figure out like okay it may or may not be good enough would need some more testing now plus um the things it's not doing yet
+Bram Schuur: Yeah. So, yeah. So, in the Yeah. Yeah. Yeah.
+Remco Beckers: that we have currently on stagraph we should probably implement those to at least have a feeling for how much worse it gets.
+Bram Schuur: how they will perform. Yeah. Yeah.
+Remco Beckers: Yeah.
+Bram Schuur: Yeah. How bad it gets. Yeah. Yeah.
+Remco Beckers: And if we and then we can decide also like okay maybe we can skim a bit on the feature set and um say we don't do this and then we can make it performance.
+Bram Schuur: Yeah.
+Louis Lotter: But I would also have a
+Remco Beckers: But to answer that question
+Bram Schuur: But practically speak but practically speaking I mean you're already going along that direction but I think this is this is anyway like it seems you're moving towards Ramco something like okay I have just a text instance running with the same data as nightly and we show that for certain queries it's a lot faster right so that bit basically is pretty much feature feature parity for the for the things we care about most right and and and
+ 
+ 
+01:12:27
+ 
+Remco Beckers: Yeah.
+Bram Schuur: hopefully every feature gets touched such that we know that we have no weird outliers outliers there. Yeah.
+Remco Beckers: Yeah. And there is also next to performance of query there's also the question about storage usage right I mean stack graph doesn't use that much storage I think unless there is some spurious thing going on uh but uh usually
+Bram Schuur: Yeah.
+Remco Beckers: it's not that much and um so we probably can compromise on that a little bit if we have to but it does it shouldn't be like 10 or 100 times more I
+Bram Schuur: Yeah.
+Louis Lotter: No, but two, three times more is fine. I think if you're running a whole database less and I mean CPU CPU and memory and things like that cost a lot more than storage.
+Remco Beckers: Yeah. Yeah.
+Bram Schuur: Okay, maybe that's something to write down, right? Like what's the success criteria for experiment?
+Remco Beckers: Yeah. And then I guess also do we want to do it only for click house or do we say we also want to do it for the Rox DB idea?
+ 
+ 
+01:13:55
+ 
+Louis Lotter: I don't think we can afford to do multiple PC's.
+Remco Beckers: Yeah.
+Louis Lotter: I think we will have to just stay in analysis mode for a bit longer then if needed until we figure out what we think is the best chance of success and then go for it. And of course, we're not going for it. We're building a prototype, but we have to choose something to build a proper prototype for. Um
+Remco Beckers: Need another heck week.
+Bram Schuur: Well, one of the things like one of the one of the at least you know the route we identified two years ago is anyway like oh we need to decouple settings this and that you know that will basically bring us forward. So what would be great to get out of you know a prototype is a more decoupled topology store right like keep keep that's what I feel like keep pushing on because even if let's say for example click house doesn't isn't then ultimately maybe fast enough or something we are better positioned to run the next experiment so I would would
+ 
+ 
+01:14:57
+ 
+Remco Beckers: I don't know if I would I I would I don't think I would build on such a requirement because that makes the PC a lot more complex. I mean the PC I now did this code I'm assuming that's not going to be used in production ever. Only as inspiration maybe um because well I don't think it's up to the level that we would want it to be in some cases. Maybe you could take it and start modifying it to be up to par. But if we say we want to be able to merge this, then you put more requirements on it. I think Oh
+Bram Schuur: That's true.
+Louis Lotter: No, that's a disaster.
+Bram Schuur: That's true.
+Louis Lotter: I've been through that. Like PRC's is much better if you commit to the throwing it away and starting again. um like like so that everybody just relax because I've seen people just then get frozen into like making it perfect code and all kinds of crap like that.
+Bram Schuur: Okay. Okay. Yeah.
+Louis Lotter: Like you're trying to verify some some it's a experiment.
+ 
+ 
+01:15:47
+ 
+Bram Schuur: Okay.
+Louis Lotter: It's not it's not production code.
+Remco Beckers: yeah, if you didn't see that demo I gave I think one, but what what doesn't work in my setup now is the health states are always unavailable and uh you don't get the icons from the component type because I didn't hook that up uh in the snapshot service or actually in the topology query service because at the moment in the original one it's built into the actual querying to also Then after getting the topology also get
+Bram Schuur: Right. That's close.
+Remco Beckers: the corresponding layers and resolve them.
+Bram Schuur: Yeah.
+Remco Beckers: And I thought about oh I can move this to the snapshot service and then do it all there.
+Louis Lotter: Yeah. So we we need No, I think the experiment is just learn enough to then be able to go sit and plan a proper thing, right?
+Remco Beckers: And then I thought yeah but for just proving the point that this works I don't really need it. It just looks ugly now.
+Bram Schuur: Yeah, gotcha. Gotcha.
+ 
+ 
+01:16:37
+ 
+Remco Beckers: Um, yeah, it was a fun heck week experiment though.
+Louis Lotter: And yeah, more than one person has to be involved in the experiment as well.
+Remco Beckers: And there's uh Yeah. No, that's
+Louis Lotter: I think what we need to do next is you guys need to take a close look at what Frank did because if we're going if we're choosing one thing over Rox DB, we need to have clear understanding at
+Bram Schuur: Yeah.
+Louis Lotter: least of what he did so that we can make a clear case for why we think the one like is better than the other one for for our first experiment. And maybe we're missing something in Rock to B is better. Um and then also your suggestions around the the CFKA streaming event sourcing thing, Braum, like is that is it just kind of a vague idea? has said it's something real that could maybe be worth at least considering before we go forward with a PC on click house. Yeah, like maybe we try and build a picture of at least a few options, right?
+ 
+ 
+01:18:04
+ 
+Louis Lotter: Not we shouldn't go crazy like we did with the Victoria Metrics thing where we spent six months looking at five different databases before we made a decision and after of the first week we were all knew it wasn't
+Remco Beckers: Yeah. Yeah.
+Louis Lotter: going to be Victoria Metrics and we just kept going through the motions. I don't like that either.
+Bram Schuur: Okay.
+Louis Lotter: Um, but we need to at least think I think a little bit a few days. Um, and maybe have a bit of a chat with Frank as well about Rox DB thing, why he thought that was a good idea.
+Remco Beckers: Well, I think one of the main differences is funk thought about re-implementing the storage layer of stack graph and I thought of re-implementing the topology storage of state
+Louis Lotter: H so then why is the one approach more promising than the other one? What is what are we moving? We we I mean we've already discussed it. I think that the fact that we don't want to keep having to build our own database.
+ 
+ 
+01:19:02
+ 
+Louis Lotter: So I think that's maybe fine even then as a reason to chat with him.
+Remco Beckers: Yeah.
+Louis Lotter: But but I think we need to at least watch his stuff. I haven't what she's singing either. So need to do that.
+Remco Beckers: No, I think the the idea Braum uh mentioned about using Morox DB but then to store the topology data as it comes in like I do now in Click House that actually also you could write a PC for that quickly as well like what I did for click um with with some help of CL you could do the same thing for for Rox DB uh I think I mean it doesn't have it doesn't that's not very complicated to write the data and and querying the data is the cumbersome part that I also was a bit afraid of with as to implement SQL on top of something else.
+Bram Schuur: No.
+Remco Beckers: Um and then I just gave it to Claude and it took 10 minutes to do it. It was so simple that I was like, "Oh, if I put my mind to it, I could have done this myself."
+ 
+ 
+01:20:00
+ 
+Remco Beckers: But uh still typing out all the code to map these concepts and doing it just takes two hours at least.
+Louis Lotter: Yeah, it's a snipper.
+Remco Beckers: And then I have some typos and bugs in there. So that that's where this helps a lot to just quickly get something. And um you could do probably something like this.
+Louis Lotter: But that's maybe then
+Remco Beckers: I mean because it's um though Roxb needs a bit more work of course because it doesn't have SQL. So it's not like a onetoone mapping almost. you would need to really do a bit more work there.
+Bram Schuur: Indeed.
+Louis Lotter: What is Rox?
+Bram Schuur: Yeah.
+Louis Lotter: Is it like a object store?
+Remco Beckers: Key value store more or less. That's that's like the high level understanding I have. And then don't ask more questions because then I don't know Yeah,
+Louis Lotter: So then if we try it out with So then if we try it out with Rox DB, it's kind of similar like as like using Mongo or any one of the other ones, right?
+ 
+ 
+01:20:48
+ 
+Louis Lotter: like whatever you're testing is kind of whether that translation works but then maybe there's a performance difference and things like that. Is Foundation DB also a key value?
+Bram Schuur: Yeah. H base.
+Louis Lotter: But Foundation just already has the the HA stuff built into it, right?
+Remco Beckers: foundation does ha is is yeah it's all built for that actually that it can do that that takes away that pain for you but if you do it like gum said like you just write you just shard it using Kafka then um that's not going to be a big issue.
+Louis Lotter: I want to pretend I understand how that works. Like I mean I can I think I can but then do you so event sourcing is where you get the data in, right?
+Bram Schuur: It's event sourcing.
+Louis Lotter: But how do you replay then?
+Bram Schuur: Kafka, you start at some offset. You say like, okay, I've got my data materialized up to time X and then I start at Kafka from time X plus one and then the results and if you if Rod DB corrupts um and you sometimes write
+ 
+ 
+01:21:53
+ 
+Louis Lotter: Oh, and the result is what you dump into rocks.
+Remco Beckers: Yeah.
+Louis Lotter: You just replay it again.
+Bram Schuur: the snapshot back to Kafka to not have to replay everything. So this is basically the model of Kafka. This is literally Kafka streams. Kafka streams is basically Kafka plus Rox DB.
+Remco Beckers: Yeah.
+Bram Schuur: It allows you actually to materialize uh data that way. And why I've thought of it is because uh Rox DB um also does let's say the time travel reads. So if you would like if you would need to replay Kafka to do a time travels read, it becomes a little bit rough. Um but um indeed.
+Remco Beckers: Yeah, you could even say we you keep the Rox DB data around forever by just having it on a PVC on the on the node itself of that service and then uh Kafka is only for the input or in case you lose uh a PVC somewhere.
+Louis Lotter: But the other extreme is that you only materialize into memory, right?
+Bram Schuur: Yeah.
+ 
+ 
+01:22:53
+ 
+Remco Beckers: Yeah, that's like that's like the two extremes.
+Bram Schuur: Indeed. Indeed. Yeah.
+Louis Lotter: What what would be the problem with that? Just too much.
+Remco Beckers: Time at startup.
+Bram Schuur: Uh I think practic and but I think for example in the Rox DB um example that's where very quickly where it goes to right where you say like oh there's so like the live stuff let's keep it in
+Remco Beckers: Startup takes forever.
+Louis Lotter: Okay.
+Bram Schuur: memory you know and be be crazy quick but then for the time traveling part um you would uh not do that right that's the problem with the in memory stuff like config maps of a megabyte you know you
+Remco Beckers: Yeah.
+Bram Schuur: need to offload to disk um and that's actually also where most of the storage is in in ST graph uh um and and the history you also don't put in memory but the the the data itself can actually
+Remco Beckers: Yep.
+Bram Schuur: be stored in memory pretty easy I think like the most important part
+Louis Lotter: So why is another option to just materialize into um click house but it's still most of the data is in Kafka.
+ 
+ 
+01:24:05
+ 
+Louis Lotter: What what's the advantage of Rox DB over click house for that materialization?
+Remco Beckers: Well, depends on uh it's how you materialize it.
+Louis Lotter: key value system easier to use for that.
+Remco Beckers: I think if you I mean what's the point in doing it like this if you would I mean the difference now is that um the whole difference is in how you materialize it.
+Louis Lotter: Yeah.
+Bram Schuur: Yeah.
+Remco Beckers: I mean what I effectively do now for the Kubernetes topology synchronization is this uh and materializing it in click house. Uh it goes through Kafka and then it gets read from Kafka and it gets materialized into click house permanently. Um um so there is in that aspect there is not much difference.
+Louis Lotter: Yes.
+Remco Beckers: The difference is in uh the control I think you get about how the data is stored um and how to query it.
+Louis Lotter: Awesome.
+Remco Beckers: The trade-off is uh is mostly going to be that in Roxb you're closer to the storage. So you have more flexibility but also you have to implement more yourself and again you you end up also with the like troubleshooting and investigating issues and everything or or testing stuff with Roxb it's all code I think.
+ 
+ 
+01:25:07
+ 
+Bram Schuur: Yeah, a bit more.
+Remco Beckers: I'm not sure is there can you I don't know if for rocks to be like a something that you can talk to it without outside of your application. I don't think so really but I'm not sure. Um and with with something like click house like any SQL database you have a CLI that you can use to to sift through the data and and test out hypothesis and stuff like that.
+Bram Schuur: Yeah. Yeah. Exactly. You get all the tooling around it. Yeah. Yeah. Yeah. Yeah.
+Remco Beckers: Um and that it does make uh in my experience now it does make a big difference if you want to just try something out quickly if you uh but yeah if you have to if if you can't make it work you can try out many things quickly but it does if you can't make it fast enough or efficient enough yeah then you're screwed anyway.
+Louis Lotter: And if I were to ask you now, okay, I want to we want to run a single database and it needs to store the topology traces.
+ 
+ 
+01:26:15
+ 
+Louis Lotter: this events and logs and everything. So, but we didn't have kickass yet. So, you have to go and pick a database. Is click still the database you probably would have chosen.
+Remco Beckers: I don't know any other one that can do the same thing. I mean, the other one would be elastic search probably because it also kind of stores things or or Mongo, but to be honest, I don't like either one of them. I've used both. I don't know what Braum thinks, but uh yeah.
+Louis Lotter: Yeah, you likely go as small.
+Bram Schuur: Yeah, it's a bit too vague of a question, right? I would this is where where I I mean where I would start full on um full on refinement mode like what do you exactly want blah blah blah blah blah. Yeah. It's the two to two too hypothetical.
+Remco Beckers: Yeah. But not Yeah.
+Louis Lotter: The reason I'm asking it is we chose click house before we thought we would be putting topology into it, right? So, I'm just wondering if that would have been the same.
+ 
+ 
+01:27:05
+ 
+Bram Schuur: Yeah. Yeah. Yeah.
+Remco Beckers: Yeah. That's definitely true.
+Bram Schuur: So yeah,
+Remco Beckers: I didn't choose just Click House because we had it though. Now, it's also because I thought like with what I know now of Click House, I think it might be a good fit uh because of the the similarities between topology and traces actually.
+Louis Lotter: Uhhuh. Okay, cool. Okay, I feel like I've probably burnt enough of your time. Um, what is the next steps? I mean, of course, I will go and take the recording of this and then some of the notes I've made and all of the and I will try and create a nice overview document of what we discussed and everything here.
+Bram Schuur: Yeah, I do feel like um at least well discussing him with Frank but also with Alex present um because they are also um do both guys are invested also right Uh so not like oh you know we decided
+Louis Lotter: Um, Okay.
+Remco Beckers: Yeah. Yeah. Yeah. Yeah. Yeah.
+Bram Schuur: to do click house and then then jumping on that and I think yeah and I think we also need to I want to ask Frank maybe you guys get it immediately but I also I looked at the source
+Louis Lotter: Oh, yeah. Yeah, for sure. So, what I think is then Yeah, I go and create this document.
+Remco Beckers: Hold on.
+Louis Lotter: We make sure we all watch Frank's thing and we Yeah.
+Bram Schuur: because I need to ask Frank a couple of questions also about it.
+Louis Lotter: Yeah. Of course. Yeah. Interact with him. Do what you need to understand it better.
+Bram Schuur: Yeah.
+Louis Lotter: Yeah. Please whatever you learn share maybe with me with the rest of us and then maybe later this week once I have the document ready and you guys have to then we chat again. Okay. Thank you guys. Yes.
+ 
+ 
+Transcription ended after 01:29:10
+
+This editable transcript was computer generated and might contain errors. People can also change the text after it was created.

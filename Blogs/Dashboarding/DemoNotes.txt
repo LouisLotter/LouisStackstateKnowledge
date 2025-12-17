@@ -1,0 +1,57 @@
+Nov 28, 2025
+Stackstate Sprint-Review
+Invited Louis Parkin Hugo de Vries Louis Lotter Alejandro Acevedo Anton Ovechkin Remco Beckers Jeroen van Erp Genevieve Cross Andreas Prins Dmitry Maximov Kees van Bekkum Frank van Lankvelt Marc Rua Herrera Ovidiu Boc Mark Bakker Jeroen Storm Ravan Naidoo Matea Antolic Matthuw McEnery Mohamed Elemenr Lukasz Marchewka Jelisaveta Kusic Vladimir Liakov David Stauffer Neil MacDougall Kenneth Wimer Deon Taljaard Andrea Terzolo Alessio Biancalana Daniel Barra Fedor Zhdanov Yash Tripathi Sam Jones Rajukumar Macha Amol Kharche Meriem Ahmed Bram Schuur Rutger den Daas Eni Kurteshi Oliver Ries
+Attachments Stackstate Sprint-Review 
+Meeting records Transcript Recording 
+
+Summary
+Louis Lotter welcomed attendees and introduced the new Zoo's observability dashboard feature, developed with significant front-end contributions from Sam Jones and Anton Ovechkin, with a launch planned shortly after the upcoming hack week. Remco Beckers explained that the dashboard, the number one requested customer feature, was created to provide cross-component overviews and faster troubleshooting via familiar widgets like time series, bar, gauge, and stats charts, which integrate with existing role-based access control (RBAC) permissions. Louis Lotter, Remco Beckers, Sam Jones, Anton Ovechkin, and Mark Bakker discussed the rationale, features, security integration, and advanced functionality of the dashboard, which enables users to quickly create, customize, and share dashboards using PromQL queries and integrated variables.
+
+Details
+Notes Length: Standard
+Introduction of Dashboard Feature Louis Lotter welcomed everyone and introduced the new dashboard feature for Zoo's observability, noting it has been in development for about nine months, with significant contributions from the two front-end developers. Louis Lotter also announced the plan to launch the feature shortly after the upcoming hack week. Remco Beckers outlined the presentation's structure, which would cover the 'why,' 'what,' and 'how' of the new dashboarding feature (00:00:00).
+Rationale for Implementing Dashboards Remco Beckers explained that adding dashboarding was driven by it being the number one requested customer feature, with one sales engineer estimating high adoption rates upon release (00:01:10). They highlighted the need for cross-component overviews, as existing visualizations were tied to individual components, making it difficult to monitor business processes or user flows across multiple components in one view. Dashboards are also intended to facilitate quicker troubleshooting by allowing users to gather and share information in one place (00:02:17).
+Dashboard Feature Advantages and Usability Remco Beckers noted that many users are already familiar with dashboarding through the Grafana/Prometheus stack, making this feature a natural fit for their workflows, potentially allowing them to migrate existing dashboards. Dashboards provide a quicker and easier way for users to visualize their own custom metrics compared to existing methods like the metric explorer or metric bindings (00:03:25). The new dashboard interface allows users to quickly "click together a dashboard" and input PromQL queries to immediately derive value from their metrics (00:04:55).
+Dashboard Components and Features Remco Beckers gave an overview of the dashboard features, including the ability to create private or public dashboards (00:04:55). Supported widgets, modeled after the most used open-source Grafana widgets, include time series charts, bar charts, gauge charts, stats charts, and markdown for contextual information (00:06:02). Dashboards also integrate variables, allowing parameterization for different applications or namespaces, and are integrated into stack packs for out-of-the-box offerings (00:07:09).
+Security and Access Control Remco Beckers specified that while users might have access to a dashboard, their visibility of the data displayed remains restricted by their existing role-based access control (RBAC) permissions (00:07:09). Mark Bakker clarified that metrics related to security will already work with the current dashboarding capabilities because they function as standard metrics (00:54:41). The aim is to support all current dashboard widgets for security-related visualizations, although this will be rolled out gradually with the security hub (00:52:58).
+Demonstration of Dashboard Functionality Remco Beckers demonstrated the dashboard interface, showing the main menu entry and the list of available dashboards with indications of public/private status and ownership (00:08:19). The demo covered the usage and editing of widgets, including the markdown widget (00:12:13), the stats widget for prominent metrics and its spark line feature (00:13:19), the bar chart (00:16:37), and time series charts. They also showed how to apply settings like units, color thresholds, and axis ranges (00:15:37) (00:17:44).
+Dashboard Creation, Customization, and Troubleshooting Remco Beckers illustrated dashboard reorganization via drag-and-drop and resizing, along with the process of saving changes or saving a copy of a dashboard (00:18:51). The demonstration included creating a new dashboard, adding a widget with a PromQL query, and using variables to parameterize the chart for different clusters or namespaces (00:21:17) (00:26:24). They also showed the gauge widget, used for displaying saturation or usage against a limit, including how to configure thresholds based on percentage of maximum (00:32:33).
+Advanced Features and Configuration Remco Beckers showcased advanced legend options for time series charts, including displaying aggregation summaries like maximum, minimum, and average in a table format (00:34:56). The presentation also detailed the YAML configuration section, allowing users to edit widget settings or the entire dashboard configuration directly, which facilitates copying and pasting between widgets or instances (00:36:10).
+Troubleshooting Integration and Links Remco Beckers demonstrated the integrated troubleshooting workflow, where metrics from component views can be pinned and added to a new or existing dashboard for correlation and investigation (00:39:54). Widgets added this way automatically include links back to the originating component for further inspection (00:43:26). Remco Beckers also showed how to manually add external or internal links to a widget, controlling whether they open in the same or a new tab (00:44:27).
+Time Range Synchronization and Sharing Remco Beckers clarified that the dashboard's time frame defaults to the globally selected time frame unless a specific time range is saved within the dashboard properties, which is useful for control room displays (00:45:37). Public dashboards can be easily shared by copying and pasting the URL (00:49:17).
+Future Development and Feedback Remco Beckers requested specific feedback on missing features or desired widgets, emphasizing the need for detail regarding data, visualization, and goals to inform future development priorities (00:50:34). Mark Bakker added that the ability to share dashboards with specific teams is planned but will take considerable time before implementation (00:52:58).
+Conclusion and Team Recognition Louis Lotter concluded the meeting by extending congratulations to Remco Beckers for the product management work and to Sam Jones and Anton Ovechkin for their front-end contributions, acknowledging the professional quality of the new feature .
+
+Suggested next steps
+Remco Beckers will collect and revisit the most requested features to improve the dashboarding.
+
+You should review Gemini's notes to make sure they're accurate. Get tips and learn how Gemini takes notes
+Please provide feedback about using Gemini to take notes in a short survey.
+
+
+Slides:
+
+1: 
+
+Why?
+The #1 requested feature by customers
+
+Visualize data from different components in one place, for example:
+
+Business processes
+
+User flows through application
+
+Data processing pipelines
+
+Troubleshooting: Create ad-hoc dashboards while investigating an incident
+
+Easier migration from tools like Grafana + Prometheus:
+
+Users already know dashboards
+
+Recreating Grafana dashboards in SUSE Observability
+
+Quick and easy way to visualize user-defined metrics
+
+Footer: SUSE

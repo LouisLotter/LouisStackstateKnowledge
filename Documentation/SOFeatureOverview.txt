@@ -1,0 +1,229 @@
+Introduction
+This document contains an intro and an overview of all features of SUSE Observability, it does not include the packaging or the use-cases/ solutions. Those can be found here.
+
+SUSE Observability: Gain Clarity in Complexity
+In today's technology landscape, complexity, dynamism, and scale are the norms. Managing modern IT environments effectively requires moving beyond traditional, siloed monitoring approaches that struggle to keep pace. The challenges are clear: tool sprawl, slow troubleshooting cycles, difficulty understanding change impact, alert fatigue, and a disconnect between technical operations and business outcomes.  
+SUSE Observability provides a decisive answer to these challenges. It delivers a unified, intelligent platform built on the foundational principle of context. By uniquely combining real-time, time-traveling topology with all essential telemetry signals (metrics, events, logs, traces), SUSE Observability cuts through the noise and reveals the critical relationships and dependencies within complex systems. This provides the Clarity needed to see what's happening, the Context required to understand why, and the Control to act decisively.
+Across key use cases – from mastering Kubernetes troubleshooting and achieving true end-to-end visibility in hybrid environments to elevating application performance monitoring – SUSE Observability offers tangible benefits:
+Dramatically Reduced Mean Time To Resolution (MTTR): Find and fix issues faster with correlated data, time-travel analysis, and guided remediation.
+Proactive Issue Prevention: Identify potential problems early using AI-driven anomaly detection and clear insights into change impact.
+Elimination of Silos: Break down barriers between teams and technologies with a unified view and common data model.
+Improved Collaboration and Decision-Making: Foster shared understanding and enable data-driven actions based on cross-domain insights.
+Developer Empowerment: Equip developers with the tools they need for self-service diagnostics and troubleshooting in production ("build it, run it").
+Enhanced Operational Efficiency: Streamline workflows, reduce tool sprawl, and simplify operations, especially when integrated with SUSE Rancher Prime.
+SUSE Cloud Observability empowers organizations to navigate complexity with confidence, ensuring application reliability, optimizing performance, and ultimately accelerating innovation by providing unparalleled clarity, context, and control over their entire IT estate.
+To understand how SUSE Cloud Observability can transform your operations, we invite you to Learn More, Explore Features in detail, or Request a Personalized Demo to see it in action within your environment. Talk to a SUSE Expert today to discuss your specific observability challenges.
+
+Table of Contents
+Unique Differentiators: See Your Systems Like Never Before
+Unified Time-Traveling Topology & Telemetry
+Real-Time Topology Visualization & Dependency Mapping
+Guided Remediation & Intelligent Notifications
+Time-Travel Analysis
+eBPF-Powered Monitoring
+Dynamic Thresholding & AI-Driven Insights
+Automatic Resource Dashboards with Time-Travel
+Extensible Integration Framework (StackPacks)
+SSO with Rancher + Integrated RBAC
+Comprehensive Observability: All Your Signals, Unified and Contextualized
+Metrics Collection & Analysis
+Event Monitoring & Correlation
+Log Aggregation & Analytics
+Distributed Tracing
+Flexible & Open: Observability That Fits Your Ecosystem
+Seamless Rancher Prime Integration
+Native OpenTelemetry Support
+Broad Environment Monitoring
+Flexible Deployment Options
+Open Source Alignment
+
+
+
+
+Unique Differentiators: See Your Systems Like Never Before
+These core capabilities provide unparalleled context and insight, setting SUSE Observability apart:
+
+
+Unified Time-Traveling Topology & Telemetry
+
+
+Description: SUSE Observability uniquely combines real-time Topology (your system's components and their dynamic relationships) with Telemetry (metrics, events, logs) and Tracing (request flows), all versioned over Time. Instead of viewing data in silos, our platform automatically correlates these dimensions, providing immediate, rich context for every observation. This contextual engine understands how your system is structured, how it performs, and how it evolves moment by moment.  
+Benefits:
+Eliminate Blind Spots: Gain a holistic, contextual understanding of your entire IT landscape, breaking down data silos that hinder troubleshooting.  
+Unlock Deeper Insights: Understand the intricate relationships between application performance, infrastructure changes, and user experience.
+Foundation for Faster Resolution: Provides the essential context needed for rapid root cause analysis and proactive prevention.  
+
+Real-Time Topology Visualization & Dependency Mapping
+
+
+Description: Automatically discover and visualize the complete, real-time map of your applications, microservices, containers, infrastructure, and their dynamic dependencies. This isn't a static diagram – it's a living blueprint of your environment, continuously updated as components are added, removed, or changed.  
+Benefits:
+Instant Clarity: Immediately understand complex system structures and how components interact without manual mapping.  
+Visualize Impact: See the potential blast radius of issues or changes instantly, understanding upstream and downstream effects.  
+Navigate Complexity: Intuitively explore intricate architectures, making distributed systems understandable.  
+Improve Collaboration: Provide a shared, accurate view for DevOps, SRE, and platform teams, speeding up incident response.  
+
+Guided Remediation & Intelligent Notifications
+Description: Move faster from detection to resolution with Guided Remediation. SUSE Observability automatically contextualizes related health violations, directly linking the cause of an issue to its effects across your applications and infrastructure. Leverage curated, step-by-step troubleshooting guides, especially for complex Kubernetes environments, to empower teams to resolve issues efficiently. Integrate seamlessly with your existing workflows via webhooks and deep integrations with tools like Slack and Microsoft Teams, providing contextual, real-time updates to the right people in the right channels.  
+Benefits:
+Accelerate Resolution: Significantly reduce Mean Time To Resolution (MTTR) with automated context and guided troubleshooting steps.  
+Empower Teams: Enable developers and SREs to resolve issues faster with proven, curated remediation guidance.  
+Streamline Incident Response: Deliver timely, contextual notifications directly into collaboration tools, improving communication and reducing noise.  
+Reduce Operational Burden: Minimize the time spent manually correlating alerts and searching for resolution steps.
+
+Time-Travel Analysis
+
+
+Description: Rewind the state of your entire environment – topology, health, configuration, events, and telemetry – to any specific moment in the past. Investigate incidents precisely as they happened, analyze the impact of changes, and debug transient issues without needing to reproduce complex failure scenarios.  
+Benefits:
+Solve Elusive Bugs: Diagnose intermittent or complex issues that are impossible to reproduce reliably.  
+Accelerate Root Cause Analysis: "Rewind the movie" to see the exact sequence of events and changes leading to an incident, drastically reducing investigation time.  
+Understand Change Impact: Precisely compare system state before and after deployments or configuration changes.  
+Eliminate Reproduction Hassle: Save valuable engineering time by analyzing historical data instead of trying to recreate failures.  
+
+eBPF-Powered Monitoring
+
+
+Description: Leverage the power of eBPF (Extended Berkeley Packet Filter) for highly efficient, low-overhead monitoring directly within the Linux kernel. Capture granular network communication data (including Rate, Errors, Duration - RED signals for common protocols like HTTP, gRPC and SQL), discover service dependencies, and gain deep visibility without modifying application code or impacting performance.  
+Benefits:
+Deep Visibility, Minimal Impact: Get detailed network and process insights with negligible performance overhead, ideal for resource-sensitive container environments.  
+Automatic Discovery: Effortlessly map service communications and dependencies in real-time without manual configuration.  
+Code-Free Insights: Obtain critical application communication metrics without requiring code instrumentation, simplifying deployment.  
+
+Dynamic Thresholding & AI-Driven Insights
+Description: Go beyond static alerts with intelligent Dynamic Thresholding. This feature autonomously learns the normal behavior of your metrics, understanding seasonality and patterns with zero configuration. It operates with low overhead and scales effectively, automatically identifying significant deviations that provide early warnings for potential issues. Apply it easily to business KPIs and critical service metrics to catch problems before they impact users.   
+Benefits:
+Proactive Problem Prevention: Detect subtle issues based on deviations from learned normal behavior before they impact users or trigger static alerts.
+Reduce Alert Noise: Focus on statistically significant anomalies that matter, minimizing false positives and alert fatigue.   
+Effortless Intelligence: Gain immediate value from AI-powered insights without complex setup or manual threshold tuning.
+Faster Root Cause Analysis: Combine anomaly detection with topology and change data (Time-Travel) to quickly narrow down potential causes.
+Automatic Resource Dashboards with Time-Travel
+
+
+Description: Gain immediate insights with automatically generated dashboards for every discovered resource (service, pod, node, VM, etc.) in your environment. These dynamic dashboards consolidate critical data, including highlights, key metrics, events, logs, traces, related resources, and health status over time, onto a single screen. Fully integrated with Time-Travel, you can instantly view the complete state of any resource dashboard – including configuration and all associated signals – as it existed at any point in the past.  
+Benefits:
+Instant Resource Visibility: Get a comprehensive overview of any resource's health and performance without manual dashboard configuration.  
+Eliminate Context Switching: Access all relevant MELT data, events, health timelines, and related components for a specific resource in one place, speeding up troubleshooting.  
+Historical Contextual Debugging: Use Time-Travel to see exactly how a resource's dashboard looked (including metrics, logs, config, health) at the precise moment an issue occurred.  
+
+Extensible Integration Framework (StackPacks)
+Description: SUSE Observability is easily extensible. You can create monitors, metric/trace/topology bindings, remediation guides, and dashboards, packaging them into StackPacks for easy sharing within the community. Leveraging OpenTelemetry standardized data input and semantic conventions simplifies integrating almost any technology. SUSE provides StackPacks for SUSE technologies and deep, out-of-the-box integrations for Kubernetes distributions including K3s, RKE2, EKS, AKS, GKE, and OpenShift. Integrating your own data via OpenTelemetry and mapping it to SUSE Observability concepts is straightforward, promoting knowledge reuse.  
+Benefits:
+Rapid Integration: Quickly connect and monitor diverse technologies using pre-built or custom StackPacks.  
+Community & Reusability: Share and leverage integrations built by SUSE and the wider community.
+Standardized Approach: Easily integrate custom or new technologies using OpenTelemetry standards.  
+Deep SUSE & K8s Support: Benefit from out-of-the-box, deep integrations for core SUSE products and major Kubernetes distributions.
+
+SSO with Rancher + Integrated RBAC
+Description: SUSE Observability offers a seamless, secure, and integrated user experience by leveraging Single Sign-On (SSO) with Rancher. This integration goes beyond simple authentication, incorporating a powerful Role-Based Access Control (RBAC) system. Our platform ships with pre-configured role-bindings that automatically sync with Rancher, ensuring that access to observability data—such as metrics, logs, and traces—is consistent with your existing cluster and project permissions. This prevents data silos and allows you to enforce fine-grained access policies across your entire IT landscape.
+
+Benefits:
+Effortless Access & Security: Simplify user management and provide a consistent login experience across both Rancher and SUSE Observability, all while enforcing strict access controls. 🔐
+Granular Control & Data Isolation: Ensure that teams can only view the data for the specific clusters, projects, or namespaces they are responsible for, preventing unauthorized access and maintaining data integrity. 🔒
+Operational Efficiency: Reduce administrative overhead by leveraging pre-configured roles that align with your existing Rancher hierarchy, accelerating user onboarding and ensuring security best practices are met by default. ✅
+
+
+Comprehensive Observability: All Your Signals, Unified and Contextualized
+SUSE Observability provides robust support for the essential observability signals, enhancing each with the power of its contextual engine:
+Metrics Collection & Analysis
+
+
+Description: Ingest, store (using VictoriaMetrics ), and analyze time-series metrics from applications, infrastructure, Kubernetes, cloud services, and external tools. Visualize metrics on dashboards, define alerts, and explore data, all automatically correlated with the system topology and timeline. 
+Benefits:
+Track KPIs: Monitor key performance indicators and resource utilization.  
+Identify Trends: Understand normal behavior and spot performance deviations.  
+Contextual Alerting: Receive alerts that inherently understand the affected component and its potential impact.  
+Event Monitoring & Correlation
+
+
+Description: Capture and correlate significant events like deployments, configuration changes, scaling activities, health state changes, external alerts, and detected anomalies. Events are timestamped and automatically linked to the relevant topology components and timeline.  
+Benefits:
+Track Changes: Understand the impact of critical system activities.  
+Correlate Events to Issues: Easily link performance changes or failures to specific preceding events.  
+Maintain Audit Trail: Keep a historical record of significant system changes and activities.  
+Log Aggregation & Analytics
+
+
+Description: Collect, centralize (using Elasticsearch ), and analyze log data from across your environment. Access logs directly within the context of the specific component (pod, service, VM) in the topology view.  
+Benefits:
+Deep Dive Troubleshooting: Analyze detailed log messages to understand specific errors and operational details.  
+Contextual Log Access: Quickly navigate from a problematic component to its relevant logs, avoiding noise.  
+Distributed Tracing
+
+
+Description: Capture and visualize end-to-end request flows through distributed systems using OpenTelemetry standards (OTLP). Store traces (using ClickHouse ) and correlate them with topology and telemetry for richer analysis.  
+Benefits:
+Pinpoint Bottlenecks: Identify latency sources within complex transactions.  
+Understand Service Interactions: Visualize request paths across microservices.  
+Debug Distributed Issues: Troubleshoot errors spanning multiple services effectively.  
+
+Enterprise Dashboarding
+Enterprise Dashboarding provides enterprise-grade visualization capabilities, offering robust query editors, diverse panel support, and interactive exploration. Uniquely designed to drive Cost Optimization and enhanced operational efficiency-, enable Data-Driven Business Overviews and collaborative team reporting, and accelerate Root Cause Analysis. Our platform deeply integrates dashboard creation into the operational and investigative lifecycle: Widgets from any dynamic resource dashboard can be instantly promoted to new or existing permanent dashboards, accelerating proactive monitoring; Investigation findings captured in Pinned Items can be formalized and shared with a single click, transforming diagnostic narratives into reusable knowledge assets for collaboration; and most critically, dashboard widget retains its source link, enabling immediate contextual drill-down back to the originating resource-specific automatic resource dashboards if applicable, ensuring users to keep context and drastically reduce the Mean Time To Context (MTTC) during incident response.
+
+
+Flexible & Open: Observability That Fits Your Ecosystem
+Seamless Rancher Prime Integration
+
+
+Description: Experience observability deeply embedded within the SUSE Rancher Prime Kubernetes management platform. Monitor cluster and workload health directly in the Rancher UI via a dedicated extension, with streamlined deployment and contextual linking for a unified operational experience.  
+Benefits:
+Unified K8s Experience: Manage and observe Kubernetes from a single, integrated interface.  
+
+
+Simplified Operations: Benefit from easier deployment and configuration within the Rancher ecosystem.  
+
+
+Platform Synergy: Gain enhanced value from the combined strengths of Rancher management and integrated, topology-aware observability.  
+
+Native OpenTelemetry Support
+
+
+Description: Fully embrace the industry standard for observability telemetry. Natively ingest OTLP data and leverage the OpenTelemetry Collector for flexible, vendor-neutral instrumentation and data processing.  
+Benefits:
+Avoid Vendor Lock-In: Instrument once with OTel and send data to any compatible backend.  
+Leverage Ecosystem: Utilize the vast range of OTel instrumentation libraries and tools.  
+Future-Proof: Align with the definitive open standard for observability.  
+
+Broad Environment Monitoring
+
+
+Description: Extend visibility beyond Kubernetes to your entire hybrid IT estate, including VMs, physical servers, cloud provider services (AWS, Azure), databases, and more, using the flexible SUSE Observability Agent and integrations.  
+Benefits:
+Unified Hybrid View: Gain a single pane of glass across modern and traditional systems.  
+Reduce Tool Sprawl: Consolidate monitoring tools for simplified operations and reduced costs.  
+End-to-End Context: Understand workflows and dependencies across your complete infrastructure.  
+
+Flexible Deployment Options
+Description: Choose the deployment model that best fits your needs:
+Integrated with Rancher Prime (On-Premise/Self-Hosted): Included with Rancher Prime, this scalable option provides deep integration for a seamless Kubernetes experience. Ready to observe your full environment, it also supports air-gapped deployments for maximum control and security.  
+SUSE Observability SaaS: A fully managed offering providing direct insight into your complete environment without the operational overhead of running the observability stack yourself. Ideal for organizations preferring a SaaS model or needing to monitor diverse environments.
+Benefits:
+Tailored Deployment: Select the model that best fits your infrastructure, operational preferences, and security requirements.
+Choice & Control: Opt for deep platform integration and self-management or the convenience of a fully managed SaaS solution.
+
+Open Source Alignment
+Description: Built on open standards and aligned with open source principles, offering flexibility, transparency, and community collaboration opportunities.
+Benefits:
+Transparency & Flexibility: Benefit from a commitment to open standards and avoid vendor lock-in.
+Community Collaboration: Engage with and contribute to the underlying open source technologies.
+
+Upcoming features (no marketing yet, do not take into account in comparisons with other competitors or at most call out that it is planned!)
+
+
+Unique differentiators
+AI-Assisted and Auto Remediation: Automatically detect and resolve issues with AI assistance
+Deeper integration with Rancher portfolio
+SUSE Security integration
+- multi states/ demensions
+- separate deployments
+
+Comprehensive Observability: All Your Signals, Unified and Contextualized
+- Easy grafana dashboard and prometheus alert-rule import
+Logs Explorer + OpenTelemetry Logs: Gain advanced log exploration with OpenTelemetry log support
+
+
+Flexible & Open: Observability That Fits Your Ecosystem
+StackPacks 2.0: Simplified Integration for other products
+Components from Otel data
+Single click installation of SUSE Observability Agent
+Single click installation of SUSE Observability Platform 

@@ -1,0 +1,95 @@
+Rework component settings Epic plan (ComponentPresentation)
+The first tab (https://docs.google.com/document/d/1K5jy1dV2aBM8e-iP5CkK7e4IBiW3th0JGZ6vWgribhA/edit?tab=t.0) in this document highlights a plethora of problems with our current settings for UI presentation. This document is meant to start getingt to a design that solves the problems cited there. The current incarnation is just a first step to get us going, and give direction to the epic. This is not a complete design yet but an attempt at breaking down the design and epic. Everything can be changed.
+Recap
+Currently presentation in the UI is centered around the following settings:
+
+MainMenu (MainMenuGroup)
+HighlightPages (ComponentTypeHighlight part of ComponentType) 
+OverviewPages (ViewType)
+QueryView
+Layers/Domain/Environment
+ComponentType/RelationType
+
+Various issues with these settings were identified:
+
+Compositionality: the concepts do not (completely, inconsistently) compose, making it hard to extend. 
+Extending highlights pages from different stackpacks (a form of compositionality)
+We fall into the trap of making ‘common’ stackpacks to share rather than compose, due to stackgraph edges needing to exist between stackpacks/instances and non-composibility.
+
+Upcoming use-cases:
+Modes (security/observability, maybe cost later)
+Support CRDs with multiple types
+
+Breaking down the problem/solution
+This section is an attempt to break down the problem, while also doing a first step at an attempted solution and an incremental design/rollout plan. The idea is to take this as a starting point and iterate.
+
+ComponentPresentation
+The idea is to create one new setting, called ComponentPresentation which defines how components which it binds to, are presented in various screens and contexts. To make this more concrete, we could use the following setting structure:
+
+
+_type: ComponentPresentation
+identifier: urn:...:component-presentation:...
+mode: <observability|security|all>
+binding: bind by component type or simple STQL (see below)
+rank: rank precedence when composing other matching ComponentPresentation
+presentation:
+	icon?: icon of the component, in topology, mainmenu
+name?: name representing the binding in the MainMenu
+	plural?: plural representation of name
+	singular?: singular representation of name
+	title?: for use in title menus/MainMenu
+	overview?: of overview page columns
+		columns:
+			width: 200
+	highlight?: for elements on the highlight page
+about?: about properties
+	... highlightsections
++summary?: a summary section to show on other-mode highlights
+	mainmenu?: for a main-menu for all matching components	
+		group: string matching the MainMenuGroup group name>
+		rank?: potentially override the rank withing the MainMenuGroup
+filter?: define what overview filters for the menu item
+	...
+
+       
+
+The  ComponentPresentation has the following properties:
+A ComponentPresentation applies to a component for which the binding matches, and the context in which it is being bound.
+All fields in the presentation section are optional, it is possible to partially define/add to the presentation
+A component without presentation still gets a basic presentation in the product (no main menu item though)
+All presentation (sub)sections in the ComponentPresentation compose, either by picking a favorite through rank, merging or through an additional merging hint that is placed within the subsection
+A ComponentPresentation has no stackgraph edges to/from other concepts, it is a proper aggregate root
+Rollout plan for StackPacks 2.0
+We will make the ComponentPresentation feature flagged for stackpacks 2.0
+We will design/implement each presentation subsection one by one.
+We will stay backwards compatible with the current presentation options while building this (and maybe even after release for a while).
+We will step away from having the frontend deal directly with the settings DTO but make component presentation an abstraction/api on the backend. This allows us to:
+Make the binding/context logic/calculation/merging a backend concern
+Stay backwards compatible.
+
+Consequences
+With the current proposal the MainMenu, HighlightPages, OverviewPages can be deprecated and disallowed in stackpacks 2.0
+ComponentType can be removed as a separate construct, the RelationType however cannot because it contains information for traversal.
+Open questions/Unsolved problems
+There are still many open questions, among which:
+Will we use ComponentTypes/Simple STQL Queries for bindings? What are the performance/usability implications?
+The main argument for using STQL is that using component types requires topo sync with a new component type for every component that needs specialization for binding/main menu items etc
+Can we fully deprecate Query Views?
+There are more concepts still that have a presentation component, we have to either place them out of scope defer, or include them:
+Layers/Domains/ComponentType contain a rank to order them in the topo view
+MetricBindings have their own (complementary?) presentation section which we could either lean into or move away from.
+QueryViews appear as a separate saveable concept for the user. We could keep them, or try to move away. We can also replicate a part of the queryview in the mainmenu subsection to not need QueryViews for the main menu.
+Do we want to allow multiple componenttypes/layers/domains on components? This would make ‘merge strategies’ completely obsolete for component synchronization, making that a lot more straightforward.
+Looking at https://docs.google.com/document/d/1K5jy1dV2aBM8e-iP5CkK7e4IBiW3th0JGZ6vWgribhA/edit?tab=t.0, each of the current settings also has a lot of inconsistency/hard-coded options which we should work out during each of their implementations
+The new topology mappings don’t support properties on components, so for both overview page columns and highlight page fields we need something kind of templating that can be used to support equivalent functionality (an example is that the otel topology sync adds a namespaceIdentifier property to services and service instances. It is used to link to the namespace. This identifier is built using a bit of templating in the mapping function, but we rather have that identifier built when presenting the component.
+….
+
+(TODO) Work out various use-cases with this presentation model
+Security HUB
+How do we use the ComponentPresentation to get the visualization/mode switches/ summary overviews for the security hub design?
+OTEL Presentation
+How does an end-user customize presentation of OTEL data to use the specific attributes to add relevant information about their application/technology? For example you can think of adding a dedicated SQL Database (or even Postgresql and Mysql/Mariadb) presentations.
+
+CRD Presentation
+How do we allow specialization of presentation for CRDs? What do we do with CRDs which have no special presentation?
+
