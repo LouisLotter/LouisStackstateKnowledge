@@ -843,3 +843,76 @@ This Week's Update (December 17, 2025)
 • Done: ViewSnapshotError handling improvements
 
 ---
+
+
+---
+
+**Louis Lotter** (2025-12-17 15:30):
+*Process Enforcer Update (SUSE Security Collaboration)*
+
+Quick status on the runtime enforcer work where Sam Wang and Kyle Dong have been contributing:
+
+*Major Development:*
+• Andrea Terzolo built a custom eBPF agent during hack week that replaces the Tetragon dependency
+• Approved by both Flavio Castelli and Alessio Biancalana, merged to main December 15th
+• Memory usage dropped from 3MB per policy to KB-level - massive improvement
+• Risk assessed as minimal per Alessio
+
+*Project Status:*
+• 97 items completed, 2 "blocked" items are just for tracking - not actually blocking (wrapping up upstream work as good citizens)
+• CRD rework (WorkloadPolicyProposal) finalized by Alessio and Kyle
+• Next sprint: finalize remaining TODOs from agent merge
+• Following sprint: start wrapping up for delivery
+
+*Upstream Contributions (Sam & Kyle) - Cleanup/Good Citizenship:*
+• tetragon#4211 (socktrack_map) - Merged, saves ~2.8 MB/policy
+• tetragon#4340 (BPF_F_NO_PREALLOC) - In review
+• tetragon#4331 (policy filter map size) - In review
+• Note: These are no longer critical path - custom agent approach means upstream PRs are nice-to-have
+
+*Productization Path:*
+• Flavio and Davide are pushing to make Process Enforcer part of Kubewarden (CNCF Sandbox project)
+• This means it will become a CNCF project with certification and community governance
+• Kubewarden is evolving into the foundation for SUSE Security 6.0
+• Combined offering: admission policies (Kubewarden) + runtime enforcement (Process Enforcer)
+• Per Alessio, productization phase will require a little bit of time but not much
+
+*Timeline:* On track for March 2026 target (non-GA but production-quality)
+
+
+**Louis Lotter** (2026-01-07 14:00):
+This Week's Update (January 7, 2026)
+
+*Team Borg:*
+• In progress: Dashboarding
+    ◦ Drag on timeseries/bar chart to select time range
+    ◦ Done: Monaco editor CDN dependency fix (air-gap support)
+    ◦ Done: UI automation tests complete
+• In Progress: Stackpacks 2.0 (OTEL Topology)
+    ◦ OTel Mapping API handlers and permissions
+    ◦ OpenAPI spec and code generation - merging
+    ◦ Done: Feature flag renamed to `experimentalStackpacks`
+    ◦ Done: Stackpacks 2.0 documentation preview deployment
+• Developer Experience
+    ◦ Biome migration (replacing Prettier+ESLint) in progress
+    ◦ Done: Tabs formatting, organizeImports, useSortedAttributes
+• Infrastructure
+    ◦ Done: Kops clusters upgraded to 1.32 and 1.33
+    ◦ Done: Backup CLI configMap/Secret naming fix
+    ◦ Done: Backup list jobs resource creation fix
+
+*Team Marvin:*
+• *StackGraph Data Corruption*
+    ◦ Done: Tephra state mismatch fix (WAL/snapshot consistency)
+    ◦ Done: HBase OOM fix on chaos-1 after K8s upgrade
+    ◦ Done: Workload observer crashloop fix
+• Stackpacks 2.0
+    ◦ Done: OpenAPI generation fix for stackstate-cli
+• Agent
+    ◦ Splunk disabled saved searches support - in review
+• QA
+    ◦ Done: Playwright scenarios for Monitors
+    ◦ In Progress: Metric Inspector scenarios
+    ◦ In Progress: CLI tests framework exploration
+
+---

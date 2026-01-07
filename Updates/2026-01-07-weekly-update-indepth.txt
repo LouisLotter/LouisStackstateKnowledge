@@ -1,0 +1,388 @@
+================================================================================
+WEEKLY UPDATE - IN DEPTH REFERENCE
+January 7, 2026 (covering ~21 days: Dec 17, 2025 - Jan 7, 2026)
+================================================================================
+
+NOTE: This covers the holiday period. Teams operated with reduced capacity.
+Louis was on leave - this document prepared for catch-up.
+
+================================================================================
+TEAM BORG
+================================================================================
+
+DASHBOARDING (Epic: STAC-22375)
+--------------------------------------------------------------------------------
+Status: Wrapping up for release (target: first working week of January)
+
+In Progress:
+- STAC-24048: Drag on timeseries/bar chart to select time range
+  - Just like other charts, dragging should update dashboard time range
+  - Assignee: Anton Ovechkin
+  - Story Points: 2
+  - Started: Jan 7
+
+Done (Holiday Period):
+- STAC-24036: Monaco editor loads .js from CDN (air-gap blocker) - Done Jan 7
+  - Dashboard editor loads monaco-editor from jsdelivr CDN
+  - Problem for air-gapped environments
+  - Assignee: Samuel Jones
+  - Fix: Configure Monaco to load from local node_modules
+
+- STAC-24050: Dashboard tests in UI automation framework - CLOSED Jan 5
+  - All widget types covered: TimeSeries, Bar, Gauge, Stat, Markdown
+  - Variables test scripts added
+  - Multi-environment configuration support
+  - QASE test ID mapping complete
+  - Assignee: rajukumar.macha
+  - Sub-tasks completed:
+    * STAC-24089: Creating Dashboard scripts - Done Dec 18
+    * STAC-24090: Time series chart - Done Dec 22
+    * STAC-24091: Gauge chart - Done Dec 23
+    * STAC-24092: Bar chart - Done Dec 23
+    * STAC-24093: Stat chart - Done Dec 23
+    * STAC-24094: Markdown widget - Done Dec 23
+    * STAC-24107: QASE ID mapping - Done Dec 24
+    * STAC-24108: Multi-environment config - Done Dec 24
+    * STAC-24110: Dashboard from K8s resources - Done Dec 26
+    * STAC-24111: Variables test script - Done Dec 30
+
+- STAC-24102: PV(C) usage metrics multiple timeseries fix - Done Dec 19
+  - Volumes used on different hosts showed multiple lines
+  - Now aggregates per PVC (ignores sts_host label)
+  - Assignee: Remco Beckers
+  - Release note: "Improved PV and PVC metric charts to only show a single 
+    timeseries for usage and capacity."
+
+- STAC-24098: YAML parsing fails with ${value} - Done Dec 18
+  - Stackpack installation failed when YAML had `alias: ${value}`
+  - Assignee: Remco Beckers
+  - Release note: "Fix YAML parsing when a YAML value is a variable reference"
+
+
+DEVELOPER EXPERIENCE (STAC-24016: Biome Migration)
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-24018: Replace ESLint by Biome linter
+  - All rule groups set to "error" with documented overrides
+  - Assignee: Anton Ovechkin
+
+Done:
+- STAC-24017: Replace Prettier by Biome assist+formatter - Done Jan 7
+- STAC-24019: Run Biome in CI - Done Jan 7
+- STAC-24024: Replace spaces by tabs - Done Jan 7
+- STAC-24025: Enable organizeImports - Done Jan 7
+- STAC-24026: Enable useSortedAttributes - Done Jan 7
+  - All assigned to: Anton Ovechkin
+
+
+INFRASTRUCTURE
+--------------------------------------------------------------------------------
+Done:
+- STAC-24109: Upgrade Kops clusters to 1.32 - Done Jan 6
+  - Verified K8s API deprecations
+  - Checked KOPS changelog for breaking changes
+  - Updated devops image
+  - Assignee: Vladimir Iliakov
+
+- STAC-24119: Upgrade Kops clusters to 1.33 - Done Jan 6
+  - Same process as 1.32
+  - Karpenter settings updated for version dependency
+  - Assignee: Vladimir Iliakov
+
+- STAC-24087: Investigate Let's Encrypt changes - Done Dec 19
+  - Upcoming changes don't affect us
+  - We don't use custom profiles or TLS authentication
+  - Assignee: Vladimir Iliakov
+
+
+BACKUP/RESTORE CLI (Epic: STAC-23374)
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-24078: Handle restore operations running in parallel
+  - Prevent parallel restore for same data store
+  - Stackgraph and settings restore should be mutually exclusive
+  - Add annotation when restore is in progress
+  - Assignee: Vladimir Iliakov
+  - Story Points: 5
+
+Done:
+- STAC-24121: Backup CLI configMap and Secret naming fix - Done Jan 6
+  - ConfigMap used Chart name, Secret used ReleaseName
+  - Made naming consistent (static name based on Chart)
+  - Assignee: Vladimir Iliakov
+
+- STAC-24122: List jobs don't create required resources - Done Jan 6
+  - List commands failed with missing minio-keys secret
+  - Resources were only created by restore jobs
+  - Assignee: Vladimir Iliakov
+
+- STAC-24021: Clickhouse restore fails in wait mode - Done Dec 19
+  - Restore failed but check-and-finalize worked
+  - Fixed async completion check
+  - Assignee: Vladimir Iliakov
+
+- STAC-24015: ES restore completion check incorrect - Done Dec 22
+  - Didn't wait for snapshot restore and ES health
+  - Now uses cluster health API and cat recovery API
+  - Assignee: Vladimir Iliakov
+
+
+CVE FIXES (Team Borg - STAC-24046)
+--------------------------------------------------------------------------------
+Done:
+- STAC-24046: Fix biggest impact non-os platform CVEs - Done Jan 6
+  - Timeboxed recurring effort
+  - Focus on version upgrades resolving most High/Critical CVEs
+  - Base image updates from sts-toolbox
+  - Assignee: Remco Beckers
+  - Story Points: 5
+
+
+================================================================================
+TEAM MARVIN
+================================================================================
+
+STACKGRAPH DATA CORRUPTION - PRIMARY FOCUS
+--------------------------------------------------------------------------------
+Context: Continued focus on stability. Multiple fixes shipped during holiday.
+
+Done (Critical Fixes):
+- STAC-24118: Mismatch in state for tephra on chaos-1 - Done Jan 5
+  - Root cause: Tephra failed to write WAL due to NN restart, but final 
+    snapshot was written when NN came back up
+  - Fix: Don't do side-effects during shutdown, rely on WAL at next startup
+  - Assignee: Bram Schuur
+  - Priority: Critical
+
+- STAC-24132: HBase regions OOM killed on chaos-1 - Done Jan 6
+  - Occurred after Kubernetes cluster upgrade
+  - Assignee: Frank van Lankvelt
+  - Priority: Critical
+
+- STAC-24120: Workload observer crashloop when reading state - Done Dec 30
+  - Error: "unexpected end of JSON input" when unmarshaling state
+  - Observed on chaos-1
+  - Assignee: Bram Schuur
+  - Priority: High
+
+- STAC-24077: Corruption on performance/chaos champagne - Done Dec 29
+  - Filed Apache HBASE-29784 with analysis and WAL segment
+  - Fix: StackGraph corruption issue from long-running scans
+  - Assignee: Bram Schuur
+  - Release note: "[Platform] Fixed StackGraph corruption issue that could 
+    arise due to long-running scans."
+
+- STAC-24014: Data corruption on nightly champagne - Done Jan 5
+  - Detailed timeline analysis of transaction rollbacks
+  - Multiple sub-fixes merged
+  - Assignee: Bram Schuur
+
+
+AGENT
+--------------------------------------------------------------------------------
+In Review:
+- STAC-24023: Support disabled saved searches (Splunk)
+  - Disabling a saved search should not execute it
+  - Breaking execution at Rabobank
+  - Need to validate field in REST API
+  - Log when excluding disabled searches
+  - Notify Rabobank when fixed
+  - Assignee: Bram Schuur
+  - Story Points: 5
+  - Customer: RaboBank
+
+Done:
+- STAC-24038: K8s RBAC agent does not refresh service token - Done Dec 18
+  - Agent didn't update service token after roll
+  - Prevented forwarding roles/bindings in platform deployment
+  - Assignee: Bram Schuur
+  - Priority: Critical
+  - Release note: "[Platform] Fix issue where the rbac-agent does not refresh 
+    its serviceaccount token, causing it to lose authentication."
+
+
+QA (Epic: STAC-22482)
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-24080: Add scenarios to validate UI by playwright
+  - Component List, Monitors, Metric Inspector, Metrics Query, Metric Explorer
+  - Sub-tasks:
+    * STAC-24082: Fixing scenarios for component list - Done Dec 22
+    * STAC-24083: Adding scenarios for Monitors - Done Jan 5
+    * STAC-24084: Adding scenarios for Metric Inspector - In Progress
+  - Assignee: daniel.barra
+  - Story Points: 13
+
+- STAC-24146: Exploring suse-observability-cli-tests framework
+  - New exploration started Jan 7
+  - Assignee: rajukumar.macha
+
+
+================================================================================
+STACKPACKS 2.0 (CROSS-TEAM SPRINT: "Stackpacks 2 - 1")
+================================================================================
+Note: This is a dedicated cross-team sprint for Stackpacks 2.0 work, with 
+contributions from both Team Borg and Team Marvin.
+
+OTEL MAPPING API (Epic: STAC-22861)
+--------------------------------------------------------------------------------
+Parent: STAC-23427 - Create OTel Mapping API
+
+In Progress:
+- STAC-24115: Implement API handlers
+  - Assignee: Lukasz Marchewka (Borg)
+  - Status: In Progress
+
+- STAC-24116: Implement permissions for Otel Mappings
+  - Assignee: Lukasz Marchewka (Borg)
+  - Status: In Progress
+
+Merging:
+- STAC-24059: OpenAPI spec for otel mappings
+  - Assignee: Lukasz Marchewka (Borg)
+
+- STAC-24070: Generate OpenAPI code to another sbt module
+  - Assignee: Lukasz Marchewka (Borg)
+
+- STAC-24071: Reuse generated OpenAPI model in DTOs
+  - Assignee: Lukasz Marchewka (Borg)
+
+
+DOCUMENTATION (Epic: STAC-24075)
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-24095: Deploy stackpacks2 documentation from trunk
+  - Netlify-based preview for early access customers
+  - Feature flag enabled deployment from main branch
+  - Assignee: akash.raj (Marvin)
+
+In Review:
+- STAC-24066: Create preview docs feature flag for stackpacks 2.0
+  - Use ss-ff-stackpacks2_enabled as documentation feature flag
+  - Document how to run with feature flags enabled
+  - New top-level "custom integrations" section
+  - Assignee: Alejandro Acevedo Osorio (Marvin)
+
+
+CLI / TOOLING
+--------------------------------------------------------------------------------
+Done:
+- STAC-24106: OpenAPI Generation on stackstate-cli broken - Done Jan 6
+  - After upgrade to openapi-generator 7.6.0, enums missing
+  - Api suffix changed to API (breaking change)
+  - Blocked CLI changes
+  - Fix: Updated to latest version (7.17), fixed breaking changes
+  - Assignee: Alejandro Acevedo Osorio (Marvin)
+  - Priority: Critical
+
+- STAC-24063: Rename stackpacks2 feature flag to experimentalStackpacks - Done Jan 6
+  - Customer discovered feature flags, needed clearer WIP indication
+  - Renamed in helm to `experimentalStackpacks`
+  - Added comment: "preproduction, usage may break installation"
+  - Assignee: Alejandro Acevedo Osorio (Marvin)
+
+
+================================================================================
+KEY EVENTS DURING LEAVE PERIOD
+================================================================================
+
+Dec 17-24: Pre-Holiday
+- Dashboard UI tests being added rapidly
+- Biome migration progressing
+- StackGraph corruption fixes in review
+
+Dec 25-Jan 1: Holiday Period (Reduced Capacity)
+- Vladimir: Kops cluster upgrades (1.32, 1.33)
+- Bram: Tephra state mismatch fix
+- Raju: Dashboard test scripts completion
+
+Jan 2-7: Return to Work
+- HBase OOM fix (Frank)
+- OpenAPI CLI fix (Alejandro)
+- Stackpacks 2.0 feature flag rename
+- Multiple backup CLI fixes
+
+
+================================================================================
+CURRENT SPRINT FOCUS
+================================================================================
+
+Team Borg: "Wrapping up dashboarding"
+- Final polish items for release
+- Developer experience (Biome migration)
+
+Team Marvin: "Marvin - AgentBump 3"
+- Agent stability
+- Splunk saved searches fix
+- QA automation
+
+Cross-Team: "Stackpacks 2 - 1"
+- OTel Mapping API (Lukasz - Borg)
+- Documentation (Alejandro, Akash - Marvin)
+
+
+================================================================================
+POTENTIAL QUESTIONS & ANSWERS
+================================================================================
+
+Q: What's the dashboards release status?
+A: Very close. UI automation tests complete, Monaco CDN fix done. Remaining: 
+   drag-to-select time range feature (STAC-24048) in progress. Target was 
+   first working week of January - should be imminent.
+
+Q: Any new data corruption issues during the holiday?
+A: Yes, but all resolved:
+   - Tephra state mismatch on chaos-1 (WAL/snapshot consistency) - Fixed
+   - HBase OOM after K8s upgrade - Fixed
+   - Workload observer crashloop - Fixed
+   The team continues to improve stability. Apache HBASE-29784 filed upstream.
+
+Q: What happened with Stackpacks 2.0?
+A: Now has its own cross-team sprint ("Stackpacks 2 - 1"). Feature flag renamed 
+   to `experimentalStackpacks` after a customer discovered and tried to use the 
+   flags. OTel Mapping API work continues with handlers and permissions in 
+   progress (Lukasz). Documentation preview deployment in progress (Alejandro, 
+   Akash). OpenAPI CLI generation fix shipped.
+
+Q: Infrastructure changes?
+A: Kops clusters upgraded to both 1.32 and 1.33. Backup CLI had several fixes 
+   for naming consistency and resource creation.
+
+Q: Any customer-impacting issues?
+A: 
+   - Rabobank: Splunk disabled saved searches issue identified, fix in review
+   - K8s RBAC agent token refresh fix shipped (was blocking platform deployments)
+   - Air-gap environments: Monaco CDN dependency fix done
+
+Q: QA automation progress?
+A: Dashboard tests complete and integrated with QASE. Playwright scenarios for 
+   Monitors done, Metric Inspector in progress. New CLI tests framework being 
+   explored.
+
+Q: Developer experience improvements?
+A: Biome migration nearly complete - replacing Prettier+ESLint. Tabs formatting, 
+   organizeImports, useSortedAttributes all enabled. ESLint replacement in progress.
+
+Q: What needs attention this week?
+A: 
+   1. Dashboards release - final sign-off
+   2. Splunk saved searches fix for Rabobank
+   3. OTel Mapping API completion
+   4. Monitor Stackpacks 2.0 documentation preview deployment
+
+
+================================================================================
+RELEASE NOTES PREVIEW (Items with release notes)
+================================================================================
+
+[Platform] Fixed StackGraph corruption issue that could arise due to 
+long-running scans.
+
+[Platform] Fix issue where the rbac-agent does not refresh its serviceaccount 
+token, causing it to lose authentication.
+
+Improved PV and PVC metric charts to only show a single timeseries for usage 
+and capacity.
+
+Fix YAML parsing when a YAML value is a variable reference, for example 
+`alias: ${cluster-name}`.

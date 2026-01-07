@@ -1,0 +1,13 @@
+Observability
+	• Productization
+		○ Improve the delivery mechanism for on-prem Prime customers (by EOY).
+		○ Plan for delivery via AppCo (by EOY).
+		○ Stabilize the product (by March).
+	• Stack Harmonization
+		○ Deliver StackPack feature to integrate with the Rancher portfolio (by March).
+		○ Deliver the Security Hub (by KubeCon Europe, April).
+	• Operation
+		○ Integrate all test cases with Qase (by September).
+		○ Opensource the product (by EOY 2026).
+	• Telemetry (By April)
+		○ Enable the ability to report usage for various features.

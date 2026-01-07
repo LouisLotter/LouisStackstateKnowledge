@@ -1,0 +1,513 @@
+Urgent SUSE Observability bottlenecks
+Mark Bakker Dec 4, 2026
+1
+Internal use only, confidential
+
+Summary
+Internal use only, confidential
+
+Summary
+3
+Critical Delays:  Unplanned stability work (data corruption fix) consumed Q3/Q4 backend capacity, delaying "StackPacks 2.0" by 2 months.
+Adoption Bottlenecks: Large accounts (e.g., OOCL, Dictu) are blocking adoption due to missing Team-level RBAC and Advanced Logs capabilities.
+Resourcing Gap: Velocity has decreased due to the recent churn of SUSE Security engineers, leaving the current roadmap over-committed.
+Strategic Risk: Continuing the current plan risks low adoption and customer churn as critical needs (Logs/RBAC) are pushed too far into 2026/2027.
+Decision Required:
+Immediate Action: Delay SUSE Security integration to prioritize delivery of Team RBAC and Improved Logs.
+Recovery Plan: Backfill churned engineers to form a 3rd team, ensuring Security Hub can be delivered later with regained velocity.
+OR: Accept the business risk
+Internal use only, confidential
+
+Issues
+Internal use only, confidential
+
+Summary
+5
+We cover different user segments with different needs.
+Especially for the Large accounts some urgent and recent issues came up which needs attention
+Internal use only, confidential
+
+Customer segments and their needs for SUSE Observability
+6
+Large accounts
+Medium accounts
+Small accounts
+5. High overhead
+4. Logs:- Host level- OpenTelemetry- Explorer- External feeds
+3. Team level administration via RBAC 
+2. Stability
+6. GitOps/ ArgoCD support
+OOCL
+Dictu Capricorn Group
+Barcleys Tieto Caretech …
+Bosch Dictu
+…
+Bosch Dictu Capricorn Group Tieto Caretech
+…
+8. Extreme low CVE’s
+Nato
+7. Ease of installation/ maintenance
+CRITICAL
+SEVERE
+HIGH
+Customers wait with implementation and/ or choose a different solution
+Customers are not satisfied and if the situation remains might get into the critical state.
+Customers are demanding solutions but might still adopt SUSE Observability
+1. Support for any technology outside K8S via OpenTelemetry
+Internal use only, confidential
+
+7
+Support for any technology outside K8S via OpenTelemetry
+Internal use only, confidential
+
+Issue description
+
+8
+A. SUSE Observability is not yet (well) integrated with other ECM products
+B. Customers are asking to integrate their OpenTelemetry based observability data in SUSE Observability
+Both A and B are delivered via StackPacks 2.0 which is a way to support any technology outside K8S (e.g. workloads running on top of K8S but also workloads running on Linux) via OpenTelemetry
+This Epic is currently being developed and is +/- 60% ready
+Internal use only, confidential
+
+9
+2. Stability
+Internal use only, confidential
+
+Issue description
+
+10
+Next to this there is clear and an huge increase in support tickets (>100 per month for L1 support) in general, showing increased adoption in general. This did cause extra load on the team for L3 support reducing velocity.
+Since September FY25 there have been multiple data corruption reports coming in from our biggest customers
+Deep investigation into this issue resulted in extra effort in Chaos testing, timeout management and other solutions
+We found  a few issues which can be the cause of this and hope that this is resolved, the issue however does not show in most environments and only time and more (chaos) testing will ensure this is the case.
+Internal use only, confidential
+
+Solutions
+11
+For the majority of October and November a big part of the backend team has been focussed on resolving stability issues which in most cases related to data-corruption issues 
+With the release 2.6.0 - 2.6.3 (11/25/25) we expect many of the issues to be resolved.
+The issue however does not show in most environments and only time and more (chaos) testing will ensure this is the case.
+Internal use only, confidential
+
+12
+3. Team level administration via RBAC 
+Internal use only, confidential
+
+Issue description
+13
+Customers aim to provide their internal teams (e.g. development teams) with an Observability solution
+The current RBAC model provides the ability to segregate the data to the different teams, so they only see their own data.
+Those internal teams also have the need to define their own Dashboards, Overview pages, Monitors, Notification Channels, Extensions (StackPacks)
+Currently only global admin users can define those which is not good enough for some of the larger customers. They see this as a must have requirement.
+Internal use only, confidential
+
+Solutions
+14
+We did not yet plan a solution for this. The feedback came up after the release of RBAC in September 2025.
+The feedback is that the released RBAC model is not good enough for their use-case supporting their teams with an Observability solution where the teams can manage their own configuration.
+A very rough estimate to solve this is an Epic which takes 1 team for about 4-6 months.
+Internal use only, confidential
+
+15
+4. Logs 
+Internal use only, confidential
+
+Issue description
+16
+Extended logs support to support customers who see this as a need to have before they can move to SUSE Observability
+Support for OpenTelemetry Logs
+Currently only Pod logs are supported
+Support for Host level Logs to troubleshoot issues related to the host running k8S on and/ or to collect logs from other systems. 
+The ability to explore logs with a logs Explorer and see the logs for specific workloads (e.g. service, job, etc.)
+Currently logs can only be accessed via pods
+Have the ability to send logs to external systems
+Internal use only, confidential
+
+Solution
+17
+Execute on the Logs epic	
+Currently planned for end 2026 with a high change of slipping into 2027 
+Internal use only, confidential
+
+18
+5. High overhead
+Internal use only, confidential
+
+General overhead in the market for self-hosted Observability
+19
+Max observed vCPU
+40
+80
+200
+400
+600
+1000
+2000
+16000
+Est. Backend vCPU Required
+4 - 6
+6 - 8
+10 - 16
+16 - 24
+20 - 30
+30 - 45
+50 - 80
+300 - 480
+Overhead %
+10.0% - 15.0%
+7.5% - 10.0%
+5.0% - 8.0%
+4.0% - 6.0%
+3.5% - 5.0%
+3.0% - 4.5%
+2.5% - 4.0%
+1.8% - 3.0%
+Architecture Constraints
+The "Minimum Running an Observability platform" Tax. You cannot run a reliable cluster with less than 3 small nodes, even if the traffic is tiny.
+Efficiency improves slightly, but you are still dominated by the fixed baseline cost of running the control plane (alert manager, query frontends).
+The Transition Zone. Your fixed control plane costs are now amortized. You start adding "data nodes" (Ingesters) to handle the flow.
+Standard efficiency. At this size, you likely separate your "Write" path (ingestion) from your "Read" path (querying) to prevent dashboard loading from killing ingestion.
+Optimization Sweet Spot. You are large enough to tune resource requests but small enough that complexity hasn't exploded.
+Complexity enters. You introduce caching layers (Memcached/Redis) to speed up queries, which adds slightly to the vCPU count but protects the core DB.
+High Scale. You can now dedicate specific heavy nodes to compaction and compression. Data density per vCPU improves significantly.
+Massive Scale Efficiency. Throughput is massive, but because you are likely sampling traces (e.g., 10%) and filtering logs, the relative footprint is tiny.
+The following table estimates the Backend vCPU required to monitor the Target vCPU, assuming a standard HA self-hosted stack (Metrics + Logs + Traces). Source: Gemini. This is just as a reference for where we are standing (next slide).
+Internal use only, confidential
+
+Current overhead as percentage over total workload
+20
+Small scale POC like setup
+Small scale
+Small-Medium scale
+Big scale
+Profile
+
+trial
+10 non-HA
+20 non-HA
+50 non-HA
+100 non-HA
+150 HA
+250 HA
+500 HA
+4000 HA
+CPU Requests
+7.5
+7.5
+10.5
+15
+25
+49
+62
+86.5
+210
+CPU Limits
+16
+16
+21.5
+30.5
+50
+103
+128
+176
+278
+Memory Requests
+25.5Gi
+25.5Gi
+31Gi
+35Gi
+54Gi
+129Gi
+146Gi
+164.5Gi
+259Gi
+Memory Limits
+26Gi
+26Gi
+31.5Gi
+36Gi
+54Gi
+133.5Gi
+150Gi
+168.5Gi
+320Gi
+Max observed vCPU
+40
+80
+200
+400
+600
+1000
+2000
+16000
+Max observed Mem
+160
+320
+800
+1600
+2400
+4000
+8000
+64000
+Total overhead CPU
+18.75%
+13.13%
+7.50%
+6.25%
+8.17%
+6.20%
+4.33%
+1.31%
+Total overhead Mem
+15.94%
+9.69%
+4.38%
+3.38%
+5.38%
+3.65%
+2.06%
+0.40%
+We are slightly above the market average overhead (as described by Gemini)  for smaller scale deployments (around +30%).
+Internal use only, confidential
+
+Solutions
+21
+Short term:
+The ability to run Observability as a Hosted Solution (PCC 12/04/2025) supporting the smaller scale setup
+The removal of Elasticsearch when replacing the Logs storage to support the other Logs related demands
+Longer term (2027):
+Further optimizations (not yet planned)
+Internal use only, confidential
+
+22
+6. GitOps/ ArgoCD support 
+Internal use only, confidential
+
+Issue description
+
+23
+SUSE Observability currently lacks a unified Infrastructure as Code strategy. Core concepts are not yet defined as CRDs, and we are missing a Terraform provider. Additionally, there is no documentation, ArgoCD- or Fleet- integration examples, preventing users from implementing fully declarative configurations.
+Internal use only, confidential
+
+Solutions
+
+24
+Medium term:
+Document ArgoCD usage
+Longer term (2027):
+Make sure IaC concepts for everything in SUSE Observability is documented.
+Make sure most/ all of SUSE Observability concepts can be defined as CRD’s or alternative IaC concepts.
+Full support for Fleet including examples.
+Create an terraform provider using the documentation and concepts.
+Internal use only, confidential
+
+25
+7. Ease of installation/ maintenance 
+Internal use only, confidential
+
+Issue description
+
+26
+The current Rancher integration lacks a single-click installation for the Platform. Users are forced to provide extensive manual input and edit complex values files. Additionally, diagnosing runtime or configuration errors is difficult due to the absence of automated validation tools or clear resolution paths.
+Internal use only, confidential
+
+Solution
+
+27
+Short term:
+This is not (yet) seen as the biggest issue for customers not adoption the solution.
+Longer term (2027):
+Single click installation of the SUSE Observability Agent inside Rancher and the single click installation of the Observability platform
+Minimize Manual Configuration: Ensure that installations, especially through Rancher, require minimal user input and no extensive values file edits.
+Make sure any (runtime/ configuration) issue can easily be found and resolved (e.g. an external validation app)
+Internal use only, confidential
+
+28
+8. Extreme low CVE’s
+Internal use only, confidential
+
+Issue description
+
+29
+Customer Nato only accepts software during acceptance testing if it contains 0 CRITICAL or HIGH CVE’s. They might accept 1 HIGH, but that’s it.
+Internal use only, confidential
+
+Solution
+
+30
+Make sure we charge the customer additional for extra engineers to solve this continuously. See this document. (automation, vex, more frequent updating of dependencies and libraries)
+Internal use only, confidential
+
+Summary and timeline
+Internal use only, confidential
+
+SUSE Observability FY26 Roadmap as of September ‘25
+32
+April ‘26 release
+
+Aug ‘26 release
+
+Dec ‘26 release
+Dec  ‘25 release
+  
+  
+  
+  
+KubeCon AMS
+KubeCon NA
+KubeCon ATL
+SUSECon
+Components from Otel data
+StackPacks 2.0: Simplified Integration for other product
+Dashboarding: Customizable dashboards for enhanced comparison and overview capabilities
+Hosted Prime Observability
+SCC integration for Observability
+Integrated Security Hub (see SUSE Security roadmap)
+Hosted Prime Observability
+Security Hub: Separate/ combined modular deployments
+MCP server
+Automated agentic AI triaging of related issues to remove the need for manual investigation where possible.
+Open source the SUSE Observability platform for community-driven innovation
+Easy grafana dashboard and prometheus alert-rule import
+Automated prioritization of issues to focus on the most urgent issues first
+Team level monitors and metric bindings
+Logs Explorer + OpenTelemetry Logs: Gain advanced log exploration with OpenTelemetry log support.
+SUSE Security & Observability via AppCo
+Deprecate monitoring v2
+Internal use only, confidential
+
+SUSE Observability FY26 Roadmap as of early Dec ‘25
+
+33
+April ‘26 release
+
+Aug ‘26 release
+
+Dec ‘26 release
+Dec  ‘25 release
+  
+  
+  
+  
+KubeCon AMS
+KubeCon NA
+KubeCon ATL
+SUSECon
+Components from Otel data
+StackPacks 2.0: Simplified Integration for other product
+Dashboarding: Customizable dashboards for enhanced comparison and overview capabilities
+Hosted Prime Observability
+SCC integration for Observability
+Integrated Security Hub (see SUSE Security roadmap)
+Hosted Prime Observability
+Security Hub: Separate/ combined modular deployments
+MCP server
+Automated agentic AI triaging of related issues to remove the need for manual investigation where possible.
+Open source the SUSE Observability platform for community-driven innovation
+Easy grafana dashboard and prometheus alert-rule import
+Automated prioritization of issues to focus on the most urgent issues first
+Team level monitors and metric bindings
+Logs Explorer + OpenTelemetry Logs: Gain advanced log exploration with OpenTelemetry log support.
+SUSE Security & Observability via AppCo
+Deprecate monitoring v2
+StackPacks 2.0 has 2 months of delay due to the unplanned stability improvements. This does affect the rest of the roadmap.
+Internal use only, confidential
+
+SUSE Observability FY26 Roadmap as of early Dec ‘25
+
+34
+April ‘26 release
+
+Aug ‘26 release
+
+Dec ‘26 release
+Dec  ‘25 release
+  
+  
+  
+  
+KubeCon AMS
+KubeCon NA
+KubeCon ATL
+SUSECon
+Components from Otel data
+Dashboarding: Customizable dashboards for enhanced comparison and overview capabilities
+StackPacks 2.0: Simplified Integration for other product
+Hosted Prime Observability
+SCC integration for Observability
+
+Team level monitors and metric bindings
+Integrated Security Hub (see SUSE Security roadmap)
+MCP server
+Automated prioritization of issues to focus on the most urgent issues first
+
+Automated agentic AI triaging of related issues to remove the need for manual investigation where possible.
+Open source the SUSE Observability platform for community-driven innovation
+Easy grafana dashboard and prometheus alert-rule import
+Security Hub: Separate/ combined modular deployments
+Logs Explorer + OpenTelemetry Logs: Gain advanced log exploration with OpenTelemetry log support.
+SUSE Security & Observability via AppCo
+Deprecate monitoring v2
+StackPacks 2.0 has 2 months of delay due to the unplanned stability improvements. This does affect the rest of the roadmap.
+Internal use only, confidential
+
+Map customer segments and their needs to our FY26 roadmap
+35
+Large accounts
+Medium accounts
+Small accounts
+5. High overhead
+4. Improved logs: - Host level - OpenTelemetry - Explorer - External feeds
+3. Team level administration via RBAC 
+2. Stability
+6. GitOps/ ArgoCD support
+Barcleys OOCL
+Dictu Capricorn Group
+Tieto Caretech
+…
+Dictu
+…
+Bosch Dictu Capricorn Group
+Tieto Caretech
+…
+8. Extreme low CVE’s
+Nato
+7. Ease of installation/ maintenance
+CRITICAL
+SEVERE
+HIGH
+Customers wait with implementation and/ or choose a different solution
+Customers are not satisfied and if the situation remains might get into the critical state.
+Customers are demanding solutions but might still adopt SUSE Observability
+1. Support for any technology outside K8S via OpenTelemetry
+Dec ‘25 release +2M
+Dec ‘25 release 
+Mostly Unplanned Small improvement 
+planned end FY26 High risk to overflow to FY27
+unplanned
+unplanned
+Planned end FY26 High risk to overflow to FY27
+unplanned
+Mostly unplanned
+- Logs epic aims to reduce overhead
+Unplanned
+extra delivery
+Internal use only, confidential
+
+Advice
+Internal use only, confidential
+
+Solutions
+37
+A. Delay the integration of SUSE Security to make room for:
+Team level administration via RBAC (3)
+Improved logs (4)
+B. Replace the churned SUSE Security engineers to form a 3th team to gain velocity and work on SUSE Security integration
+C. Continue with current plan and accept potential churn and lower addoption for SUSE Observability
+Internal use only, confidential
+
+Advice
+38
+Execute on A (Delay integration of SUSE Security) and B (add replacements for SUSE Security engineers)
+This will in the short term delay the Delivery of SUSE Security Hub but will ensure we can deliver Security Hub in a timely manner.
+Internal use only, confidential

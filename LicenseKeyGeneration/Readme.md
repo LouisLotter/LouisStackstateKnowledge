@@ -1,0 +1,1 @@
+ ./stackstate-license -createlicense 2026-12-12

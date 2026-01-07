@@ -1,0 +1,100 @@
+Organization Goal
+Achieve 20% productivity gain and 30% adoption by end of Q2, 40% productivity gain and 80% adoption by end of Q4
+Organization
+Technology & Product (Thomas Di Giacomo (00020265))
+Description
+Achieve measurable productivity increase in key T&P efficiency metrics per function (e.g., development cycle time, time to resolution, or documentation creation time) attributable to new AI tools/initiatives.
+
+
+Organization Goal
+Convert a new 2% (i.e. 200 new customers) of the SAM (~9.7K ICP from 55K active users) Rancher Community customers to Rancher Prime/Suite
+Organization
+Technology & Product (Thomas Di Giacomo (00020265))
+Description
+The primary activities with Operation Goldmine are:
+a) De-anonymize Rancher Community enterprises that match SUSE's ICP
+b) Work with each geo on outreach and measurement programs.
+Note: Corporate marketing are also running targeted campaigns against the named customers
+
+
+Organization Goal
+Cost % of Revenue - R&D
+Organization
+Technology & Product (Thomas Di Giacomo (00020265))
+Description
+Decrease the R&D cost of revenue to 18% by FY27 through the use of AI and process optimisation
+
+
+Organization Goal
+ECM Gross Retention
+Organization
+Technology & Product (Thomas Di Giacomo (00020265))
+Description
+Increase Gross Retention across all products to 88% by end FY27
+
+
+Organization Goal
+Edge Strategy Product Maturity and Customer Traction
+Organization
+Technology & Product (Thomas Di Giacomo (00020265))
+Description
+The goal is to mature a stable Near Edge offering that supports the majority of industry use cases, regardless of scale and close 5 new customers by end of FY26.
+
+Organization Goal
+eNPS
+
+Organization
+Technology & Product (Thomas Di Giacomo (00020265))
+Description
+Achieve an eNPS score that meets or exceeds the company score, and for any team with a score below the benchmark, implement a documented people plan
+
+
+Organization Goal
+Execute portfolio strategy, delivering quality solutions in support of corporate ACV and Revenue growth targets (numbers from Finance/Sales)
+Organization
+Technology & Product (Thomas Di Giacomo (00020265))
+Description
+Support CRO to achieve Revenue and ACV growth targets across the portfolio (SMLS, AI, Edge, Emerging, SAP, SLES)
+
+Actions
+Organization Goal
+Execute portfolio strategy, delivering quality solutions in support of corporate ACV and Revenue growth targets (numbers from Finance/Sales)
+Organization
+Technology & Product (Thomas Di Giacomo (00020265))
+Description
+Support CRO to achieve Revenue and ACV growth targets across the portfolio (SMLS, AI, Edge, Emerging, SAP, SLES)
+
+
+Organization Goal
+Execute portfolio strategy, delivering quality solutions in support of corporate ACV and Revenue growth targets (numbers from Finance/Sales)
+Organization
+Technology & Product (Thomas Di Giacomo (00020265))
+Description
+Support CRO to achieve Revenue and ACV growth targets across the portfolio (SMLS, AI, Edge, Emerging, SAP, SLES)
+
+Organization Goal
+Group Net Retention
+Organization
+Technology & Product (Thomas Di Giacomo (00020265))
+Description
+Increase Net Retention across all products to 110% by end FY27
+
+Organization Goal
+Grow and mature the SUSE AI offering, establishing product-market-fit in support of $12.97M ACV bookings.
+Organization
+Technology & Product (Thomas Di Giacomo (00020265))
+Description
+The goal is to plug the AI-specific capability gaps to mature the offering, become more competitive, and create an easy-to-use offering focused on enterprises with a high need for protecting their IP (data and business processes).
+Organization Goal
+Improve perceived customer value (+5% NPS, >99.9% uptime) across the product portfolio.
+Organization
+Technology & Product (Thomas Di Giacomo (00020265))
+Description
+Drive best-in-class product management practices, better insights integration, smoother customer experience (software delivery, Cloud transactions, subscription management), deeper integration with AWS, and expanded portfolio across CSPs
+
+Organization Goal
+Unified Core (SKE) Adoption
+Organization
+Technology & Product (Thomas Di Giacomo (00020265))
+Description
+Have >3 distinct SUSE products/solutions (e.g. Rancher Prime, SUSE AI, SUSE Edge, SUSE Telco Cloud) utilising UC/SKE as the base runtime by the end of FY26, and SKE launched as a distinct Kubernetes runtime/distribution in the market

@@ -1,0 +1,15 @@
+# 1:1 Prep - January 6, 2026
+
+## DKIM Alert Follow-up
+
+Status: Resolved/Explained
+
+The DKIM alert was for the playground environment (observability.suse.com), which doesn't send emails - no functional impact. AWS SES was partially configured for email but DKIM was never completed (DNS records weren't added), triggering security alerts when verification timed out.
+
+Vladimir handled a similar issue a few weeks ago - same root cause. Remco created a ticket to clean this up properly - either complete the DKIM setup or remove the partial email configuration to stop recurring alerts.
+
+Fedor is handling it now that he's back.
+
+
+
+Ask about equity- Anton asked.

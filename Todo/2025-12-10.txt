@@ -1,3 +1,19 @@
+
+5 Jan 2026
+
+- Follow up on Bram's laptop
+Sheng Yang
+  6:47 PM
+Saw the DKIM failure again. What’s going on there?
+
+
+17 December
+
+Start new sprint 5 January. Fix the calendar.
+Zendesk export
+
+
+
 # Todo - December 10, 2025
 
 ## Follow-ups from 1:1 with Sheng

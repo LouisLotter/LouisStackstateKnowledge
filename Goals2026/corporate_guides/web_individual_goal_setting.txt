@@ -1,0 +1,113 @@
+	
+Individual Goal Setting
+Individual goals are the commitment you take for your team, the company and for yourself: 
+
+What you deliver and how you deliver them in order to contribute to your team and the company success; 
+
+Where and how you want to grow professionally in your role and at SUSE.
+
+
+
+Team members
+Beginning of the fiscal year, once you are clear about the company strategy, the functional goals and your team goals, your role is to discuss and agree with your team leader your individual goals and how often to SYNC-up throughout the year. Set your Goals for FY26 until 31st Dec 2025 and document those in Workday!
+
+You are then in the driver seat to: 
+
+Define your milestones 
+
+Decide the way to go about your goal 
+
+Drive your actions towards your goal 
+
+With the support of your team and your team leader
+
+However, goals are not set in stone, you should have regular SYNC-up conversations with your team leader to share your progress, seek feedback, update your goals or add new ones depending on the needs of the team and of the company. You should have at least two formal goal reviews per financial year using the Anytime Goal Review Form.
+
+Team leaders
+At the beginning of the fiscal year, your role is to bring your team together to make sure the company and functional goals are clear as well as how your team contributes to them. You should agree together where to document your team goals, how often to SYNC-up as a team, to review the goals, to celebrate successes and learnings too! Support your Team to settle their Goals for FY26 and document them until 31st Dec 2025!
+
+Each of your team member will then draft their own individual goals and agree them with you. Your role is to support them in doing so and make sure you agree how often to SYNC-up in 1:1 in order to update you on their individual progress and review the goals when appropriate.
+
+
+Team Members Actions
+
+Have a FY25 year-end conversation with your team leader, using the Anytime Goal Review form in Workday.
+
+Set and document your FY26 goals in Workday by December 2025, and keep them updated through regular SYNC-ups.
+
+Explore the resources below to help you get started! 
+
+Team Leaders Actions
+Have a FY25 year-end conversation with your team members, using the Anytime Goal Review form in Workday.
+
+Discuss their FY26 individual goals and ensure they are documented in Workday by December 2025.
+
+Have keep regular SYNC-ups to get updates on their progress.
+
+
+Get ready for Goal Setting FY26 - watch this short video to have all important information at hand!
+
+Support your team for Goal Setting FY26 as a Team Leader
+Watch our short video with all information at hand!
+
+1. Have your SYNC-Up Conversation with your Team Leader using the Anytime Goal Review Form & set your SMART goals
+
+1. Empower your team member
+
+Introduction to sync-up conversations for team members
+Workday demo Anytime Goal Review for team members.mp4
+Introduction to sync-up conversations for team leaders
+2. Write your SMART goals with Gemini
+Gemini Prompt 1
+As an individual contributor in the (Your department) department, draft three Specific and Relevant goals .
+My overarching team priority is to (State high-level team goal, e.g., “Improve project delivery efficiency by 15%”).
+Ensure the drafted goals clearly map to this priority.
+
+Gemini Prompt 2
+For the goal: (Paste your specific goal), suggest Measurable Key Performance Indicators (KPIs) and corresponding Achievable stretch targets.
+Then, identify the top three potential internal resource constraints that could make this goal unachievable.
+
+Gemini Prompt 3
+I’m working on my development goals for the next quarter.
+Can you help me brainstorm three SMART development goals focused on (specific skill or area of growth, e.g., “improving my presentation skills” or “learning a new software tool”)?
+
+Gemini Prompt 4
+I have a goal to (state your goal, e.g., “complete the XYZ project by end of month”) but I’m anticipating (mention a potential obstacle, e.g., “difficulty getting timely feedback from stakeholders”) as an obstacle.
+Can you help me WOOP this goal by suggesting a plan to overcome this obstacle?
+
+Gemini Prompt 5
+I need to prepare for my next SYNC-up conversation with my team leader about my goals.
+Can you help me draft some talking points to discuss my progress on (specific goal) and what support I might need?
+
+2. Guide Goal-Setting Conversation
+3. Discuss and agree your goals with your team leader
+Here are some tips to do this really well with your team leader: 
+
+Take time to do this well: be clear about your proposed goals  
+
+Ensure you are clear on the team goals, and how the goals you are proposing support that plan 
+
+Ensure your goals are clear, tangible, time-bound and measurable  
+
+There are many goal setting models out there that you can follow, with lots in common, and asking yourself these questions is a great way to think through your goals: 
+
+Is it clear what I am setting out to achieve? 
+
+Is it challenging / stretching but also achievable? 
+
+Is there a measure of progress and success? 
+
+Does it support the team or broader functional / company strategy? 
+
+When do I expect to accomplish the goal? 
+
+Agree on the work, milestones, timing and expectations
+
+3. Agree on Action and Follow-Up
+At the end of the discussion, ensure you have aligned on the work, milestones, timing, and expectations. Clarify where these will be documented and how often you will SYNC-up in 1:1 meetings to track progress. This ensures accountability, clarity, and continued support for their growth and performance.
+
+4. Document your goals in Workday
+Starting from FY26, it is now mandatory for everyone (excluding our people in Germany) to set goals in Workday. We want everyone to have set their goals by 31 December 2025, and to review them regularly, with at least two formal goal reviews with your team leader per financial year using the Anytime Goal Review Form. We still encourage our people in Germany to set their goals, and to use Workday as a tool to do this.
+
+
+Use to the Goal setting section of your Workday user guide to document your goals.
