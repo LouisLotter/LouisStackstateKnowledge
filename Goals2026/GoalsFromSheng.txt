@@ -11,3 +11,17 @@ Observability
 		○ Opensource the product (by EOY 2026).
 	• Telemetry (By April)
 		○ Enable the ability to report usage for various features.
+
+Security
+Deliver SUSE Security 6.0 (GA By KubeCon NA 2026, November).
+Security Hub (Exp by KubeCon EU; GA by KubeCon NA , November)
+Image Scanner (GA by KubeCon Europe, April)
+Runtime Enforcer (GA by KubeCon Europe, April)
+Network Scanner (Exp by Aug, GA by KubeCon NA , November)
+Admission Controller (GA by KubeCon Europe, April)
+Compliance Scanner (GA by KubeCon NA , November)
+All components should be deliverable by AppCo at GA time.
+Continue maintaining NeuVector 5.
+Telemetry (By April)
+Enable the ability to differentiate Community usage from Prime usage.
+Enable the ability to report usage for various features.

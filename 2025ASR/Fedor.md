@@ -16,7 +16,7 @@
 | **Base Pay** | Kč2,204,400.00 | Kč2,248,488.00 | +Kč44,088.00 |
 | **Total Target Compensation (TTC)** | Kč2,424,840.00 | Kč2,473,336.80 | +Kč48,496.80 |
 
-**Increase:** 2.00% (Country guideline: 3.50%)
+**Increase:** 2.00% 
 
 **Compa-Ratio:** 1.24 → 1.27
 
