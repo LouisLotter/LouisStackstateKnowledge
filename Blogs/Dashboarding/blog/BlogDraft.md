@@ -1,6 +1,8 @@
-# Stop Context Switching: Native Dashboards That Know Your Kubernetes Architecture
+# Stop Context Switching: Dashboards Connected to Your Kubernetes Architecture
 
-*Introducing Enterprise Dashboarding for SUSE Observability*
+*Introducing Dashboarding for SUSE Observability*
+
+**Today, we're releasing Dashboarding for SUSE Observability.** It's our most requested feature, bringing custom dashboards directly into your troubleshooting workflow.
 
 ---
 
@@ -36,11 +38,11 @@ The industry promised us a "single pane of glass." What we got was a dozen panes
 
 ---
 
-## The Solution: Dashboards That Know Your Architecture
+## The Solution: Dashboards Connected to Your Architecture
 
-What if your dashboard understood your system the way you do?
+What if your dashboard was connected to your system topology?
 
-SUSE Observability's Enterprise Dashboarding isn't just another charting tool. It's native to the platform: no datasource configuration, no plugin management, no separate login. It understands your topology out of the box.
+SUSE Observability's new Dashboarding isn't just another charting tool. It's topology-aware: every widget links directly to the components in your architecture. No datasource configuration, no plugin management, no separate login.
 
 > **📸 VISUAL: Hero Screenshot**
 > *Place `DashboardDemo1.png` here. Annotate with arrows pointing to topology links on widgets. Caption: "Each widget links directly to the component in your architecture. Click the chart, see the context."*
@@ -92,7 +94,7 @@ Because this is SUSE Observability, your dashboard inherits Time Travel. You're 
 
 ## Why Not Just Use Grafana?
 
-Grafana is excellent at visualization. If you need 50 widget types or highly specialized visualizations, it's still the right tool. But for most troubleshooting and cross-component visibility use cases? You don't need a separate tool.
+Grafana is excellent at visualization. If you need 50 widget types or highly specialized visualizations, it's still the right tool. But for most troubleshooting and cross-component visibility use cases? With this release, you no longer need a separate tool.
 
 > **📊 VISUAL: Comparison Table**
 
@@ -146,6 +148,8 @@ When the success rate dips, your VP clicks the markdown link to the payment serv
 
 ## Get Started
 
+**Dashboarding is available now in SUSE Observability.**
+
 Ready to see topology-aware dashboards in action?
 
 - **Explore the playground:** Check out our [public playground](https://observability.suse.com/#/welcome), no setup required
@@ -155,7 +159,7 @@ Ready to see topology-aware dashboards in action?
 
 ---
 
-**Your metrics deserve more than scattered views. Give them a home that understands your architecture.**
+**Your metrics deserve more than scattered views. Give them a home connected to your architecture.**
 
 ---
 
