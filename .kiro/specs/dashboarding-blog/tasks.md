@@ -90,7 +90,7 @@
     - Include clear next steps/CTA (Sandbox, Documentation)
     - Closing line per Gemini: "Your metrics deserve more than scattered views. Give them a home that understands your architecture."
     - _Requirements: 3.5, 4.7_
-  - [ ] 5.4 Format and add visual recommendations
+  - [x] 5.4 Format and add visual recommendations
     - Use subheadings every 200-300 words for scanability
     - Add bullet points and visual breaks
     - Specify visual placements per Gemini recommendations:
