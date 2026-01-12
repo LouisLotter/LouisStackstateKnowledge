@@ -1,0 +1,4 @@
+-- Double check all the promql generated if it functions as claimed.
+-- Source images and check if they convey what we want.
+-- Get feedback from engineers.
+-- Update the blog with from which version the dashboards are available.

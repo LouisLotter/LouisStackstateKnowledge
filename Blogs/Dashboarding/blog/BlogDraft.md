@@ -105,7 +105,7 @@ Grafana is excellent at visualization. If you need 50 widget types, custom plugi
 
 **The real cost of "build it yourself":**
 
-The typical DIY observability stack looks something like this: Prometheus for metrics, Elasticsearch or Loki for logs, Jaeger for traces, and Grafana to tie it all together. Each tool has its own data model, its own query language, its own way of thinking about time. Grafana can visualize all of them—but it can't correlate them. You're still the one jumping between datasources, mentally mapping a trace ID to a log entry to a metric spike.
+The typical DIY observability stack looks something like this: Prometheus for metrics, Elasticsearch or Loki for logs, Jaeger for traces, and Grafana to try and tie it all together. Each tool has its own data model, its own query language, its own way of thinking about time. Grafana can visualize all of them—but it can't correlate them. You're still the one jumping between datasources, mentally mapping a trace ID to a log entry to a metric spike.
 
 SUSE Observability is different. Metrics, logs, traces, and topology live in one platform, correlated by default. When you build a dashboard, you're not stitching together disconnected datasources—you're visualizing data that already understands how your components relate to each other.
 
@@ -114,4 +114,59 @@ SUSE Observability is different. Metrics, logs, traces, and topology live in one
 We're not trying to be a dashboarding tool. We're an observability platform with dashboarding capabilities that integrate deeply with topology, health, and troubleshooting features. We have five widget types, not fifty. We focus on the use cases that matter most: cross-component visibility and faster troubleshooting.
 
 If you need a dedicated visualization platform with endless customization, Grafana is still there. But if you want dashboards that understand your architecture and integrate with your troubleshooting workflow? That's what we built.
+
+---
+
+## Putting It Together: Real-World Use Cases
+
+Let's make this concrete with two dashboards you can build today.
+
+### Use Case 1: The Technical Dashboard
+
+You're responsible for the payment service. You need to know when it's struggling before customers start complaining.
+
+**Your dashboard:**
+- **Time Series:** Response times over the last hour
+- **Stat:** Current request rate (big number, easy to spot)
+- **Time Series with topk:** Top 5 pods by CPU usage
+  ```promql
+  topk(5, sum by (pod_name) (rate(container_cpu_usage_seconds_total{namespace="payments"}[5m])))
+  ```
+- **Gauge:** Memory saturation against limits
+
+Every widget links back to its source component. See a spike on the CPU chart? Click through to the pod, check its logs, trace a request—all without leaving the platform.
+
+### Use Case 2: The Business Dashboard
+
+Your VP wants to know if checkouts are healthy. They don't care about pods or namespaces—they care about revenue.
+
+**Your dashboard:**
+- **Stat:** "1,247 successful checkouts in the last hour"
+- **Time Series:** Checkout success rate over time
+- **Markdown:** Links to technical dashboards for each service in the checkout flow
+
+![Business dashboard with markdown links](../images/DashboardDemo5.png)
+*Business KPIs with one-click drill-down to technical details.*
+
+When the success rate dips, your VP clicks the markdown link to the payment service dashboard. They see the technical view. They understand the impact. No Slack thread required.
+
+This is the power of native dashboards: business context and technical depth in the same platform, connected by your architecture.
+
+---
+
+## Get Started
+
+Ready to see topology-aware dashboards in action?
+
+**Explore the playground:** Check out our [public playground](https://observability.suse.com/#/welcome) to see dashboarding in a live environment—no setup required.
+
+**Run it on your cluster:** Ready to monitor your own infrastructure? [Get started with SUSE Observability](https://www.suse.com/products/observability/) and connect your Kubernetes clusters.
+
+**Learn more:** The [dashboarding documentation](https://docs.stackstate.com/use/dashboards) walks you through everything from your first widget to advanced variable configurations.
+
+**Already a customer?** Dashboarding is available now. Open SUSE Observability, click "Dashboards" in the menu, and start building.
+
+---
+
+Your metrics deserve more than scattered views. Give them a home that understands your architecture.
 

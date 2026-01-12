@@ -83,7 +83,7 @@
       - **Topology Gap**: "Dashboards with a Sense of Direction" (widgets link to components)
     - Acknowledge current scope honestly (metrics only, 5 widget types) without overpromising
     - _Requirements: 4.3, 4.4, 4.5, 4.8_
-  - [ ] 5.3 Write use cases and conclusion
+  - [x] 5.3 Write use cases and conclusion
     - Include single-app technical dashboard use case (response times, CPU with topk queries)
     - Include business metrics dashboard use case with markdown links to technical dashboard
     - Write conclusion reinforcing value proposition
