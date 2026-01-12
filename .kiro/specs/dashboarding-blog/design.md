@@ -65,52 +65,48 @@ The blog creation process follows a research-first methodology:
 
 All research outputs are stored in `Blogs/Dashboarding/` for easy reference during writing.
 
+**Note:** Competitor research requires internet access and is performed externally using Gemini Deep Research. A prompt template is provided to guide this process.
+
 | Component | Purpose | Output Location | Used By |
 |-----------|---------|-----------------|---------|
-| Competitor Analysis | Document patterns from 8 vendors | `Blogs/Dashboarding/CompetitorResearch.md` | BlogOutline, BlogDraft |
-| Best Practices Guide | Synthesize industry standards | `Blogs/Dashboarding/CompetitorResearch.md` (Section 2) | BlogOutline, BlogDraft |
-| Content Framework | Recommended structure template | `Blogs/Dashboarding/CompetitorResearch.md` (Section 3) | BlogOutline |
+| Gemini Research Prompt | Guide external research with Gemini Deep Research | `Blogs/Dashboarding/research/GeminiDeepResearchPrompt.md` | External (Gemini) |
+| Competitor Analysis | Document patterns from 8 vendors (Gemini output) | `Blogs/Dashboarding/research/ObservabilityBlogCompetitorAnalysisByGemini.md` | BlogOutline, BlogDraft |
+| Best Practices Guide | Synthesize industry standards | `Blogs/Dashboarding/research/ObservabilityBlogCompetitorAnalysisByGemini.md` (Section 4) | BlogOutline, BlogDraft |
+| Content Framework | Recommended structure template | `Blogs/Dashboarding/research/ObservabilityBlogCompetitorAnalysisByGemini.md` (Section 4) | BlogOutline |
 
 ### Writing Deliverables
 
 | Component | Purpose | Output Location | Depends On |
 |-----------|---------|-----------------|------------|
-| Blog Outline | Structured skeleton with section goals | `Blogs/Dashboarding/BlogOutline.md` | CompetitorResearch.md |
-| Blog Draft | Full written post ready for review | `Blogs/Dashboarding/BlogDraft.md` | BlogOutline.md, CompetitorResearch.md |
-| Visual Recommendations | Screenshot/diagram placement guide | `Blogs/Dashboarding/BlogDraft.md` (Appendix) | BlogDraft content |
+| Blog Outline | Structured skeleton with section goals | `Blogs/Dashboarding/blog/BlogOutline.md` | CompetitorResearch.md |
+| Blog Draft | Full written post ready for review | `Blogs/Dashboarding/blog/BlogDraft.md` | BlogOutline.md, CompetitorResearch.md |
+| Visual Recommendations | Screenshot/diagram placement guide | `Blogs/Dashboarding/blog/BlogDraft.md` (Appendix) | BlogDraft content |
 
 ### File Organization
 
 ```
 Blogs/Dashboarding/
-├── BlogAssumptions.md          # ✅ Already exists - assumptions with feedback
-├── DashboardingFeatureOverview.md  # ✅ Already exists - feature reference
-├── DashboardingDemo.md         # ✅ Already exists - demo notes
-├── DemoNotes.txt               # ✅ Already exists - meeting notes
-├── DashboardingDocs.txt        # ✅ Already exists - official docs
+├── blog/                       # Blog content (outline, draft, assumptions)
+│   ├── BlogAssumptions.md      # ✅ Already exists - assumptions with feedback
+│   ├── BlogOutline.md          # 📝 IN PROGRESS - Writing phase step 1
+│   └── BlogDraft.md            # 📝 TO CREATE - Writing phase step 2
 │
-├── CompetitorResearch.md       # 📝 TO CREATE - Research phase output
-│   ├── Section 1: Competitor Analysis (8 vendors)
-│   │   ├── 1.1 Enterprise Vendors (Grafana, Datadog, New Relic, Dynatrace)
-│   │   ├── 1.2 K8s-Focused Startups (Honeycomb, Groundcover, Komodor)
-│   │   └── 1.3 Direct Competitor (Red Hat)
-│   ├── Section 2: Best Practices Summary
-│   │   ├── Structural patterns
-│   │   ├── Technical depth guidance
-│   │   ├── SEO recommendations
-│   │   └── Visual usage patterns
-│   └── Section 3: Recommended Content Framework
-│       └── Template structure for SUSE blog
+├── research/                   # Competitor analysis and research
+│   ├── GeminiDeepResearchPrompt.md # ✅ COMPLETE - Prompt for Gemini Deep Research
+│   ├── ObservabilityBlogCompetitorAnalysisByGemini.md  # ✅ COMPLETE - Research output
+│   └── CompetitorResearch.md   # ⚠️ DEPRECATED - Replaced by Gemini output
 │
-├── BlogOutline.md              # 📝 TO CREATE - Writing phase step 1
-│   ├── Headline options
-│   ├── Section-by-section breakdown
-│   ├── Key messages per section
-│   └── Visual placement notes
+├── source/                     # Feature documentation and raw materials
+│   ├── DashboardingFeatureOverview.md  # ✅ Feature reference
+│   ├── DashboardingDemo.md     # ✅ Demo notes
+│   ├── DashboardingDocs.txt    # ✅ Official docs
+│   ├── DemoNotes.txt           # ✅ Meeting notes
+│   ├── DemoTranscript.txt      # ✅ Demo transcript
+│   ├── DashboardsTickets.csv   # ✅ Jira tickets
+│   └── Slides.txt              # ✅ Presentation slides
 │
-└── BlogDraft.md                # 📝 TO CREATE - Writing phase step 2
-    ├── Full blog post content
-    └── Appendix: Visual Recommendations
+└── images/                     # Screenshots and visuals
+    └── DashboardDemo*.png      # Demo screenshots
 ```
 
 ### Dependency Flow
@@ -118,24 +114,31 @@ Blogs/Dashboarding/
 ```
 ┌─────────────────────────┐
 │ Existing Feature Docs   │
-│ (FeatureOverview, Demo) │
+│ (source/ folder)        │
 └───────────┬─────────────┘
             │ Reference
             ▼
 ┌─────────────────────────┐
-│ CompetitorResearch.md   │ ◄── Research Phase Output
+│ GeminiDeepResearchPrompt│ ◄── research/GeminiDeepResearchPrompt.md
+│ - Research instructions │
+└───────────┬─────────────┘
+            │ Used by Gemini Deep Research (external)
+            ▼
+┌─────────────────────────┐
+│ ObservabilityBlog...    │ ◄── research/ObservabilityBlog...md
+│ CompetitorAnalysis...md │
 │ - Patterns & frameworks │
 └───────────┬─────────────┘
             │ Informs structure
             ▼
 ┌─────────────────────────┐
-│ BlogOutline.md          │ ◄── Writing Phase Step 1
+│ BlogOutline.md          │ ◄── blog/BlogOutline.md
 │ - Section skeleton      │
 └───────────┬─────────────┘
             │ Guides writing
             ▼
 ┌─────────────────────────┐
-│ BlogDraft.md            │ ◄── Writing Phase Step 2
+│ BlogDraft.md            │ ◄── blog/BlogDraft.md
 │ - Final blog post       │
 └─────────────────────────┘
 ```
@@ -245,7 +248,7 @@ Since this is a content creation spec rather than a software implementation, cor
 
 | Requirement | Verification Method |
 |-------------|---------------------|
-| 1.1-1.5 Competitor Research | CompetitorResearch.md contains analysis of 3+ vendors with structural patterns, headline analysis, examples, and framework |
+| 1.1-1.5 Competitor Research | ObservabilityBlogCompetitorAnalysisByGemini.md contains analysis of 3+ vendors with structural patterns, headline analysis, examples, and framework (completed via Gemini Deep Research) |
 | 2.1-2.5 Best Practices | Research document includes length guidance, visual recommendations, SEO keywords, technical depth calibration |
 | 3.1-3.5 Blog Structure | BlogOutline.md has hook, problem-before-solution ordering, 3-5 differentiators, use cases, CTA |
 | 4.1-4.7 Blog Draft | BlogDraft.md has benefit-focused headline, 100-word hook, benefits-first features, code example, complementary positioning, proper formatting, strong conclusion |
@@ -257,9 +260,10 @@ Since this is a content creation spec rather than a software implementation, cor
 
 | Risk | Mitigation |
 |------|------------|
-| Competitor blogs behind paywall | Use publicly available content, blog archives, and cached versions |
-| Outdated competitor examples | Focus on posts from last 18 months; note publication dates |
-| Analysis paralysis | Time-box research to prevent scope creep; focus on actionable patterns |
+| Competitor blogs behind paywall | Gemini Deep Research can access publicly available content |
+| Outdated competitor examples | Prompt specifies focus on posts from last 18 months |
+| Analysis paralysis | Research delegated to Gemini; prompt scoped to actionable patterns |
+| AI hallucination | Gemini Deep Research has internet access; verify key URLs if needed |
 
 ### Writing Phase Risks
 
