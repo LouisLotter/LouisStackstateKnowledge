@@ -34,7 +34,7 @@ Here's an uncomfortable truth: most dashboards are just pixels. They show you *t
 
 **The missing piece:** Whether you're running a separate dashboarding tool or doing without, there's a gap. Custom dashboards that understand your architecture and integrate with your troubleshooting workflow. That's what's been missing.
 
-The industry promised us a "single pane of glass." What we got was a dozen panes, none of them talking to each other.
+We wanted one tool to see what's happening. We got three or four that don't talk to each other.
 
 ---
 
@@ -60,7 +60,7 @@ The difference is in the details. Every widget knows where its data comes from. 
 Here's a concrete example: tracking the top 5 pods by CPU usage:
 
 ```promql
-topk(5, sum by (pod_name) (rate(container_cpu_usage_seconds_total{namespace="${namespace}"}[5m])))
+topk(5,sum by(pod_name)(rate(container_cpu_usage{namespace="${namespace}"}[5m])))
 ```
 
 Drop that into a Time Series widget, add a `${namespace}` variable, and you've got a dashboard that works across every namespace, with each data point linking back to the actual pod.
@@ -112,7 +112,7 @@ The typical DIY stack: Prometheus for metrics, Elasticsearch for logs, Jaeger fo
 
 SUSE Observability is different. Metrics, logs, traces, and topology live in one platform, correlated by default. When you build a dashboard, you're visualizing data that already understands how your components relate.
 
-**What we're not:** We're not trying to be a dedicated visualization platform. We have five widget types, not fifty. We focus on the use cases that matter most: cross-component visibility and faster troubleshooting.
+We focus on what matters most: cross-component visibility and faster troubleshooting. Five widget types, purpose-built for the job.
 
 ---
 
