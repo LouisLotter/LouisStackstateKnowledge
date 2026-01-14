@@ -1,0 +1,423 @@
+================================================================================
+WEEKLY UPDATE - IN DEPTH REFERENCE
+January 14, 2026 (covering 8 days: Jan 7 - Jan 14, 2026)
+================================================================================
+
+================================================================================
+TEAM BORG
+================================================================================
+
+DASHBOARDING / v2.7.0 RELEASE (Epic: STAC-22375)
+--------------------------------------------------------------------------------
+Status: Release in final stages - SaaS rolled out, public release pending
+
+Parent Issue: STAC-24134 - [Release] SUSE Observability Release v2.7.0
+- Target date: January 12, 2026
+- Assignee: daniel.barra
+- Priority: High
+
+Release Sub-tasks:
+- STAC-24135: Release Agent - DONE Jan 9
+- STAC-24136: Testing Nightly champagne - DONE Jan 13
+- STAC-24137: Freeze version - DONE Jan 13
+- STAC-24138: SaaS roll-out - DONE Jan 13
+- STAC-24139: Determine Helm chart public version - DONE Jan 13
+- STAC-24140: Create MR for docs with release notes - IN PROGRESS
+- STAC-24141: Publish the Release - IN PROGRESS
+
+Note: Version v2.6.4-pre.85 on nightly has all fixes, releasing as v2.7.0
+
+Done (Dashboarding Polish):
+- STAC-24048: Drag on timeseries/bar chart to select time range - Done Jan 9
+  - Dragging over chart updates dashboard time range
+  - Same behavior as metrics perspective charts
+  - Assignee: Anton Ovechkin
+  - Story Points: 2
+
+- STAC-24009: Stat charts within same widget should have same text sizes - Done Jan 9
+  - Font sizes now aligned across all charts in Stat widget
+  - Similar to Grafana behavior
+  - Assignee: Samuel Jones
+  - Story Points: 2
+
+- STAC-24012: Gauge widget text size when zooming out in browser - Done Jan 13
+  - Text size looked larger than expected at 90% zoom
+  - Updated gauge font size calculation
+  - Assignee: Samuel Jones
+  - Story Points: 2
+
+- STAC-24001: Quick selection for only my dashboards or shared dashboards - Done Jan 7
+  - Added quick filters: My Dashboards | Starred | Shared with me | All
+  - "My Dashboards" selected by default
+  - Assignee: Samuel Jones
+  - Story Points: 3
+
+- STAC-24171: Scroll bar disappear on traces page - Done Jan 13
+  - Scrollbar missing in Firefox on span details with many attributes
+  - Fixed class name on ScrollingContainer
+  - Assignee: Samuel Jones
+  - Also resolved: STAC-24123 (Span details doesn't scroll vertically)
+
+
+DEVELOPER EXPERIENCE (STAC-24016: Biome Migration)
+--------------------------------------------------------------------------------
+Status: Continuing migration from Prettier+ESLint to Biome
+
+In Progress:
+- STAC-24018: Replace ESLint by Biome linter
+  - All rule groups set to "error" with documented overrides
+  - Assignee: Anton Ovechkin
+  - Note: 100+ repository references in GitLab
+
+- STAC-24158: Migrate twin.macro pattern #3 (css/tw prop → className)
+  - Converting css={tw`...`} and tw="..." to className="..."
+  - Assignee: Samuel Jones
+  - Story Points: 3
+
+Done:
+- STAC-24177: Generate biome.jsonc from biome.mjs - In Review (Jan 14)
+  - Assignee: Anton Ovechkin
+
+- STAC-24164: Migrate twin.macro pattern #2 (!important Modifier) - Done Jan 14
+  - Align ! positioning to be prefixed in all cases
+  - Note: No simple cases found using tw prop, handled in STAC-24158
+  - Assignee: Anton Ovechkin
+  - Story Points: 2
+
+- STAC-24163: Migrate twin.macro pattern #1 (twin.macro groups) - In Review
+  - Expand group syntax to individual classes
+  - Note: No instances found in codebase (possibly already done)
+  - Assignee: Anton Ovechkin
+  - Story Points: 2
+
+
+INFRASTRUCTURE
+--------------------------------------------------------------------------------
+In Review:
+- STAC-24078: Handle restore operations running in parallel
+  - Prevent parallel restore for same data store
+  - Stackgraph and settings restore mutually exclusive
+  - Add annotation when restore is in progress
+  - Assignee: Vladimir Iliakov
+  - Story Points: 5
+
+Done:
+- STAC-24144: Check why DKIM verification errors for observability.suse.com - Done Jan 13
+  - Cybersecurity team alerted on DKIM failures
+  - SES setup incomplete for environments that don't need it
+  - Fix: MR to saas-tenants repo
+  - Assignee: Vladimir Iliakov
+
+
+ADMIN PASSWORD GENERATION (STAC-23881)
+--------------------------------------------------------------------------------
+Status: In Review
+
+- STAC-23881: Admin password generation without values chart
+  - Password stored as plain text in K8s secret
+  - Allow reference to existing secret (for External Secrets)
+  - Backward compatible with bcrypt/md5 hash
+  - Invariant: Admin password required when no custom auth configured
+  - Assignee: Remco Beckers
+  - Story Points: 5
+
+
+================================================================================
+TEAM MARVIN
+================================================================================
+
+STACKGRAPH STABILITY
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-24173: WAL mismatch on chaos champagne - In Progress (Jan 13)
+  - Assignee: Bram Schuur
+
+- STAC-24176: Work on Bosch sync memory pressure - In Progress (Jan 13)
+  - Assignee: Bram Schuur
+
+
+AGENT
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-24151: Build and test branded cluster agent container
+  - Part of agent upstream merge [7.71.2]
+  - Assignee: Bram Schuur
+
+Done:
+- STAC-24152: Fix running pipeline as merged result or branch depending on open MR - Done Jan 9
+  - Part of agent upstream merge [7.71.2]
+  - Assignee: Bram Schuur
+
+- STAC-24023: Support disabled saved searches (Splunk) - Done Jan 7
+  - Disabling a saved search now prevents execution
+  - Was breaking execution at Rabobank
+  - Properly logs when excluding disabled searches
+  - Assignee: Bram Schuur
+  - Story Points: 5
+  - Customer: RaboBank
+  - Release note: "[Agent] Disabled saved searches in splunk will now be 
+    ignored by the splunk check."
+
+
+QA (Epic: STAC-22482)
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-24080: Add scenarios to validate UI by playwright
+  - Component List, Monitors, Metric Inspector, Metrics Query, Metric Explorer
+  - Assignee: daniel.barra
+  - Story Points: 13
+
+Done:
+- STAC-24084: Adding scenarios for Metric Inspector - Done Jan 9
+  - Assignee: daniel.barra
+
+- STAC-24146: Exploring suse-observability-cli-tests framework - Done Jan 9
+  - Explored framework and executed tests locally
+  - Assignee: rajukumar.macha
+
+
+================================================================================
+STACKPACKS 2.0 (CROSS-TEAM SPRINT: "Stackpacks 2 - 1")
+================================================================================
+
+OTEL MAPPING API (Epic: STAC-23427)
+--------------------------------------------------------------------------------
+Status: COMPLETE - All sub-tasks done
+
+Done:
+- STAC-24115: Implement API handlers - Done Jan 13
+  - Otel Management CRUD API
+  - Assignee: Lukasz Marchewka
+
+- STAC-24116: Implement permissions for Otel Mappings - Done Jan 13
+  - Assignee: Lukasz Marchewka
+
+- STAC-24059: OpenAPI spec for otel mappings - Done Jan 13
+  - Assignee: Lukasz Marchewka
+
+- STAC-24070: Generate OpenAPI code to another sbt module - Done Jan 13
+  - Created stackstate-api-generated module
+  - Assignee: Lukasz Marchewka
+
+- STAC-24071: Reuse generated OpenAPI model in DTOs - Done Jan 13
+  - Deleted Otel*Mapping DTO, using generated API model
+  - Assignee: Lukasz Marchewka
+
+
+COMPONENT PRESENTATION (Epic: STAC-23912)
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-23932: Create example stackpack 2.0 with OtelComponentMapping and ComponentPresentation
+  - Gathering integration use cases to validate definitions
+  - Looking at: Java, .NET, SUSE AI, Aegir tenants, Kubewarden, Harvester
+  - Assignee: Alejandro Acevedo Osorio
+  - Story Points: 8
+
+Done:
+- STAC-23913: Create empty component presentation StackGraph and DTO object - Done Jan 12
+  - Introduced DTO with identifiers
+  - Added OpenAPI for CRUD
+  - Added permissions for ComponentPresentation
+  - Assignee: Alejandro Acevedo Osorio
+  - Story Points: 5
+
+- STAC-24063: Rename stackpacks2 feature flag to experimentalStackpacks - Done Jan 6
+  - Customer discovered feature flags
+  - Renamed in helm with warning comment
+  - Assignee: Alejandro Acevedo Osorio
+  - Story Points: 2
+
+
+DOCUMENTATION (Epic: STAC-24075)
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-24067: Document monitors and metrics binding DTOs for stackpacks 2.0
+  - Tutorial + reference documentation
+  - Also documenting Layout concepts (MetricPerspectiveSection etc.)
+  - Assignee: Frank van Lankvelt
+  - Story Points: 5
+
+- STAC-24095: Deploy stackpacks2 documentation from trunk
+  - Netlify-based preview for early access customers
+  - Assignee: akash.raj
+
+- STAC-23880: Package and validate stackpack 2.0 through new CLI commands
+  - Show entire user flow for first stackpacks 2.0 setup
+  - Build all stackpacks 2.0 with CLI in stackpacks repo
+  - Assignee: Deon Taljaard
+
+Done:
+- STAC-24066: Create preview docs feature flag for stackpacks 2.0 - Done Jan 9
+  - Using ss-ff-stackpacks2_enabled as documentation feature flag
+  - TopoStreamSync behind experimentalStackpacks FF on helm chart
+  - Assignee: Alejandro Acevedo Osorio
+  - Story Points: 2
+
+- STAC-24065: Document stackpack CLI in documentation - Done Jan 9
+  - Integration section describing integration flow
+  - Tutorial style (diataxis)
+  - Assignee: Alejandro Acevedo Osorio
+  - Story Points: 3
+
+- STAC-24064: Work out first version of documentation for ComponentPresentation - Done Jan 9
+  - High-level concepts and pseudo-code example
+  - Marked as under development
+  - Assignee: Deon Taljaard
+  - Story Points: 3
+
+
+INFRASTRUCTURE
+--------------------------------------------------------------------------------
+Done:
+- STAC-24008: Init container for otel-collector to wait for Kafka - Done Jan 13
+  - OTel collector restarted 6 times waiting for Kafka on fresh install
+  - Added init container to wait for: Kafka, ClickHouse, vmagent
+  - Assignee: Alejandro Acevedo Osorio
+  - Story Points: 3
+
+
+================================================================================
+KEY OBSERVATIONS FOR 1:1 WITH SHENG
+================================================================================
+
+WINS THIS WEEK:
+1. v2.7.0 Release Progress
+   - SaaS rolled out, nightly tested, version frozen
+   - Only docs MR and public release remaining
+   - Dashboarding is the flagship feature - 9 months of work shipping
+
+2. Stackpacks 2.0 OTel Mapping API Complete
+   - All 5 sub-tasks done (handlers, permissions, OpenAPI spec, code gen, DTO)
+   - Lukasz delivered the entire API in this sprint
+   - Foundation for other teams to build integrations
+
+3. Documentation Sprint Productive
+   - ComponentPresentation docs done
+   - Stackpack CLI docs done
+   - Preview docs feature flag done
+   - Monitors/metrics binding docs in progress
+
+4. Rabobank Issue Resolved
+   - Splunk disabled saved searches fix shipped
+   - Customer was blocked, now unblocked
+
+
+CONCERNS / RISKS:
+1. StackGraph Stability
+   - New issues: WAL mismatch on chaos, Bosch memory pressure
+   - Bram is stretched between agent work and stability fixes
+   - This is ongoing - not getting worse but not fully resolved
+
+2. v2.7.0 Release Timing
+   - Target was Jan 12, we're at Jan 14 with docs/publish pending
+   - Minor slip but should complete this week
+
+3. Biome Migration Scope
+   - 100+ GitLab references for ESLint replacement
+   - twin.macro patterns more complex than expected
+   - Good progress but will extend into next sprint
+
+
+TALKING POINTS FOR SHENG:
+
+1. Release Readiness
+   - "v2.7.0 is essentially done - SaaS deployed, just finalizing docs and 
+     public release. Dashboarding is our biggest feature in 9 months."
+
+2. Stackpacks 2.0 Momentum
+   - "OTel Mapping API is complete. This unblocks Security Hub and other 
+     teams wanting to extend the platform. Documentation is progressing well."
+
+3. Team Capacity
+   - "Bram is juggling agent upstream merge, StackGraph stability, and 
+     Splunk customer issues. May need to discuss prioritization if new 
+     stability issues emerge."
+
+4. Technical Debt Progress
+   - "Biome migration is cleaning up our frontend tooling. Anton is making 
+     steady progress but it's a larger effort than initially scoped."
+
+
+QUESTIONS TO ASK SHENG:
+1. Any feedback from stakeholders on dashboarding preview?
+2. Security Hub timeline - any updates from Mark on scope clarification?
+3. StackGraph rewrite decision - any movement on the ClickHouse evaluation?
+4. 2026 goals - any updates on the March stability target vs StackGraph rewrite tension?
+
+
+================================================================================
+SPRINT CONTEXT
+================================================================================
+
+Team Borg: "Wrapping up dashboarding"
+- v2.7.0 release finalization
+- Developer experience (Biome migration)
+- Admin password generation
+
+Team Marvin: "Marvin - AgentBump 3"
+- Agent upstream merge continuation
+- StackGraph stability
+- QA automation
+
+Cross-Team: "Stackpacks 2 - 1"
+- OTel Mapping API (COMPLETE)
+- ComponentPresentation (in progress)
+- Documentation (in progress)
+
+
+================================================================================
+RELEASE NOTES PREVIEW (v2.7.0)
+================================================================================
+
+[Agent] Disabled saved searches in splunk will now be ignored by the splunk check.
+
+[Dashboards] Drag on timeseries or bar chart to select time range.
+
+[Dashboards] Quick filter tabs for My Dashboards, Starred, Shared with me.
+
+[Dashboards] Fixed stat widget text size alignment.
+
+[Dashboards] Fixed gauge widget text size at different zoom levels.
+
+[UI] Fixed scrollbar on traces page span details.
+
+(Plus items from previous weeks already in v2.6.4-pre.85)
+
+
+================================================================================
+POTENTIAL QUESTIONS & ANSWERS
+================================================================================
+
+Q: What's the v2.7.0 release status?
+A: Very close. SaaS rolled out Jan 13, nightly tested, version frozen. Only 
+   remaining: docs MR and public release. Should complete this week.
+
+Q: What's in v2.7.0?
+A: Dashboarding is the flagship feature - our #1 customer-requested feature 
+   with ~9 months of development. Includes: Time Series, Bar Chart, Stat, 
+   Gauge, Markdown widgets, Variables system, deep troubleshooting integration.
+
+Q: Stackpacks 2.0 progress?
+A: Major milestone - OTel Mapping API is complete (all 5 sub-tasks done). 
+   ComponentPresentation DTO/StackGraph object done. Documentation progressing 
+   well with CLI docs, ComponentPresentation docs, and preview feature flag 
+   all done. Monitors/metrics binding docs in progress.
+
+Q: Any customer issues?
+A: Rabobank Splunk issue resolved - disabled saved searches now properly 
+   ignored. Bosch sync memory pressure being investigated.
+
+Q: StackGraph stability?
+A: New WAL mismatch issue on chaos champagne being investigated. Bosch memory 
+   pressure work in progress. Bram is primary on both.
+
+Q: Developer experience improvements?
+A: Biome migration continuing. twin.macro patterns being migrated. ESLint 
+   replacement in progress with 100+ file references.
+
+Q: What needs attention next week?
+A: 
+   1. Complete v2.7.0 public release
+   2. StackGraph stability issues (WAL mismatch, memory pressure)
+   3. Continue Stackpacks 2.0 documentation
+   4. Admin password generation review completion

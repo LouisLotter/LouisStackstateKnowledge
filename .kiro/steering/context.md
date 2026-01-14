@@ -44,24 +44,34 @@
 
 Personal knowledge management repo for engineering management tasks:
 
-**1:1s & Meetings** (`Sheng1on1/`, `Meetings/`)
-- Prepare talking points and framing for 1:1s with Sheng
-- Document meeting notes, transcripts, and action items
-- Track decisions and follow-ups
+**Recurring Activities** (`recurring/`)
+- `recurring/1on1-sheng/` - 1:1 meeting notes with Sheng
+- `recurring/weekly-updates/` - Weekly status updates for `#prod-suse-observability-mgmt`
+- `recurring/meetings/` - General meeting notes and transcripts
 
-**Weekly Updates** (`Updates/`, `SlackChannelExports/`)
-- Draft status reports for `#prod-suse-observability-mgmt` Slack channel
-- Historical updates going back to March 2025
+**Initiatives** (`initiatives/`)
+- `initiatives/dashboarding/` - Dashboarding feature (blog, research, images, source)
+- `initiatives/stackgraph/` - StackGraph migration (meetings, research)
+- `initiatives/stackpacks-2.0/` - Stackpacks 2.0 initiative
+- `initiatives/security-hub/` - Security Hub integration
 
-**Technical Documentation** (`Documentation/`, `Blogs/`, `OpusOverviews/`, `GeminiDeepResearch/`)
-- Feature overviews and architecture decisions
-- Blog content preparation (especially Dashboarding)
-- Deep research documents on technical initiatives
+**Team Management** (`team/`)
+- `team/asr-2025/` - Annual self-reviews
+- `team/goals-2026/` - Team goals and corporate guides
+- `team/qa/` - QA coverage and test automation status
 
-**Work Tracking** (`JiraExports/`, `Todo/`, `StackstateQA/`)
-- Jira activity exports for analysis
-- Personal todo lists and action items
-- QA coverage and test automation status
+**Reference Materials** (`reference/`)
+- `reference/documentation/` - General documentation
+- `reference/research/` - Deep research documents
+- `reference/ai-musings/` - AI-related notes and musings
+
+**External Exports** (`exports/`)
+- `exports/jira/` - Jira activity exports for analysis
+- `exports/slack/` - Slack channel exports and insights
+
+**Active Work** (`active/`)
+- `active/todo/` - Personal todo lists and action items
+- `active/license-gen/` - License generation scripts
 
 ## Current Major Initiatives (December 2025)
 
@@ -83,7 +93,7 @@ Personal knowledge management repo for engineering management tasks:
 ### 3. StackGraph Stability & Potential Rewrite (Team Marvin)
 - Current: HBase/Tephra stack causing data corruption issues
 - Multiple fixes shipped for nightly champagne corruption
-- Evaluating migration to ClickHouse (see `GeminiDeepResearch/`)
+- Evaluating migration to ClickHouse (see `initiatives/stackgraph/research/`)
 - Key concerns: ASOF JOIN performance, eventual consistency, point lookups
 - Status: Analysis phase, prototype running, decision pending
 

@@ -1,0 +1,2 @@
+-- Stock options, Dividends cash cancelling. Vestment period.
+- When is our stocks bein valued again.
