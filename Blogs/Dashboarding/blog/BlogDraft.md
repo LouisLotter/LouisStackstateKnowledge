@@ -51,12 +51,6 @@ SUSE Observability's new Dashboarding isn't just another charting tool. It's top
 
 The difference is in the details. Every widget knows where its data comes from. That time series showing memory usage? Click on the link, and you're looking at the pod in your topology. Not a query builder, not a search box, but the actual component with its health state and related services.
 
-**What you get:**
-- Five core widget types: Time Series, Bar Chart, Stat, Gauge, and Markdown
-- Full PromQL support with auto-complete for labels and values
-- Variables for dynamic filtering across clusters, namespaces, and services
-- Automatic links from widgets to their source components
-
 Here's a concrete example: tracking the top 5 pods by CPU usage:
 
 ```promql
@@ -113,6 +107,13 @@ The typical DIY stack: Prometheus for metrics, Elasticsearch for logs, Jaeger fo
 SUSE Observability is different. Metrics, logs, traces, and topology live in one platform, correlated by default. When you build a dashboard, you're visualizing data that already understands how your components relate.
 
 We focus on what matters most: cross-component visibility and faster troubleshooting. Five widget types, purpose-built for the job.
+
+### What's Included
+
+- Five core widget types: Time Series, Bar Chart, Stat, Gauge, and Markdown
+- Full PromQL support with auto-complete for labels and values
+- Variables for dynamic filtering across clusters, namespaces, and services
+- Automatic links from widgets to their source components
 
 ---
 
