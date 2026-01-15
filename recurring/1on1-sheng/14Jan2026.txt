@@ -1,2 +1,9 @@
 -- Stock options, Dividends cash cancelling. Vestment period.
-- When is our stocks bein valued again.
+- When is our stocks being valued again.
+- Kubecon Amsterdam. Can my Netherlands team have tickets and go ?
+    Maybe we can go to Rancher day.
+
+    Sheng Yang  [6:48 PM]Re: KubeCon AMS events. You can check with @Robert Sirchia on Rancher Day. He should be able to get your team in (and you do expect to help if needed). After-party is managed by @Kate Nixon. You can check with her to see if there are extra spaces available.
+- Had a meeting with Prabal and the QA team. 
+    They agree we need better visibility of all the test we run over all
+    pipelines and will be working on that.

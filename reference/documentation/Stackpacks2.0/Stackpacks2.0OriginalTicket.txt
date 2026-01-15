@@ -1,0 +1,44 @@
+As a SUSE application maintainer, I want to add support for my application to SUSE Observability without spending weeks of work on it, such that SUSE Observability can monitor the application “out-of-the-box”.
+
+SUSE is an Open Source company, so we want to use open tools and protocols where possible. That’s why we want to build on the data from OpenTelemetry (provided by the OTel collector and the OTel instrumentations).  We get a large number of integrations out of the box and the ability to extend where we need it. 
+
+To integrate other products fully we want them to be able to create a stackpack. After installation the product should:
+
+Appear in the navigation menu and have one or more overview pages (Think of a SUSE header (like now Kubernetes) with SUSE products underneath (like now pod etc): KubeWarden, Harvester, etc.
+
+Have at least basic highlight pages (the default is probably fine)
+
+Some metric bindings and/or monitors and/or traces for the components, or some external monitors (see Kubewarden)
+
+SUSE Observability maintainers can also use the same solution to add support for new applications. SUSE Observability users can use the solution to add support for their custom (or not yet supported) applications.
+
+Open Telemetry metrics and traces are already received and stored, and a generic topology is created (Service, Service Instance, and Database components) from the resource attributes. For SUSE Observability, the topology is used to create Overview pages. Monitors and metric bindings are also connected to topology, and notifications use topology filters (and monitor filters). 
+
+As a result, new applications need to be represented by components in the topology, but we don’t want to add more topology synchronizations than we already have (it is complicated to setup and takes a lot of resources to run). Instead, it must be as simple as uniquely describing (and identifying) a component by specifying a tuple of resource, span, metric, and log attributes. With this information, the existing topology synchronization for Open Telemetry can create the required components.
+
+
+
+Questions:
+
+Do we really think users themselves are willing to jump through all the hoops required to create their own stackpack(s)? I can imagine them being fine with defining monitors and metric bindings (this is very similar to Grafana and Prometheus), but creating Menu entries, Overview and Highlight pages can be a lot of work… Otoh, there is a default highlight page, the menu item is very straightforward (can be copy-pasted), and the basic overview page can also be copy-pasted (customizing the query only).
+
+It should be as simple as a CLI scaffolding and build command to create a basic structure which can be added with examples which can be edited.
+
+
+
+Ideas for testing and validating this work:
+
+Add components from OpenTelemetry for Kubernetes pods and/or containers etc, they should work fine stand-alone, but also merge with Kubernetes topology created from our Kubernetes agent. A complication for this is that we probably don’t want to switch to OpenTelemetry metrics for monitoring k8s any time soon, because that would require installing the agent and the open telemetry collector to get the same functionality. Or we would have some monitors for both agent and otel and have duplicate health states, which is also far from ideal.
+
+Customize the SUSE Observability stackpack to use Open Telemetry data instead of relying on Kubernetes topology. A similar problem, scraping of metrics etc should be replaced with metrics from otel instrumentation etc. 
+
+Re-create/update the GenAI demo or Kubewarden stackpack to use the new functionality
+
+
+
+Related issues:
+
+https://stackstate.atlassian.net/browse/STAC-22146 
+
+Closely related to the work for https://stackstate.atlassian.net/browse/STAC-22514 , for example we want to make sure Stackpacks don’t need Groovy anymore: https://stackstate.atlassian.net/browse/STAC-22518 
+

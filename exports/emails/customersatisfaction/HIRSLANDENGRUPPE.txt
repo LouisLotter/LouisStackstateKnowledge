@@ -1,0 +1,201 @@
+SUSE Software Solutions Germany GmbH Mail	Louis Lotter <louis.lotter@suse.com>
+Fwd: Corrective Action needed: Customer Satisfaction survey
+1 message
+David Noland <david.noland@suse.com>	Thu, Jan 15, 2026 at 6:01 AM
+To: Mark Bakker <mark.bakker@suse.com>
+Cc: Louis Lotter <louis.lotter@suse.com>, Chris Riley <chris.riley@suse.com>, Amol Kharche <amol.kharche@suse.com>
+Hi Mark,
+
+I received the following customer feedback on SUSE Observability:
+Deployment model (Helm charts) is insufficient to satisfactory resolve dependencies and operational complexities of all the components of the product, requiring manual troubleshooting and guessing which one is not working correctly. Having an operator/controller to manage and monitor deployment state would go a long way in improving resiliency and simplifying operations.
+
+See also full survey below.
+
+Thanks,
+David
+
+David Noland
+SUSE
+
+www.suse.com
+
+
+
+---------- Forwarded message ---------
+From: Customer Satisfaction Survey <customersurvey@suse.com>
+Date: Wed, Jan 14, 2026 at 12:41 AM
+Subject: Corrective Action needed: Customer Satisfaction survey
+To: <david.noland@suse.com>
+
+
+Hi david.noland@suse.com,
+
+A customer submitted a Support Transactional Survey for Rodolfo de Almeida for Case 01612759.
+
+Action Required: We are currently updating the Corrective Action process, however if you spot
+something here that requires follow up then please do so using the contact details of the customer in
+the Support Case Information section of this email.
+
+Please email eric.walker@suse.com with any questions.
+ 
+Support Case Information
+Field   	    Data
+Case #	01612759
+Engineer Owner :	Rodolfo de Almeida
+Support Manager :	David Noland
+GEO_Org :	EMEA
+Contact First Name :	Ales
+Contact Last Name :	Zelenik
+Contact Telephone :	+41 77 468 42 76
+Contact Email : 	ales.zelenik@adfinis.com
+Account :	HIRSLANDEN GRUPPE
+Account ID :	A155592
+Support Program :	SUSE Observability with Platform Optimization Standard EMEA (12x5)
+Case Open Date :	2026-01-13T14:02:03.000+0000
+Product :	SUSE Observability 2.6.3
+Brief Description :	Some components are getting OOMkilled and don't have configuration options available in Helm chart
+Priority :	High
+Initial Response Time (minutes) :	null
+Case Close Date :	2026-01-13T19:23:34.000+0000
+Duration (days) :	0
+Support Case Type :	null
+Knowledge Management Usage :	null
+Download as PDF
+
+
+Recipient Data:
+Response ID	R_2yknAsH7xXwRFct
+End Date	2026-01-14T08:41:34Z
+IP Address	213.144.130.12
+URL to view Results	[Click Here]
+Response Summary:
+
+
+Suse logo hor s green pos srgb
+ 
+Our records indicate that you recently closed a Service Request with Customer Support.  Please take a few minutes to tell us about your experience.  Your detailed comments are especially helpful to us in improving your support experience. Here are the details of your service request:   
+ 
+Support Case #: 01612759
+Case Owner: Rodolfo de Almeida
+Software Product: SUSE Observability 2.6.3
+
+Brief Description: Some components are getting OOMkilled and don't have configuration options available in Helm chart
+Date Opened: 2026-01-13T14:02:03.000+0000
+Date Closed: 2026-01-13T19:23:34.000+0000
+ 
+Q1. Was this Support Case handled to your satisfaction?
+Yes
+ 
+Q2. SUSE Customer Support made it easy to solve this support incident.
+Strongly Agree
+ 
+Q3. Why? What could SUSE Customer Support do to improve?
+N/A
+
+ 
+Q4. Please rate your overall satisfaction with how your support case was resolved:
+Very Satisfied
+ 
+Q5. Why? What could SUSE Customer Support have done better for this support case?
+N/A
+
+ 
+Q6.  Rodolfo de Almeida was the last engineer who worked with you on this case.  Please rate your overall satisfaction with the support you received from Rodolfo de Almeida
+Very Satisfied
+ 
+Q7. Why? What could Rodolfo de Almeida do to improve?
+N/A
+
+ 
+Q8. Please rate your overall satisfaction with the product quality (SUSE Observability 2.6.3):
+Neither Satisfied nor Dissatisfied
+ 
+Q9. Why? What could we do to improve SUSE Observability 2.6.3?
+Deployment model (Helm charts) is insufficient to satisfactory resolve dependencies and operational complexities of all the components of the product, requiring manual troubleshooting and guessing which one is not working correctly. Having an operator/controller to manage and monitor deployment state would go a long way in improving resiliency and simplifying operations.
+
+ 
+Suse logo hor l green pos srgb
+ 
+Scoring
+Score: 22
+Embedded Data:
+AnonymizeResponse	0
+CAR	1
+ContactID	CID_pPE345iONU4Rw0V
+FY-Q	2026Q01
+Finished	1
+PanelID	CG_0B6YBoF9f67yjUp
+PanelMemberID	CGC_bmg3JgbdmDziAVq
+Preview	0
+Q3. Why? What could SUSE Customer Support do to improve?	Why? What could SUSE Customer Support do to improve?
+Q5. Why? What could SUSE Customer Support have done better for this support case?	Why? What could SUSE Customer Support have done better for this support case?
+Q7. Why? What could Rodolfo de Almeida do to improve?	Why? What could Rodolfo de Almeida do to improve?
+Q9. Why? What could we do to improve SUSE Observability 2.6.3?	Why? What could we do to improve SUSE Observability 2.6.3?
+Q_CHL	email
+Q_DL	W1xLTQvw63IXGX6_00Syqb181DTGnch_CGC_bmg3JgbdmDziAVq
+Q_EMD	EMD_W1xLTQvw63IXGX6
+Q_JFEVersion	15.5.4
+Q_Language	EN-GB
+Q_LastModified	1,758,784,821
+Q_PostResponse	TRUE
+Q_SpokeIP	63.34.94.35
+Q_TotalDuration	483
+Q_URL	https://suselinux.fra1.qualtrics.com/jfe/form/SV_00Syqb181DTGnch?Q_DL=W1xLTQvw63IXGX6_00Syqb181DTGnch_CGC_bmg3JgbdmDziAVq&Q_CHL=email
+Q_WebServiceDuration	0
+Q_lang	EN-GB
+RID	CGC_bmg3JgbdmDziAVq
+RecipientAvgTimeToRespond	0
+RecipientCreationDate	2025-10-23 14:43:33
+RecipientDataIntegrity	0
+RecipientEmail	ales.zelenik@adfinis.com
+RecipientEmail1	ales.zelenik@adfinis.com
+RecipientEmailCount	2
+RecipientFirstName	Ales
+RecipientID	CGC_bmg3JgbdmDziAVq
+RecipientInviteCount	2
+RecipientLastEmailDate	2026-01-13 19:23:51
+RecipientLastInviteDate	2026-01-13 19:23:51
+RecipientLastModified	2026-01-13 19:23:44
+RecipientLastName	Zelenik
+RecipientPanelID	CG_0B6YBoF9f67yjUp
+RecipientPanelMemberID	CGC_bmg3JgbdmDziAVq
+RecipientResponseCount	0
+RecipientResponseRate	0
+ResponseID	R_2yknAsH7xXwRFct
+SID	SV_00Syqb181DTGnch
+SessionID	FS_2yknAsH7xXwRFct
+Survey	SupportCSAT
+SurveyID	SV_00Syqb181DTGnch
+SurveyLanguage	EN-GB
+SurveyVersionID	9223370278227087902
+UserAgent	Mozilla/5.0 (X11; Linux x86_64; rv:146.0) Gecko/20100101 Firefox/146.0
+account_name	HIRSLANDEN GRUPPE
+accountid	A155592
+casenumber	01612759
+casesubject	Some components are getting OOMkilled and don't have configuration options available in Helm chart
+closeddate	2026-01-13T19:23:34.000+0000
+contactphone	+41 77 468 42 76
+createddate	2026-01-13T14:02:03.000+0000
+id	500Tr00000sSpriIAC
+month	01
+priority	High
+subject	Some components are getting OOMkilled and don't have configuration options available in Helm chart
+suse_account_country__c	Switzerland
+suse_account_name__c	HIRSLANDEN GRUPPE
+suse_account_number__c	A155592
+suse_case_manager__c	David Noland
+suse_case_manager_email__c	david.noland@suse.com
+suse_case_owner_name__c	Rodolfo de Almeida
+suse_contact_name_qualtrics__c	Ales Zelenik
+suse_csat_score__c	22
+suse_duration__c	0
+suse_entitlement_name_qualtrics__c	SUSE Observability with Platform Optimization Standard EMEA (12x5)
+suse_geo_location__c	EMEA
+suse_initial_response_time__c	null
+suse_software_product_family__c	SUSE Observability
+suse_software_product_name__c	SUSE Observability 2.6.3
+suse_tid_id__c	null
+total score	22
+type	null
+year	2026
+year2	2027

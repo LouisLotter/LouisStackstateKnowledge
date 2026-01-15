@@ -1,0 +1,122 @@
+[Design] Create topology from Open Telemetry attributes using semantic conventions
+
+
+
+Key details
+Description
+
+User Story
+
+As a application maintainer
+I want to add topology for my application
+such that I can improve discoverability and troubleshooting by providing overview pages and component relations, but also attach monitors and metric bindings
+
+Examples that we’ve already seen (working around the lack of this):
+
+GenAI use-case by Ravan: STAC-22345: [EPIC, needs more info] Create GenAI topology components from spans/traces
+To Bulk
+ 
+
+KubeWarden: https://suse.slack.com/archives/C079ANFDS2C/p1741803786399459Connect your Slack account. the Kubewarden stackpack relies on the Open Telemetry service and service instance components instead of trying to create custom components.
+
+Possibly more that we don’t know of yet
+
+Also have a chat with Ravan who made the AI prototype (which he handed over to the AI dev team, Thiago Bertoldi), and maybe also José from the Kubewarden team, to find out if there are more details than described here.
+
+The OpenTelemetry synchronization already exists and it gets its data from a custom OpenTelemetry collector exporter that we created. That exporter generates the service and service instance components data from the resource attributes. The components then get synchronized via a standard synchronization in the Open Telemetry StackPack. Nothing in this flow is configurable, component creation is hard-coded in the topology exporter.
+
+Instead of hard-coding the components to create should be customizable via configuration. That configuration must be used in the synchronization to extract the data and create the components. This can be in the OTel collector exporter, but can also be in the synchronization itself or maybe even somewhere else?
+
+The input for this process are the attributes (any type of attribute) on the open telemetry data. A selection of attributes is used to define the component, you can think of it as a GROUP BY clause in a SQL query.
+
+It should also be possible to create relations so that it would be possible to build, for example,  a partial Kubernetes topology: pod → container → process. 
+
+Acceptance Criteria
+
+Find a way to create components and relations from OpenTelemetry attributes that:
+
+is configurable from within a StackPack
+
+Configuration for creating components:
+
+Set of span, metric, log, and resource attributes that describe a component. These should be mapped onto the component as labels in the topology.
+
+One or more templates to create one or more component identifiers from these attributes, these identifiers need to uniquely identify the component (but don’t need to use all attributes of the component)
+
+A component type 
+
+What attribute to use for the component name
+
+Optionally maybe also things like a layer and domain etc (see also the code in the topology exporter that creates a service)
+
+Configuration for creating relations:
+
+source and target identifier for the relation, these can use the same templates as for component identifiers, based on the attributes. Using identifiers will also allow creating a relation to components that are not created from the same stackpack (for example to connect a container or a process to a “Service instance”, where the “service instance” is created by the Open Telemetry stackpack itself)
+
+relation type
+
+can use any attribute (not just resource attributes)
+
+A single stackpack can add multiple of these configurations to create multiple different component types
+
+stackpacks can rely on the Open Telemetry stackpack for this, they can configure it as a dependency such that it is installed automatically
+
+This is supposed to be as simple as possible: no Groovy or complicated templating should be needed
+
+Uninstalling the stackpack should also remove the configuration and (eventually) remove the components
+
+Ideally this configuration is separated from a synchronization itself so that you don’t need to touch any synchronization when you add these configurations
+
+ 
+
+Example
+
+Let’s use a Kubernetes span as an example (only showing some of the often 30+ attributes):
+
+k8s.pod.name
+
+k8s.deployment.name
+
+k8s.pod.uuid
+
+k8s.namespace.name
+
+k8s.cluster.name
+
+container.name
+
+container.uuid
+
+To create a component for the pod we can make this selection of attributes:
+
+k8s.pod.name
+
+k8s.deployment.name
+
+k8s.pod.uuid
+
+k8s.namespace.name
+
+k8s.cluster.name
+
+We can also define multiple identifiers, for example: urn:kubernetes:${k8s.cluster.name}:${k8s.namespace.name}:pod/${k8s.pod.name}, but instead of pod these names we could have also used the pod UUID alone to uniquely identify the pod. Note that we did keep the k8s.deployment.name as attribute (the deployment for a pod never changes), but we didn’t select the container attributes (a pod can have multiple containers, so there is no single combination that defines the pod and when a container is restarted its uuid will also change). We could also define a separate component for the containers and create a relation from pod pod to container.
+
+ 
+
+Failure Modes
+
+Documentation Impact
+
+INVEST Check
+
+A good user story should be:
+
+"I" ndependent (of all others)
+"N" egotiable (not a specific contract for features)
+"V" aluable (or vertical)
+"E" stimable (to a good approximation)
+"S" mall (so as to fit within an iteration)
+"T" estable (in principle, even if there isn't a test for it yet)
+
+Refinement Notes
+
