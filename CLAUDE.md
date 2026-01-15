@@ -168,6 +168,35 @@ When working on initiatives, check `.kiro/specs/` for existing planning document
 | Team goals | `team/goals-2026/` |
 | StackGraph research | `initiatives/stackgraph/research/` |
 
+## Writing Guidelines (External Content)
+
+When writing customer-facing content (blogs, documentation, marketing), avoid patterns that signal AI-generated text or cause customer confusion:
+
+### Avoid Em-Dashes
+Em-dashes (—) are a clear tell of AI-generated content. Use alternatives:
+- **Instead of:** "the feature—which is great—works well"
+- **Use:** "the feature, which is great, works well" (commas)
+- **Or:** "the feature (which is great) works well" (parentheses)
+- **Or:** "the feature. Which is great. It works well." (periods for emphasis)
+- **Or:** "the feature: it works well" (colons)
+
+### Avoid AI-Implying Language
+Phrases like "that knows," "that understands," or "intelligent" applied to software features can:
+1. Confuse customers about whether actual AI/ML is involved
+2. Create hard-to-answer questions about how the "intelligence" works
+3. Signal AI-generated content
+
+**Examples to avoid:**
+- "Dashboards that know your architecture" → "Dashboards connected to your architecture"
+- "understands your components" → "linked to your components"
+- "smart defaults" → "sensible defaults" or "pre-configured defaults"
+
+### Avoid Vague Marketing Terms
+Terms that sound good but lack clarity:
+- "Native" (native to what?) → Be specific: "built-in," "integrated," "no plugins required"
+- "Seamless" → Describe what actually happens
+- "Powerful" → Show the power with concrete examples
+
 ## Conventions
 
 - **File naming:** Use descriptive names, dates in YYYY-MM-DD format for time-sensitive docs
