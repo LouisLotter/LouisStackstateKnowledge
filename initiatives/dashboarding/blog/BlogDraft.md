@@ -1,7 +1,5 @@
 # Stop Context Switching: Dashboards Connected to Your Kubernetes Architecture
 
-## The 2 AM Context Switch
-
 It's 2 AM. Your phone buzzes with an alert: latency spike on the checkout service. You're already awake. Muscle memory kicks in.
 
 Tab one: Grafana. You find the dashboard, but the spike is there, staring back at you. No context. Just a line going up.
@@ -18,27 +16,9 @@ This is the "Alt-Tab tax" on troubleshooting. It's not just the context switchin
 
 ---
 
-## The Problem: Dashboards Are Dumb Glass
+## Dashboards Connected to Your Architecture
 
-Here's the thing: most dashboards are just pixels. They show you *that* something happened, but not *why*.
-
-**The cross-component visibility gap:** Your business processes span multiple services. A checkout flow touches the frontend, cart, payment gateway, inventory. But dashboards are static. You have to predict what you'll need to see together *before* the incident happens.
-
-**The troubleshooting friction:** You see a memory spike on one chart. Is it related to the latency spike on another? The charts can't show you the connection. They show their data, but not how it relates to the rest of your system.
-
-**The missing piece:** Whether you're running a separate dashboarding tool or doing without, there's a gap: custom dashboards that integrate with your troubleshooting workflow and link directly to your architecture.
-
-You wanted one tool to see what's happening. You got three or four that don't talk to each other.
-
----
-
-## The Solution: Dashboards Connected to Your Architecture
-
-**Today, we're releasing Dashboarding for SUSE Observability.** It's our most requested feature, built to close that gap.
-
-What if your dashboard was connected to your system topology?
-
-SUSE Observability Dashboarding isn't just another charting tool. It's topology-aware: every widget links directly to the components in your architecture. No datasource configuration, no plugin management, no separate login.
+SUSE Observability Dashboarding isn't just another charting tool. It's topology-aware so every widget links directly to the components in your architecture. No datasource configuration, no plugin management, no separate login.
 
 > **📸 VISUAL: Hero Screenshot**
 > *Place `DashboardDemo1.png` here. Annotate with arrows pointing to topology links on widgets. Caption: "Each widget links directly to the component in your architecture. Click the chart, see the context."*
@@ -62,7 +42,7 @@ You're investigating a latency spike on the catalog service. While looking at th
 
 By the time you've found the root cause, you've built a War Room. Not a room full of panicked engineers, but a shared view that captures the entire investigation. Tomorrow's post-mortem practically writes itself. The dashboard becomes a record of what you found, not a static display you hoped had the right charts.
 
-### Time Travel: More Than a Time Range Selector
+### Time Travel is More Than a Time Range Selector
 
 This is where SUSE Observability dashboards fundamentally differ from Grafana.
 
