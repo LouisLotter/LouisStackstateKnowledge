@@ -1,0 +1,183 @@
+<h2>The 2 AM Context Switch</h2>
+
+<p>It's 2 AM. Your phone buzzes with an alert: latency spike on the checkout service. You're already awake. Muscle memory kicks in.</p>
+
+<p>Tab one: Grafana. You find the dashboard, but the spike is there, staring back at you. No context. Just a line going up.</p>
+
+<p>Tab two: kubectl. You're hunting for the pod. Which namespace was it again?</p>
+
+<p>Tab three: Your log aggregator. You paste in the pod name, adjust the time range. Wait, is this UTC or local time?</p>
+
+<p>Tab four: Back to Grafana. You try to line up the timestamps manually. Was that memory spike at 2:03 or 2:04?</p>
+
+<p>This is the "Alt-Tab tax" on troubleshooting. It's not just the context switching. It's that <em>you</em> become the integration layer. Each tool has its own time range, its own data format, its own view of the world. None of them talk to each other.</p>
+
+<p><strong>The hardest part of debugging isn't finding the data. It's connecting it.</strong></p>
+
+<h2>The Problem: Dashboards Are Dumb Glass</h2>
+
+<p>Here's the thing: most dashboards are just pixels. They show you <em>that</em> something happened, but not <em>why</em>.</p>
+
+<p><strong>The cross-component visibility gap:</strong> Your business processes span multiple services. A checkout flow touches the frontend, cart, payment gateway, inventory. But dashboards are static. You have to predict what you'll need to see together <em>before</em> the incident happens.</p>
+
+<p><strong>The troubleshooting friction:</strong> You see a memory spike on one chart. Is it related to the latency spike on another? The charts can't show you the connection. They show their data, but not how it relates to the rest of your system.</p>
+
+<p><strong>The missing piece:</strong> Whether you're running a separate dashboarding tool or doing without, there's a gap: custom dashboards that integrate with your troubleshooting workflow and link directly to your architecture.</p>
+
+<p>You wanted one tool to see what's happening. You got three or four that don't talk to each other.</p>
+
+<h2>The Solution: Dashboards Connected to Your Architecture</h2>
+
+<p><strong>Today, we're releasing Dashboarding for SUSE Observability.</strong> It's our most requested feature, built to close that gap.</p>
+
+<p>What if your dashboard was connected to your system topology?</p>
+
+<p>SUSE Observability Dashboarding isn't just another charting tool. It's topology-aware: every widget links directly to the components in your architecture. No datasource configuration, no plugin management, no separate login.</p>
+
+<!-- IMAGE: Hero Screenshot - DashboardDemo1.png
+     Caption: "Each widget links directly to the component in your architecture. Click the chart, see the context."
+     Note: Annotate with arrows pointing to topology links on widgets -->
+
+<p><strong>Stop managing dashboards. Start using them.</strong></p>
+
+<p>The difference is in the details. Every widget links back to its data source. That time series showing memory usage? Click on the link, and you're looking at the pod in your topology. Not a query builder, not a search box, but the actual component with its health state and related services.</p>
+
+<h2>The Workflow: Build Context, Don't Just View It</h2>
+
+<p>Most dashboards are destinations. You go there to look at data. SUSE Observability dashboards are workflows. You build them as you investigate.</p>
+
+<h3>The Pin-to-Dashboard Workflow</h3>
+
+<p>You're investigating a latency spike on the catalog service. While looking at the component, you notice memory usage correlating with the spike: a jump from 1.2GB to 1.8GB right when HTTP latency hit 340ms. Shift-click to drop a time marker at that moment. The marker appears across every widget, so you can instantly see what else was happening at 02:43. One click to pin the metric. Another click to add it to a dashboard. You keep investigating, pinning more metrics as you go.</p>
+
+<!-- IMAGE: GIF or DashboardDemo3.png
+     Caption: "Pin it. Build it. Fix it." -->
+
+<p>By the time you've found the root cause, you've built a War Room. Not a room full of panicked engineers, but a shared view that captures the entire investigation. Tomorrow's post-mortem practically writes itself. The dashboard becomes a record of what you found, not a static display you hoped had the right charts.</p>
+
+<h3>Time Travel: More Than a Time Range Selector</h3>
+
+<p>This is where SUSE Observability dashboards fundamentally differ from Grafana.</p>
+
+<p>When your VP asks "What happened at 2:47 AM?", you don't scrub timelines hoping to line things up. You freeze the entire system (topology, health states, metrics) at that exact moment. Time Travel isn't just a time range picker. It's state preservation.</p>
+
+<ul>
+  <li>View your dashboard at any historical point, with the topology state from that moment</li>
+  <li>Share the exact instant with colleagues: "Look at 2:47 AM when the spike happened"</li>
+  <li>Everyone sees the same context, the same health states, the same component relationships</li>
+</ul>
+
+<p>No Slack thread asking "Are you looking at UTC or local time?" No manual correlation. The system preserves what your infrastructure looked like at any point in history.</p>
+
+<h2>One Platform, No Assembly Required</h2>
+
+<p>Grafana is excellent at visualization. If you need 50 widget types or highly specialized visualizations, it's still the right tool for that job.</p>
+
+<p>But for troubleshooting and cross-component visibility? You no longer need a separate tool.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Typical Approach (Grafana)</th>
+      <th>SUSE Observability</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Setup</strong></td>
+      <td>Configure datasources, manage plugins</td>
+      <td>Built-in, just works</td>
+    </tr>
+    <tr>
+      <td><strong>Context</strong></td>
+      <td>Charts are isolated</td>
+      <td>Widgets link to topology</td>
+    </tr>
+    <tr>
+      <td><strong>Troubleshooting</strong></td>
+      <td>Separate workflow</td>
+      <td>Integrated pin → dashboard</td>
+    </tr>
+    <tr>
+      <td><strong>Time Travel</strong></td>
+      <td>Manual time range selection</td>
+      <td>System-wide state preservation</td>
+    </tr>
+    <tr>
+      <td><strong>Maintenance</strong></td>
+      <td>Another tool to manage</td>
+      <td>Part of the platform</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>The real cost of "build it yourself":</strong></p>
+
+<p>The typical DIY stack: Prometheus for metrics, Elasticsearch for logs, Jaeger for traces, and Grafana to tie it together. Each tool has its own data model, its own query language. Grafana can visualize all of them, but it can't correlate them.</p>
+
+<p>SUSE Observability is different. Metrics, logs, traces, and topology live in one platform, correlated by default. When you build a dashboard, you're visualizing data that's already connected to your component relationships.</p>
+
+<p>Five widget types (Time Series, Bar Chart, Stat, Gauge, and Markdown), purpose-built for the job. Full PromQL support with auto-complete. Variables for dynamic filtering. Every widget automatically linked to its source component.</p>
+
+<h2>Real-World Use Cases</h2>
+
+<h3>Use Case 1: The Technical Dashboard</h3>
+
+<p>You're responsible for the payment service. You need to know when it's struggling before customers complain.</p>
+
+<p><strong>Your dashboard:</strong></p>
+<ul>
+  <li><strong>Stat:</strong> 847 requests/second, showing current throughput at a glance</li>
+  <li><strong>Time Series:</strong> Response times over the last hour, with threshold lines at 200ms and 500ms</li>
+  <li><strong>Time Series:</strong> Top 5 pods by CPU usage using <code>topk(5, ...)</code> to cut through the noise</li>
+  <li><strong>Gauge:</strong> Memory at 73% of limit (orange means watch it, red means act)</li>
+</ul>
+
+<pre><code>topk(5,sum by(pod_name)(rate(container_cpu_usage{namespace="${namespace}"}[5m])))</code></pre>
+
+<p>Drop that query into a widget, add a <code>${namespace}</code> variable, and you've got a dashboard that works across every namespace. Each data point links back to the actual pod.</p>
+
+<p>See a spike? Click through to the pod, check its logs, trace a request. All without leaving the platform.</p>
+
+<h3>Use Case 2: The Business Dashboard</h3>
+
+<p>Your VP wants to know if checkouts are healthy. They don't care about pods. They care about revenue.</p>
+
+<p><strong>Your dashboard:</strong></p>
+<ul>
+  <li><strong>Stat:</strong> "1,247 successful checkouts in the last hour" (the number they actually care about)</li>
+  <li><strong>Time Series:</strong> Checkout success rate over time (currently 99.2%)</li>
+  <li><strong>Gauge:</strong> Payment gateway latency at 89ms, well under the 200ms threshold</li>
+  <li><strong>Markdown:</strong> Links to technical dashboards for cart, payment, and inventory services</li>
+</ul>
+
+<!-- IMAGE: DashboardDemo5.png
+     Caption: "Business KPIs with one-click drill-down to technical details." -->
+
+<p>When the success rate dips, your VP clicks the markdown link to the payment service dashboard. They see the technical view. They understand the impact. No Slack thread required.</p>
+
+<h3>Use Case 3: The Incident War Room</h3>
+
+<p>Built on-the-fly during an outage:</p>
+
+<ul>
+  <li><strong>Time Series:</strong> Memory spike on catalog-service-7d4f8b, jumped from 1.2GB to 1.8GB at 02:43</li>
+  <li><strong>Time Series:</strong> HTTP latency on the same pod, 340ms spike correlating with memory (shift-click the spike, see the marker line up across both charts)</li>
+  <li><strong>Stat:</strong> Error rate hit 2.3% during the incident window</li>
+  <li><strong>Markdown:</strong> "Root cause: OOM pressure from uncached product queries. Fix deployed 02:58."</li>
+</ul>
+
+<p>Each widget links back to its source component. The dashboard becomes your incident record: shareable, time-travel-enabled, and permanently tied to your architecture.</p>
+
+<h2>Get Started</h2>
+
+<p><strong>Dashboarding is available now in SUSE Observability.</strong></p>
+
+<p>→ <strong><a href="https://observability.suse.com/#/welcome">Explore the playground</a></strong> to see topology-aware dashboards in action, no setup required</p>
+
+<p>→ <strong><a href="https://docs.stackstate.com/use/dashboards">Read the documentation</a></strong> to build your first dashboard</p>
+
+<p>Already a customer? Open SUSE Observability, click "Dashboards," and start building.</p>
+
+<p><strong>Your metrics deserve more than scattered views. Give them a home connected to your architecture.</strong></p>

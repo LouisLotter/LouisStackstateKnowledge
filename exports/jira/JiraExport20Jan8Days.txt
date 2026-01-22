@@ -1,0 +1,1430 @@
+Summary,Issue key,Issue id,Issue Type,Status,Project key,Project name,Project type,Project lead,Project lead id,Project description,Project url,Priority,Resolution,Assignee,Assignee Id,Reporter,Reporter Id,Creator,Creator Id,Created,Updated,Last Viewed,Resolved,Fix versions,Due date,Votes,Labels,Labels,Description,Environment,Watchers,Watchers,Watchers,Watchers,Watchers Id,Watchers Id,Watchers Id,Watchers Id,Original estimate,Remaining Estimate,Time Spent,Work Ratio,Σ Original Estimate,Σ Remaining Estimate,Σ Time Spent,Security Level,Inward issue link (Approval),Outward issue link (Approval),Inward issue link (Blocks),Inward issue link (Blocks),Inward issue link (Blocks),Inward issue link (Blocks),Inward issue link (Cloners),Outward issue link (Cloners),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Inward issue link (Relates),Outward issue link (Relates),Attachment,Attachment,Attachment,Attachment,Attachment,Attachment,Attachment,Attachment,Attachment,Custom field (Activation Date),Custom field (Actual results),Custom field (Affected services),Custom field (Approvals),Custom field (Bug Template),Custom field (Category),Custom field (Content type),Custom field (Customers),Custom field (Development),Custom field (Due date),Custom field (Epic Color),Custom field (Epic Name),Custom field (Epic Status),Custom field (Expected results),Custom field (Focus Areas),Custom field (Goals),Custom field (Handover Points),Custom field (Issue color),Custom field (Location),Custom field (Locked forms),Custom field (Open forms),Custom field (Project overview key),Custom field (Project overview status),Custom field (Publication date),Custom field (Quality Level),Custom field (Rank),Custom field (Release End Date),Custom field (Release Risk),Custom field (Release Start Date),Custom field (Release State),Custom field (Release Status),Custom field (Release notes),Custom field (Request Type),Custom field (Request language),Custom field (Request participants),Custom field (SURE Jira link),Satisfaction rating,Custom field (Satisfaction date),Custom field (Sentiment),Sprint,Sprint,Sprint,Sprint,Sprint,Custom field (StackState Team),Custom field (Start date),Custom field (Steps to reproduce),Custom field (Story Points),Custom field (Story point estimate),Custom field (Submitted forms),Custom field (Target Fix Date),Custom field (Target end),Custom field (Target start),Custom field (Team),Custom field (Template),Custom field (Total forms),Custom field (Vulnerability),Custom field ([CHART] Date of First Response),Custom field ([CHART] Time in Status),Custom field (uuid),Comment,Comment,Comment,Comment,Parent,Parent key,Parent summary,Status Category,Status Category Changed
+Free memory after initial load from akka stream lifecycle manager,STAC-24191,50443,Sub-task,In Review,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,19/Jan/26 2:04 PM,20/Jan/26 9:14 AM,,,,,0,,,,,Bram Schuur,,,,5a3a740aea5fc812d8afd681,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@49e6f2f9,,,,,{},,,,,,,,,,,,,,,,A,1|i02w79:,,,,,,,,,,,,,,Marvin - AgentBump 3,,,,,Marvin,,,,,,,,,,,,,,,,,,,,50358,STAC-24176,Work on bosch sync memory pressure,In Progress,19/Jan/26 2:04 PM
+Productize sync-service without readcache,STAC-24188,50406,User Story,In Progress,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,15/Jan/26 3:48 PM,15/Jan/26 4:18 PM,,,,,0,,,"* Do we look for a crossover point where it is not beneficial anymore? Ideally not, although we keep it in the non-split version.
+* See whether we can reduce the memory for sync service due to this (also taking into account the loading phase).
+
+Approach:
+
+* Update performance tests to not have the readcache
+* Run aegir without readcache
+* What is the impact on hbase?
+* Extrapolate memory usage of performance instance to bosch scale
+* Investigate how much the cache is hit in nightly and what is hit to gauge the impact (add this to metrics/stackpack to also run this on bosch side).
+** Get an idea on how often elements are read and which ones to prove we do not need it
+** If we need the readcache still,we might do the following, but not needed for the proof:
+*** The idea might be to apply a strategy that only stores objects which are accessed multiple times in different transaction
+*** Only store object by type? Need metrics ot back this up, what type is stored a lot?
+*** Do we only store existence to facilitate cross-transaction linking of edges?
+* Compare nightly and performance instance (nightly has readcache, performance has not)
+* ",,Bram Schuur,,,,5a3a740aea5fc812d8afd681,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@5c564954,,,,,{},,,,,,,,,,,,,,,,A,1|i02w6t:,,,,,,,,,,,,,,Marvin - AgentBump 3,,,,,Marvin,,,,,,,,,,,,,,,,,,,,,,,In Progress,15/Jan/26 3:48 PM
+Extended logging/debugging for baseUrl/ingress/http request host mismatch?,STAC-24184,50399,Bug,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Duplicate,,,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,15/Jan/26 10:56 AM,15/Jan/26 1:39 PM,,15/Jan/26 1:39 PM,,,0,,,,,Bram Schuur,,,,5a3a740aea5fc812d8afd681,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@5a833be4,"*Actual behavior*:
+
+
+*Expected behavior*:
+
+
+*Steps to reproduce*:
+
+
+*Technical note*:
+
+",,,,{},,,,,,,,,,,,,,,,A,1|i02w5x:,,,,,,,,,,,,,,Incoming,,,,,,,,,,,,,,,,,,,10107_*:*_1_*:*_9775190_*|*_6_*:*_1_*:*_0,,,,,,,,,Done,15/Jan/26 1:39 PM
+Decommission old 5.1 and 6.x tenants,STAC-24178,50361,User Story,Merging,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,Medium,,Vladimir Iliakov,61b198bc744c4d006987cf03,Vladimir Iliakov,61b198bc744c4d006987cf03,Vladimir Iliakov,61b198bc744c4d006987cf03,14/Jan/26 10:59 AM,20/Jan/26 10:45 AM,,,,,0,,,"We can decommission all 5.1 and 6.x tenants:
+
+* ao
+* se, (make sure not to delete the `sa` tenant)
+* steadybit
+* se-test
+
+
+
+
+
+AC:
+
+* delete the mentioned tenants from the saas-tenants repository.
+* remove all the workarounds and adjustments in the saas-tenants repository made for 5.1 and 6.x tenants",,Vladimir Iliakov,,,,61b198bc744c4d006987cf03,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@37852e7f,,,,,"{pullrequest={dataType=pullrequest, state=MERGED, stateCount=8}, json={""cachedValue"":{""errors"":[],""summary"":{""pullrequest"":{""overall"":{""count"":8,""lastUpdated"":""2026-01-20T11:07:54.695+0100"",""stateCount"":8,""state"":""MERGED"",""dataType"":""pullrequest"",""open"":false},""byInstanceType"":{""GitLab"":{""count"":8,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02w5v:,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,,,,,,,,,,,,,,,,,,,,,In Progress,15/Jan/26 9:44 AM
+Generate biome.jsonc from biome.mjs,STAC-24177,50360,Sub-task,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,13/Jan/26 8:13 PM,15/Jan/26 4:23 PM,,15/Jan/26 4:23 PM,,,0,,,,,Anton Ovechkin,Release StackState,,,61d2f4ebce3652006aaa23ca,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@2ce90669,,,,,"{repository={count=6, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":6,""lastUpdated"":""2026-01-14T10:19:27.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":6,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02w4v:,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,,,,,,,,,,,2026-01-13 19:33:34.568,10107_*:*_1_*:*_9492_*|*_3_*:*_1_*:*_47774663_*|*_10400_*:*_1_*:*_111245914_*|*_10401_*:*_1_*:*_0,,13/Jan/26 8:33 PM;5f0c19c95ee2c3002363e486;[Anton Ovechkin|https://gitlab.com/suse.anton.ovechkin] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9438] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-24177-generate-biome-from-mjs|https://gitlab.com/stackvista/stackstate/-/tree/STAC-24177-generate-biome-from-mjs]:{quote}STAC-24177 Generate `biome.jsonc` from `biome.mjs`{quote},,,,49633,STAC-24016,Migrate from Prettier+ESLint to Biome,Done,15/Jan/26 4:23 PM
+Work on bosch sync memory pressure,STAC-24176,50358,User Story,In Progress,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,13/Jan/26 4:05 PM,19/Jan/26 2:37 PM,,,,,0,,,,,Bram Schuur,Release StackState,,,5a3a740aea5fc812d8afd681,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@3271db57,,,,,"{pullrequest={dataType=pullrequest, state=OPEN, stateCount=2}, json={""cachedValue"":{""errors"":[],""summary"":{""pullrequest"":{""overall"":{""count"":2,""lastUpdated"":""2026-01-19T14:37:20.116+0100"",""stateCount"":2,""state"":""OPEN"",""dataType"":""pullrequest"",""open"":true},""byInstanceType"":{""GitLab"":{""count"":2,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02w4n:,,,,,,,,,,,,,,Marvin - AgentBump 3,,,,,Marvin,,,,,,,,,,,,,2026-01-19 13:37:27.393,,,19/Jan/26 2:37 PM;5f0c19c95ee2c3002363e486;[Bram Schuur|https://gitlab.com/bramschuursts] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9445] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [stac-24176|https://gitlab.com/stackvista/stackstate/-/tree/stac-24176]:{quote}STAC-24176: Make sure to not retain initial message when loading akka streams data{quote},,,,,,,In Progress,13/Jan/26 4:05 PM
+WAL mismatch on chaos champagne,STAC-24173,50353,Bug,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,13/Jan/26 10:07 AM,19/Jan/26 2:38 PM,,19/Jan/26 2:38 PM,,,0,,,,,Bram Schuur,Release StackState,,,5a3a740aea5fc812d8afd681,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@1225d509,,,,,"{repository={count=2, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":2,""lastUpdated"":""2026-01-19T12:02:49.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":2,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02w4f:,,,,,,,,,,,,,,Marvin - AgentBump 3,,,,,Marvin,,,,,,,,,,,,,2026-01-15 09:25:07.34,10107_*:*_1_*:*_4308_*|*_3_*:*_1_*:*_170113599_*|*_10400_*:*_1_*:*_355503994_*|*_10401_*:*_1_*:*_0,,15/Jan/26 10:25 AM;5f0c19c95ee2c3002363e486;[Bram Schuur|https://gitlab.com/bramschuursts] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9442] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [stac-24173|https://gitlab.com/stackvista/stackstate/-/tree/stac-24173]:{quote}STAC-24173: Bump stackgraph{quote},,,,,,,Done,19/Jan/26 2:38 PM
+Update snapshots after release,STAC-24172,50320,Sub-task,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,12/Jan/26 2:54 PM,19/Jan/26 7:53 PM,,19/Jan/26 7:53 PM,,,0,,,,,daniel.barra,,,,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@1b46f81a,,,,,"{repository={count=18, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":18,""lastUpdated"":""2026-01-19T16:07:22.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":18,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02w47:,,,,,,,,,,,,,,Marvin - Spacks2 & AgentBump 2,Marvin - AgentBump 3,,,,Marvin,,,,,,,,,,,,,,10107_*:*_1_*:*_182974197_*|*_3_*:*_1_*:*_426041325_*|*_10400_*:*_1_*:*_0,,,,,,49983,STAC-24080,[QA] Add scenarios to validate UI by playwright,Done,19/Jan/26 7:53 PM
+scroll bar disappear on traces page,STAC-24171,50318,Bug,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Samuel Jones,712020:a950806e-86c0-42f7-b531-66e40f57b9ee,rajukumar.macha,712020:05b3e11c-41bc-4bbd-aaf2-6a1139bf2a60,rajukumar.macha,712020:05b3e11c-41bc-4bbd-aaf2-6a1139bf2a60,12/Jan/26 12:58 PM,14/Jan/26 12:23 PM,,13/Jan/26 9:39 AM,suse-observability/2.7.0,,0,,,"scroll bar disappear on traces page, Please find attached screen capture.
+
+*Tested in Browsers* : firefox and chrome
+
+
+
+*chrome:*
+
+!image-20260112-115836.png|width=671,alt=""image-20260112-115836.png""!
+
+*Firefox:*
+
+!image-20260112-120334.png|width=929,alt=""image-20260112-120334.png""!",,rajukumar.macha,Release StackState,,,712020:05b3e11c-41bc-4bbd-aaf2-6a1139bf2a60,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,12/Jan/26 12:58 PM;15b410eb-b968-438b-a045-b0a2ad79c02e;image-20260112-115836.png;https://stackstate.atlassian.net/rest/api/3/attachment/content/26675,12/Jan/26 1:04 PM;15b410eb-b968-438b-a045-b0a2ad79c02e;image-20260112-120334.png;https://stackstate.atlassian.net/rest/api/3/attachment/content/26676,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@6475e2d,"*Actual behavior*:
+
+scroll bar disappear on traces page
+*Expected behavior*:
+
+scroll bar should appear on traces page
+*Steps to reproduce*:
+
+
+*Technical note*:
+
+",,,,"{repository={count=3, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":3,""lastUpdated"":""2026-01-12T14:28:12.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":3,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02w3z:,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,,,,,,,,,,,2026-01-12 12:33:41.719,10107_*:*_1_*:*_1653456_*|*_3_*:*_1_*:*_0,,12/Jan/26 1:33 PM;5f0c19c95ee2c3002363e486;[Sam Jones|https://gitlab.com/sdjnes] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9433] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-24171-traces-explorer-not-scrolling|https://gitlab.com/stackvista/stackstate/-/tree/STAC-24171-traces-explorer-not-scrolling]:{quote}STAC-24171 Correct name for class on ScrollingContainer{quote},,,,,,,Done,13/Jan/26 9:39 AM
+Migrate twin.macro pattern #2 !important Modifier,STAC-24164,50277,Technical Debt,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,09/Jan/26 1:46 PM,14/Jan/26 9:38 AM,,14/Jan/26 9:38 AM,,,0,dx,frontend,"h1. *Before:*
+
+{noformat}import ""twin.macro"";
+
+<div tw=""hidden!"" />
+<div tw=""!hidden"" />
+<div tw=""(hidden ml-auto)!"" />{noformat}
+
+*After:*
+
+{noformat}<div className=""!hidden"" />
+<div className=""!hidden"" />
+<div className=""!hidden !ml-auto"" />{noformat}
+
+*Explanation:* Twin.macro allows adding {{!important}} to classes by appending {{!}} (e.g., {{hidden!}}) or prefixing {{!}} (e.g., {{!hidden}}). For groups, wrap in parentheses and append {{!}} (e.g., {{(hidden ml-auto)!}}). In pure Tailwind CSS, use the {{!}} prefix directly on each class (e.g., {{!hidden}}). This ensures the style has higher specificity.
+
+Align {{!}} positioning to be prefixed, in all cases ({{css}} and {{tw}} props)
+
+*Best Practice:*
+
+* Use {{!}} prefix sparingly, as it can make debugging specificity issues harder.
+* Only use when necessary (e.g., overriding third-party styles).
+* Test thoroughly, as {{!important}} can override component variants unexpectedly.",,Anton Ovechkin,Release StackState,Samuel Jones,,61d2f4ebce3652006aaa23ca,5f0c19c95ee2c3002363e486,712020:a950806e-86c0-42f7-b531-66e40f57b9ee,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@48d8233,,,,,"{repository={count=3, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":3,""lastUpdated"":""2026-01-13T14:03:23.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":3,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02w2n:,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,2.0,,,,,,,,,,2026-01-13 12:12:13.625,10107_*:*_1_*:*_342295771_*|*_10403_*:*_1_*:*_912759_*|*_3_*:*_2_*:*_1197874_*|*_10400_*:*_2_*:*_2184385_*|*_10401_*:*_1_*:*_0,,13/Jan/26 1:12 PM;712020:a950806e-86c0-42f7-b531-66e40f57b9ee;I couldn’t find any simple cases of important usage in the codebase (using the {{tw}} prop). There are instances of it used with the {{css}} prop which will be handled in [https://stackstate.atlassian.net/browse/STAC-24158|https://stackstate.atlassian.net/browse/STAC-24158|smart-link] ,13/Jan/26 1:32 PM;5f0c19c95ee2c3002363e486;[Sam Jones|https://gitlab.com/sdjnes] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9437] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-24164-twin-macro-pattern-2|https://gitlab.com/stackvista/stackstate/-/tree/STAC-24164-twin-macro-pattern-2]:{quote}STAC-24164 Move important `!` from suffix to prefix in twin.macro usages{quote},,,39584,STAC-24156,Use tailwind without twin.macro,Done,14/Jan/26 9:38 AM
+Migrate twin.macro pattern #1 twin.macro groups,STAC-24163,50275,Technical Debt,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Won't Do,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,09/Jan/26 1:46 PM,14/Jan/26 10:25 AM,,14/Jan/26 10:25 AM,,,0,dx,frontend,"*Before (tw prop):*
+
+{noformat}const interactionStyles = () => <div tw=""hover:(text-black underline) focus:(text-blue-500 underline)"" />;
+
+const mediaStyles = () => <div tw=""sm:(w-4 mt-3) lg:(w-8 mt-6)"" />;
+
+const pseudoElementStyles = () => <div tw=""before:(block w-10 h-10 bg-black)"" />;
+
+const stackedVariants = () => <div tw=""sm:hover:(bg-black text-white)"" />;
+
+const groupsInGroups = () => <div tw=""sm:(bg-black hover:(bg-white w-10))"" />;{noformat}
+
+*Before (css prop with tw):*
+
+{noformat}import tw from ""twin.macro"";
+
+const interactionStyles = () => <div css={tw`hover:(text-black underline) focus:(text-blue-500 underline)`} />;
+
+const mediaStyles = () => <div css={tw`sm:(w-4 mt-3) lg:(w-8 mt-6)`} />;
+
+const pseudoElementStyles = () => <div css={tw`before:(block w-10 h-10 bg-black)`} />;
+
+const stackedVariants = () => <div css={tw`sm:hover:(bg-black text-white)`} />;
+
+const groupsInGroups = () => <div css={tw`sm:(bg-black hover:(bg-white w-10))`} />;{noformat}
+
+*After (both cases):*
+
+{noformat}const interactionStyles = () => (
+  <div className=""hover:text-black hover:underline focus:text-blue-500 focus:underline"" />
+);
+
+const mediaStyles = () => <div className=""sm:w-4 sm:mt-3 lg:w-8 lg:mt-6"" />;
+
+const pseudoElementStyles = () => <div className=""before:block before:w-10 before:h-10 before:bg-black"" />;
+
+const stackedVariants = () => <div className=""sm:hover:bg-black sm:hover:text-white"" />;
+
+const groupsInGroups = () => <div className=""sm:bg-black sm:hover:bg-white sm:hover:w-10"" />;{noformat}
+
+*Explanation:* Twin.macro's group syntax (e.g., {{hover:(...)}}) allows combining multiple modifiers into a single group for readability. In pure Tailwind CSS, these groups are expanded into individual classes. Tailwind's JIT mode generates only the classes you use, so there's no performance penalty. For complex combinations, use arbitrary variants if needed (e.g., {{[&>svg]:w-4}}).
+
+*Best Practice:*
+
+* Expand groups explicitly - don't rely on shorthand grouping.
+* For deeply nested or complex selectors, use Tailwind's arbitrary variants: {{className=""[&:nth-child(3)]:text-red-500""}}
+* Test responsive and interactive states thoroughly, as Tailwind handles specificity differently.
+* If groups are heavily used, consider using a codemod to automate expansion.",,Anton Ovechkin,Samuel Jones,,,61d2f4ebce3652006aaa23ca,712020:a950806e-86c0-42f7-b531-66e40f57b9ee,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@25e0074a,,,,,{},,,,,,,,,,,,,,,,A,1|i02w2f:,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,2.0,,,,,,,,,,2026-01-13 12:06:21.708,10107_*:*_1_*:*_340817607_*|*_10403_*:*_1_*:*_916835_*|*_3_*:*_1_*:*_1435117_*|*_10400_*:*_1_*:*_76720007_*|*_10401_*:*_1_*:*_0,,13/Jan/26 1:06 PM;712020:a950806e-86c0-42f7-b531-66e40f57b9ee;I couldn’t find any instances in the codebase. This ticket was created from an older plan so it’s possible that it was already done (consciously or not).,,,,39584,STAC-24156,Use tailwind without twin.macro,Done,14/Jan/26 10:25 AM
+Migrate twin.macro pattern #7 Theme Access,STAC-24162,50273,Technical Debt,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,09/Jan/26 1:46 PM,19/Jan/26 9:32 AM,,19/Jan/26 9:32 AM,,,0,dx,frontend,"*Before:*
+
+{noformat}import { theme } from ""twin.macro"";
+const color = theme`colors.blue.600`;{noformat}
+
+*Before (with css function):*
+
+{noformat}import { css, theme } from ""twin.macro"";
+const Input = () => <input css={css({ color: theme`colors.purple.500` })} />;{noformat}
+
+*After (Option 1: Use migration helper - RECOMMENDED during migration):*
+
+{noformat}import { theme } from ""~/tools/twin-migration"";
+
+const color = theme(""colors.blue.600""); // Returns: '#008AFF'
+const fontFamily = theme(""fontFamily.text""); // Returns: 'Roboto Flex Variable, Roboto, sans-serif'{noformat}
+
+*Important:* If you get an error that the theme value is not found, add it to the {{themeMap}} in {{src/tools/twin-migration.ts}} by copying the value from {{tailwind.config.cjs}}.
+
+*After (Option 2: Use Tailwind classes directly - Best for production):*
+
+{noformat}// Instead of accessing theme values in JS, use Tailwind classes
+<div className=""text-blue-600"">Text</div>
+<div className=""bg-blue-600"">Background</div>{noformat}
+
+*After (Option 3: Use arbitrary values for dynamic colors - Tailwind v3+):*
+
+{noformat}// For truly dynamic values
+const dynamicColor = '#008AFF';
+<div style={{ color: dynamicColor }}>Text</div>
+
+// Or use Tailwind arbitrary values for known values
+<div className=""text-[#008AFF]"">Text</div>{noformat}
+
+*After (Option 5: For css function with theme - convert to style or className):*
+
+{noformat}// Convert css({ color: theme`colors.purple.500` }) to inline style or className
+const Input = () => <input style={{ color: theme(""colors.purple.500"") }} />;
+// Or use className if possible
+const Input = () => <input className=""text-purple-500"" />;{noformat}
+
+*Best Practice:*
+
+* *During migration:* Use {{theme()}} helper (Option 1) - it's explicit, type-safe via runtime check, and easy to find/replace later
+* *After migration:* Prefer Tailwind utility classes (Option 2) whenever possible
+* *Update* {{twin-migration.ts}} whenever you encounter a new theme value - this creates a documented mapping of all theme values used in the codebase",,Anton Ovechkin,Release StackState,,,61d2f4ebce3652006aaa23ca,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@7222239,,,,,"{repository={count=10, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":10,""lastUpdated"":""2026-01-19T12:24:54.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":10,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02w27:,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,2.0,,,,,,,,,,2026-01-14 14:44:17.469,10107_*:*_1_*:*_423354622_*|*_10403_*:*_1_*:*_919532_*|*_3_*:*_1_*:*_15970297_*|*_10400_*:*_1_*:*_87571854_*|*_10401_*:*_1_*:*_0,,14/Jan/26 3:44 PM;5f0c19c95ee2c3002363e486;[Anton Ovechkin|https://gitlab.com/suse.anton.ovechkin] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9440] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-24162-migrate-twin-pattern-7|https://gitlab.com/stackvista/stackstate/-/tree/STAC-24162-migrate-twin-pattern-7]:{quote}STAC-24162 Migrate twin pattern 7: theme macros{quote},,,,39584,STAC-24156,Use tailwind without twin.macro,Done,19/Jan/26 9:32 AM
+Migrate twin.macro pattern #6 Complex Styled Components with Props without className or {...props} spread on the same element,STAC-24161,50271,Technical Debt,In Progress,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,Samuel Jones,712020:a950806e-86c0-42f7-b531-66e40f57b9ee,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,09/Jan/26 1:46 PM,20/Jan/26 9:29 AM,,,,,0,dx,frontend,"*Before:*
+
+{noformat}import styled from ""styled-components"";
+import tw from ""twin.macro"";
+
+const StyledDiv = styled.div<{ $variant: ""primary"" | ""secondary"" }>`
+  ${tw`p-4 rounded`}
+  ${(props) => (props.$variant === ""primary"" ? tw`bg-blue-500` : tw`bg-gray-500`)}
+`;{noformat}
+
+*After (Option 1: Using cx for conditionals):*
+
+{noformat}import { cx } from ""~/tools/class-variance"";
+
+interface StyledDivProps {
+  variant: ""primary"" | ""secondary"";
+  children: React.ReactNode;
+}
+
+function StyledDiv({ variant, children }: StyledDivProps) {
+  return (
+    <div
+      className={cx(""p-4 rounded"", variant === ""primary"" && ""bg-blue-500"", variant === ""secondary"" && ""bg-gray-500"")}
+    >
+      {children}
+    </div>
+  );
+}{noformat}
+
+*After (Option 2: For complex variants, use cv - class-variance-authority):*
+
+{noformat}import { cv, type Props } from ""~/tools/class-variance"";
+
+const styledDivVariants = cv({
+  base: ""p-4 rounded"",
+  variants: {
+    variant: {
+      primary: ""bg-blue-500 text-white"",
+      secondary: ""bg-gray-500 text-gray-100"",
+    },
+    size: {
+      sm: ""text-sm"",
+      md: ""text-base"",
+      lg: ""text-lg"",
+    },
+  },
+  defaultVariants: {
+    variant: ""primary"",
+    size: ""md"",
+  },
+});
+
+interface StyledDivProps extends Props<typeof styledDivVariants> {
+  children: React.ReactNode;
+}
+
+function StyledDiv({ variant, size, children }: StyledDivProps) {
+  return <div className={styledDivVariants({ variant, size })}>{children}</div>;
+}{noformat}
+
+*Best Practice:*
+
+* Avoid conflicting Tailwind classes (e.g., don't use both {{text-sm}} and {{text-lg}} conditionally without cv())
+* Use cv() for components with multiple variants and compound variants
+* Keep classes explicit and non-overlapping
+* Leverage Tailwind v3.4.1 arbitrary variants for edge cases: {{className=""[&:nth-child(3)]:ml-auto""}}",,Anton Ovechkin,,,,61d2f4ebce3652006aaa23ca,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@f45c121,,,,,{},,,,,,,,,,,,,,,,A,1|i02vge:z,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,3.0,,,,,,,,,,,,,,,,,39584,STAC-24156,Use tailwind without twin.macro,In Progress,20/Jan/26 9:29 AM
+Migrate twin.macro pattern #5 Styled Components without className or {...props} spread on the same element → Regular Components,STAC-24160,50269,Technical Debt,In Progress,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,09/Jan/26 1:46 PM,20/Jan/26 4:04 PM,,,,,0,dx,frontend,"*Before:*
+
+{noformat}import styled from ""styled-components"";
+import tw from ""twin.macro"";
+
+const StyledButton = styled.button`
+  ${tw`px-4 py-2 bg-blue-500 text-white rounded`}
+  &:hover {
+    ${tw`bg-blue-700`}
+  }
+`;
+
+function Component() {
+  return <StyledButton>Click me</StyledButton>;
+}{noformat}
+
+*After:*
+
+{noformat}function Component() {
+  return <button className=""px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"">Click me</button>;
+}{noformat}
+
+*Special Case - Reused Styled Components (DRY Principle):*
+
+When a styled component is used *multiple times in the same file*, extract the className string to a constant to keep it DRY:
+
+*Before:*
+
+{noformat}import tw from ""twin.macro"";
+
+const NoResult = tw.div`p-5 text-center h-full`;
+
+function Component() {
+  return (
+    <div>
+      <NoResult>Message 1</NoResult>
+      <NoResult>Message 2</NoResult>
+    </div>
+  );
+}{noformat}
+
+*After:*
+
+{noformat}import { cx } from ""~/tools/class-variance"";
+
+const NO_RESULT_CLASSNAME = cx(""p-5 text-center h-full"");
+
+function Component() {
+  return (
+    <div>
+      <div className={NO_RESULT_CLASSNAME}>Message 1</div>
+      <div className={NO_RESULT_CLASSNAME}>Message 2</div>
+    </div>
+  );
+}{noformat}
+
+*Note:* Use {{cx()}} even for static classes to enable {{Tailwind CSS IntelliSense}}, maintain consistency, and make it easier to add conditional classes later if needed. If the component is only used once, inline the className directly instead of creating a constant.
+
+Another option might be to create a component like 
+
+{noformat}const NoResult = () => <div className=”p-5 text-center h-full” />{noformat}
+
+*Tailwind v3.4.1 Features You Can Use:*
+
+* *Hover, Focus, Active states:* {{hover:bg-blue-700}}, {{focus:ring-2}}, {{active:scale-95}}
+* *Group modifiers:* {{group-hover:text-blue-500}} (when parent has {{group}} class)
+* *Peer modifiers:* {{peer-checked:bg-blue-500}} (for sibling interactions)
+* *Arbitrary variants:* {{[&>svg]:text-blue-500}} (target children)
+* *Data attributes:* {{data-[state=open]:bg-blue-500}}",,Anton Ovechkin,Release StackState,,,61d2f4ebce3652006aaa23ca,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@38036d59,,,,,"{pullrequest={dataType=pullrequest, state=OPEN, stateCount=1}, json={""cachedValue"":{""errors"":[],""summary"":{""pullrequest"":{""overall"":{""count"":1,""lastUpdated"":""2026-01-20T16:03:03.918+0100"",""stateCount"":1,""state"":""OPEN"",""dataType"":""pullrequest"",""open"":true},""byInstanceType"":{""GitLab"":{""count"":1,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02w1r:,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,3.0,,,,,,,,,,2026-01-20 15:03:20.922,,,20/Jan/26 4:03 PM;5f0c19c95ee2c3002363e486;[Anton Ovechkin|https://gitlab.com/suse.anton.ovechkin] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9448] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-24160-migrate-twin-pattern-5|https://gitlab.com/stackvista/stackstate/-/tree/STAC-24160-migrate-twin-pattern-5]:{quote}Draft: STAC-24160 Migrate twin.macro pattern #5 Styled Components without `className` or `{...props}` spread on the same element → Regular Components{quote},,,,39584,STAC-24156,Use tailwind without twin.macro,In Progress,14/Jan/26 11:58 AM
+Migrate twin.macro pattern #4 Conditional Styles with css without className or {...props} spread on the same element,STAC-24159,50267,Technical Debt,Merging,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,Samuel Jones,712020:a950806e-86c0-42f7-b531-66e40f57b9ee,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,09/Jan/26 1:46 PM,20/Jan/26 9:28 AM,,,,,0,dx,frontend,"*Before:*
+
+{noformat}import tw from ""twin.macro"";
+
+function Component({ isActive }: { isActive: boolean }) {
+  return <div css={[tw`flex items-center`, isActive && tw`bg-blue-500`]}>Content</div>;
+}{noformat}
+
+*After:*
+
+{noformat}import { cx } from ""~/tools/class-variance""; // existing classnames utility
+
+function Component({ isActive }: { isActive: boolean }) {
+  return <div className={cx(""flex items-center"", isActive && ""bg-blue-500"")}>Content</div>;
+}{noformat}
+
+*Note:* We use {{cx}} only for conditional logic, NOT for merging conflicting classes. Keep Tailwind classes explicit and non-conflicting.",,Anton Ovechkin,Release StackState,,,61d2f4ebce3652006aaa23ca,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@53e50f99,,,,,"{repository={count=29, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":29,""lastUpdated"":""2026-01-20T09:28:32.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":29,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02w5t:,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,3.0,,,,,,,,,,2026-01-16 14:20:08.15,,,16/Jan/26 3:20 PM;5f0c19c95ee2c3002363e486;[Sam Jones|https://gitlab.com/sdjnes] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9443] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-24159-twin-macro-pattern-4|https://gitlab.com/stackvista/stackstate/-/tree/STAC-24159-twin-macro-pattern-4]:{quote}Draft: STAC-24159 Remove conditional tw usage in `css` prop{quote},,,,39584,STAC-24156,Use tailwind without twin.macro,In Progress,15/Jan/26 4:18 PM
+Migrate twin.macro pattern #3 css prop or tw prop with twin.macro without className or {...props} spread on the same element → className,STAC-24158,50265,Technical Debt,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Samuel Jones,712020:a950806e-86c0-42f7-b531-66e40f57b9ee,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,09/Jan/26 1:46 PM,20/Jan/26 9:28 AM,,20/Jan/26 9:28 AM,,,0,dx,frontend,"*Before (CSS prop):*
+
+{noformat}import tw from ""twin.macro"";
+
+function Component() {
+  return <div css={tw`flex items-center gap-4`}>Content</div>;
+}{noformat}
+
+*Before (tw prop):*
+
+{noformat}import ""twin.macro"";
+
+function Component() {
+  return <div tw=""flex items-center gap-4"">Content</div>;
+}{noformat}
+
+*After (both cases):*
+
+{noformat}function Component() {
+  return <div className=""flex items-center gap-4"">Content</div>;
+}{noformat}
+
+
+When searching for these types of components, it’s likely you will find ones that also match Pattern #9 (STAC-24166), where there are spread props or the className prop set. In these cases, check the usage of the component to see if: className, tw or css props are passed. If not, those cases become this simple case described in the ticket. Otherwise, leave those components for Pattern #9",,Anton Ovechkin,Release StackState,,,61d2f4ebce3652006aaa23ca,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@30750e3f,,,,,"{repository={count=37, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":37,""lastUpdated"":""2026-01-19T12:26:27.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":37,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02w1b:,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,3.0,,,,,,,,,,2026-01-15 08:48:55.854,10107_*:*_2_*:*_343558790_*|*_10403_*:*_1_*:*_946842_*|*_3_*:*_2_*:*_183033618_*|*_10400_*:*_1_*:*_332246064_*|*_10401_*:*_1_*:*_0,,"15/Jan/26 9:48 AM;5f0c19c95ee2c3002363e486;[Sam Jones|https://gitlab.com/sdjnes] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9441] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-24158-twin-macro-pattern-3|https://gitlab.com/stackvista/stackstate/-/tree/STAC-24158-twin-macro-pattern-3]:{quote}Draft: STAC-24158 Replace css={tw`...`} with className=""..."" for components that do...{quote}",,,,39584,STAC-24156,Use tailwind without twin.macro,Done,20/Jan/26 9:28 AM
+Check why DKIM verification errors are reported for observability.suse.com,STAC-24144,50217,DevOps,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Vladimir Iliakov,61b198bc744c4d006987cf03,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,06/Jan/26 12:24 PM,13/Jan/26 9:34 AM,,13/Jan/26 9:34 AM,,,0,,,"The cybersecurity team gets alerted when DKIM verification fails and they then send emails including managers like Jeff Hobs and Sheng. This happened now for the second time so we should have a look why SES does get set up for these environments that don’t need it, but with incomplete DKIM configuration.
+
+Here a copy from the email (better check your own mail because that is much more readable than this).
+
+
+
+|{color:#ffffff}AWS Health Eve{color}|
+
+|[View in Notification Center|https://lhrrj7lm.r.us-east-1.awstrack.me/L0/https:%2F%2Fconsole.aws.amazon.com%2Fnotifications%2Fhome%23%2Fnotifications%2FAWS-Health%2FSecurity%2Fa01kdytppkk3chxdmm2c9pz0g0x%2Fdetails/1/0100019b7db488b8-c1e4f803-82f1-413b-8243-142a721b84da-000000/nlwK-9lH8KPc7huui7vMl3yC768=459]
+Email DKIM setup FAILURE for [http://observability.suse.com|http://observability.suse.com|smart-link]  in Europe (Frankfurt) region
+[ View details in service console|https://lhrrj7lm.r.us-east-1.awstrack.me/L0/https:%2F%2Fhealth.aws.amazon.com%2Fhealth%2Fhome%3Fregion=eu-central-1%23%2Fevent-log%3FeventID=arn:aws:health:eu-central-1::event%2FSES%2FAWS_SES_DKIM_PENDING_TO_FAILED%2FAWS_SES_DKIM_PENDING_TO_FAILED_483040731819_56ebb6d2-4f82-4888-9fdd-625e2e5ca7b2%26eventTab=details%26layout=vertical/1/0100019b7db488b8-c1e4f803-82f1-413b-8243-142a721b84da-000000/WWJBMFUVUY2uPBkLgUN_tX6WsR8=459]
+We have been attempting to verify the DKIM setup of [http://observability.suse.com|http://observability.suse.com|smart-link]  for the last 3 days. We have not been able to detect the required DNS records in your DNS settings. If you still wish to use DKIM when sending through Amazon SES or Amazon Pinpoint, please confirm that the DNS records are present and retry the set-up process via the Amazon SES or Amazon Pinpoint console or the API. 
+For DKIM troubleshooting information, see [http://docs.aws.amazon.com/ses/latest/DeveloperGuide/DKIM-problems.html|http://docs.aws.amazon.com/ses/latest/DeveloperGuide/DKIM-problems.html|smart-link]  . 
+Please note that this email only relates to the Europe (Frankfurt) region. 
+Thank you for using Amazon Web Services.|
+
+|Message metadata|
+
+|Affected account
+483040731819
+Event type code
+AWS_SES_DKIM_PENDING_TO_FAILED
+Event region
+eu-central-1
+Service
+SES
+Event type category
+accountNotification
+Start time
+Fri, 2 Jan 2026 07:44:57 GMT|",,Remco Beckers,Vladimir Iliakov,,,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,61b198bc744c4d006987cf03,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@2259191d,,,,,"{repository={count=2, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":2,""lastUpdated"":""2026-01-12T09:04:53.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":2,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02vyv:,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,,,,,,,,,,,2026-01-06 13:03:08.357,10107_*:*_1_*:*_505904560_*|*_3_*:*_1_*:*_4195466_*|*_10400_*:*_1_*:*_2421_*|*_10401_*:*_1_*:*_0,,06/Jan/26 2:03 PM;61b198bc744c4d006987cf03;This [https://gitlab.com/stackvista/devops/saas-tenants/-/merge_requests/1210/diffs|https://gitlab.com/stackvista/devops/saas-tenants/-/merge_requests/1210/diffs|smart-link]  should do it. I will apply it after I am back from my vacation.,,,,,,,Done,13/Jan/26 9:34 AM
+Update the tenants,STAC-24143,50216,Sub-task,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,05/Jan/26 12:09 PM,14/Jan/26 5:43 PM,,14/Jan/26 5:43 PM,,,0,,,,,daniel.barra,,,,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@3d114037,,,,,{},,,,,,,,,,,,,,,,A,1|i02vwm:zi,,,,,,,,,,,,,,Dashboards release?,Wrapping up dashboarding,,,,Borg,,,,,,,,,,,,,,10107_*:*_1_*:*_778717910_*|*_3_*:*_1_*:*_302839_*|*_10400_*:*_1_*:*_0,,,,,,50198,STAC-24134,[Release] Suse Observability Release v2.7.0 Target date 12 January 2026,Done,14/Jan/26 5:43 PM
+Put a fix version on all tickets that were released,STAC-24142,50214,Sub-task,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,05/Jan/26 12:09 PM,14/Jan/26 12:28 PM,,14/Jan/26 12:28 PM,,,0,,,,,daniel.barra,,,,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@2398c505,,,,,{},,,,,,,,,,,,,,,,A,1|i02vwm:z,,,,,,,,,,,,,,Dashboards release?,Wrapping up dashboarding,,,,Borg,,,,,,,,,,,,,,10107_*:*_1_*:*_778376971_*|*_3_*:*_1_*:*_0,,,,,,50198,STAC-24134,[Release] Suse Observability Release v2.7.0 Target date 12 January 2026,Done,14/Jan/26 12:28 PM
+Public the Release,STAC-24141,50212,Sub-task,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,05/Jan/26 12:09 PM,14/Jan/26 12:22 PM,,14/Jan/26 12:22 PM,,,0,,,,,daniel.barra,,,,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@5c3a1446,,,,,{},,,,,,,,,,,,,,,,A,1|i02vwm:y,,,,,,,,,,,,,,Dashboards release?,Wrapping up dashboarding,,,,Borg,,,,,,,,,,,,,,10107_*:*_1_*:*_693547645_*|*_3_*:*_1_*:*_0,,,,,,50198,STAC-24134,[Release] Suse Observability Release v2.7.0 Target date 12 January 2026,Done,14/Jan/26 12:22 PM
+Create MR for docs with release notes,STAC-24140,50210,Sub-task,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,05/Jan/26 12:09 PM,14/Jan/26 12:22 PM,,14/Jan/26 12:22 PM,,,0,,,,,daniel.barra,,,,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@6d24d87b,,,,,{},,,,,,,,,,,,,,,,A,1|i02vwm:x,,,,,,,,,,,,,,Dashboards release?,Wrapping up dashboarding,,,,Borg,,,,,,,,,,,,,,10107_*:*_1_*:*_693515434_*|*_3_*:*_1_*:*_0,,,,,,50198,STAC-24134,[Release] Suse Observability Release v2.7.0 Target date 12 January 2026,Done,14/Jan/26 12:22 PM
+Determine Helm chart public version,STAC-24139,50208,Sub-task,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,05/Jan/26 12:09 PM,13/Jan/26 12:48 PM,,13/Jan/26 12:48 PM,,,0,,,,,daniel.barra,,,,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@3856416,,,,,{},,,,,,,,,,,,,,,,A,1|i02vwm:v,,,,,,,,,,,,,,Dashboards release?,Wrapping up dashboarding,,,,Borg,,,,,,,,,,,,,,10107_*:*_1_*:*_364992539_*|*_3_*:*_1_*:*_0,,,,,,50198,STAC-24134,[Release] Suse Observability Release v2.7.0 Target date 12 January 2026,Done,13/Jan/26 12:48 PM
+Saas roll-out,STAC-24138,50206,Sub-task,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,05/Jan/26 12:08 PM,13/Jan/26 12:48 PM,,13/Jan/26 12:48 PM,,,0,,,,,daniel.barra,,,,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@7cb2ef8,,,,,{},,,,,,,,,,,,,,,,A,1|i02vwm:r,,,,,,,,,,,,,,Dashboards release?,Wrapping up dashboarding,,,,Borg,,,,,,,,,,,,,,10107_*:*_1_*:*_364986378_*|*_3_*:*_1_*:*_0,,,,,,50198,STAC-24134,[Release] Suse Observability Release v2.7.0 Target date 12 January 2026,Done,13/Jan/26 12:48 PM
+Freeze version,STAC-24137,50204,Sub-task,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,05/Jan/26 12:08 PM,13/Jan/26 12:48 PM,,13/Jan/26 12:48 PM,,,0,,,,,daniel.barra,,,,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@7a3d2f32,,,,,{},,,,,,,,,,,,,,,,A,1|i02vwm:i,,,,,,,,,,,,,,Dashboards release?,Wrapping up dashboarding,,,,Borg,,,,,,,,,,,,,,10107_*:*_1_*:*_364990859_*|*_3_*:*_1_*:*_0,,,,,,50198,STAC-24134,[Release] Suse Observability Release v2.7.0 Target date 12 January 2026,Done,13/Jan/26 12:48 PM
+Testing Nightly champagne,STAC-24136,50202,Sub-task,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,05/Jan/26 12:08 PM,13/Jan/26 12:47 PM,,13/Jan/26 12:47 PM,,,0,,,,,daniel.barra,,,,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@4e2516c7,,,,,{},,,,,,,,,,,,,,,,A,1|i02vwm:,,,,,,,,,,,,,,Dashboards release?,Wrapping up dashboarding,,,,Borg,,,,,,,,,,,,,,10107_*:*_1_*:*_345778626_*|*_3_*:*_1_*:*_0,,,,,,50198,STAC-24134,[Release] Suse Observability Release v2.7.0 Target date 12 January 2026,Done,13/Jan/26 12:47 PM
+[Release] Suse Observability Release v2.7.0 Target date 12 January 2026,STAC-24134,50198,User Story,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,High,Done,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,05/Jan/26 12:07 PM,14/Jan/26 5:43 PM,14/Jan/26 5:56 PM,14/Jan/26 5:43 PM,suse-observability/2.7.0,,0,,,"[https://docs.google.com/document/d/18Q8d9l1VPphBRowrlkBFkV8TRI0qftDU5EKSURs5PsM/edit?tab=t.0#heading=h.hezu25ak9cf9|https://docs.google.com/document/d/18Q8d9l1VPphBRowrlkBFkV8TRI0qftDU5EKSURs5PsM/edit?tab=t.0#heading=h.hezu25ak9cf9|smart-link] 
+
+*Checklist:*
+
+
+* _Is it retro-compatible?_
+* _Tag used for release is there?_
+* _Is that a minor release?_
+* _All parts are integrated correctly (e.g., agent and platform)?_
+* _Feature Flags & Rollout?_
+* _Are there any new features that should be disabled?_
+* _Documentation updated?_",,daniel.barra,,,,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,,,,,,,,,,,,,,,,,,,STAC-23862,STAC-24077,STAC-23997,STAC-23908,STAC-24102,STAC-23448,STAC-23727,STAC-23748,STAC-23763,STAC-23993,STAC-24132,STAC-24000,STAC-22771,STAC-22521,STAC-24038,STAC-23602,STAC-24098,STAC-23271,STAC-23733,STAC-24171,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@b12f0bb,,,,,"{pullrequest={dataType=pullrequest, state=MERGED, stateCount=3}, json={""cachedValue"":{""errors"":[],""summary"":{""pullrequest"":{""overall"":{""count"":3,""lastUpdated"":""2026-01-14T12:31:57.389+0100"",""stateCount"":3,""state"":""MERGED"",""dataType"":""pullrequest"",""open"":false},""byInstanceType"":{""GitLab"":{""count"":3,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02vwj:,,,,,,,,,,,,,,Dashboards release?,Wrapping up dashboarding,,,,Borg,,,,,,,,,,,,,,10107_*:*_1_*:*_345339265_*|*_3_*:*_1_*:*_0,,"09/Jan/26 12:04 PM;712020:f4589f06-9db5-485b-af7b-3002e0842d3b;the version {{v2.6.4-pre.85}} that is currently on nightly has all the fixes, but we want to release it as 2.7.0","14/Jan/26 11:30 AM;712020:f4589f06-9db5-485b-af7b-3002e0842d3b;Tenants:  [https://gitlab.com/stackvista/devops/o11y-tenants/-/merge_requests/94|https://gitlab.com/stackvista/devops/o11y-tenants/-/merge_requests/94|smart-link] 
+Release Notes: [https://github.com/rancher/stackstate-product-docs/pull/172|https://github.com/rancher/stackstate-product-docs/pull/172]
+Bump master version: [https://gitlab.com/stackvista/devops/helm-charts/-/merge_requests/1738|https://gitlab.com/stackvista/devops/helm-charts/-/merge_requests/1738|smart-link] ",14/Jan/26 11:30 AM;712020:f4589f06-9db5-485b-af7b-3002e0842d3b;final version: {{2.6.4-pre.96}},,,,,Done,14/Jan/26 5:43 PM
+Hbase regions getting OOM killed on chaos-1,STAC-24132,50196,Bug,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,Critical,Done,Frank van Lankvelt,5ffe1a6c9edf280075d1b224,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,05/Jan/26 8:59 AM,14/Jan/26 12:23 PM,,06/Jan/26 2:42 PM,suse-observability/2.7.0,,0,,,After a kubernetes cluster upgrade the hbase regions restart with OOMKilled. Discussion here: [https://suse.slack.com/archives/C08HNSAD10Q/p1767602065522329|https://suse.slack.com/archives/C08HNSAD10Q/p1767602065522329|smart-link] ,,Bram Schuur,,,,5a3a740aea5fc812d8afd681,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@5b784aca,,,,,"{repository={count=10, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":10,""lastUpdated"":""2026-01-06T12:36:58.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":10,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02vyf:,,,,,,,,,,,,,,Marvin - Spacks2 & AgentBump 2,Marvin - AgentBump 3,,,,Marvin,,,,,,,,,,,,,,10107_*:*_1_*:*_7844_*|*_3_*:*_1_*:*_96600633_*|*_10400_*:*_1_*:*_2388_*|*_10401_*:*_1_*:*_0,,,,,,,,,Done,06/Jan/26 2:42 PM
+Implement permissions for Otel Mappings,STAC-24116,50140,Sub-task,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,29/Dec/25 9:34 AM,13/Jan/26 5:20 PM,,13/Jan/26 5:20 PM,,,0,,,,,Lukasz Marchewka,,,,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@388e5e0c,,,,,{},,,,,,,,,,,,,,,,A,1|hzz6ge:zx,,,,,,,,,,,,,,Dashboards release?,Stackpacks 2 - 1,,,,Borg,,,,,,,,,,,,,,10107_*:*_1_*:*_604618988_*|*_3_*:*_1_*:*_371979470_*|*_10400_*:*_1_*:*_322596345_*|*_10401_*:*_1_*:*_0,,,,,,46811,STAC-23427,Create OTel Mapping API,Done,13/Jan/26 5:20 PM
+Implement API handlers,STAC-24115,50138,Sub-task,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,29/Dec/25 9:33 AM,13/Jan/26 5:20 PM,,13/Jan/26 5:20 PM,,,0,,,,,Lukasz Marchewka,Release StackState,,,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@3d646005,,,,,"{repository={count=6, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":6,""lastUpdated"":""2026-01-12T12:45:28.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":6,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|hzz6ge:zv,,,,,,,,,,,,,,Dashboards release?,Stackpacks 2 - 1,,,,Borg,,,,,,,,,,,,,2026-01-09 15:50:28.22,10107_*:*_1_*:*_604638647_*|*_3_*:*_1_*:*_371980911_*|*_10400_*:*_1_*:*_322596413_*|*_10401_*:*_1_*:*_0,,09/Jan/26 4:50 PM;5f0c19c95ee2c3002363e486;[Lukasz Marchewka|https://gitlab.com/lukasz.marchewka_stackstate] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9429] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-24115-stackpacks2-management-api|https://gitlab.com/stackvista/stackstate/-/tree/STAC-24115-stackpacks2-management-api]:{quote}STAC-24115 Otel Management CRUD API{quote},,,,46811,STAC-23427,Create OTel Mapping API,Done,13/Jan/26 5:20 PM
+"When Clickhouse is in HA-mode Zookeeper throws ""a message too large to process""",STAC-24104,50024,User Story,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,High,Done,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Vladimir Iliakov,61b198bc744c4d006987cf03,Vladimir Iliakov,61b198bc744c4d006987cf03,18/Dec/25 5:25 PM,15/Jan/26 10:24 AM,,15/Jan/26 10:24 AM,,,0,,,"I faced it first while working on backup/restore that includes Clickhouse running in HA mode (3 replicas)
+
+* [https://suse.slack.com/archives/C08GT5QDY9L/p1765810936530269|https://suse.slack.com/archives/C08GT5QDY9L/p1765810936530269|smart-link] 
+
+The Zookeeper in my HA instance was throwing
+
+{noformat}2025-12-15 14:55:21,400 [myid:] - WARN  [NIOWorkerThread-2:o.a.z.s.NIOServerCnxn@393] - Close of session 0x100012cc8c5051f
+java.io.IOException: Len error. A message from /10.0.9.65:49316 with advertised length of 1308434 is either a malformed message or too large to process (length is greater than jute.maxbuffer=1048575)
+...{noformat}
+
+Initializer
+
+{noformat}2025-12-15 14:51:57,728 ERROR com.stackstate.servicemanager.StackStateServiceManagerImpl - Error while starting service 'TracesService' after 0 seconds. Retry count is 0.
+com.clickhouse.client.ClickHouseException: Code: 999. Coordination::Exception: Coordination error: Session expired, path /clickhouse/task_queue/replicas/suse%2Dobservability%2Dclickhouse%2Dshard0%2D1%2Esuse%2Dobservability%2Dclickhouse%2Dheadless%2Estac%2D23374%2Dha%2Esvc%2Ecluster%2Elocal:9000/. (KEEPER_EXCEPTION) (version 25.9.5.21 (official build))
+, server ClickHouseNode [uri=http://suse-observability-clickhouse-headless:8123/default, options={health_check_interval=5000}]@-1504970939
+	at com.clickhouse.client.ClickHouseException.of(ClickHouseException.java:168)
+	at com.clickhouse.client.AbstractClient.lambda$execute$0(AbstractClient.java:275)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+	Suppressed: zio.Cause$FiberTrace: Fiber failed.
+A checked error was not handled.
+com.clickhouse.client.ClickHouseException: Code: 999. Coordination::Exception: Coordination error: Session expired, path /clickhouse/task_queue/replicas/suse%2Dobservability%2Dclickhouse%2Dshard0%2D1%2Esuse%2Dobservability%2Dclickhouse%2Dheadless%2Estac%2D23374%2Dha%2Esvc%2Ecluster%2Elocal:9000/. (KEEPER_EXCEPTION) (version 25.9.5.21 (official build))
+, server ClickHouseNode [uri=http://suse-observability-clickhouse-headless:8123/default, options={health_check_interval=5000}]@-1504970939{noformat}
+
+
+
+Clickhouse
+
+{noformat}2025.12.15 14:58:32.892358 [ 782 ] {} <Error> ZooKeeperClient: Code: 33. DB::Exception: Cannot read all data. Bytes read: 0. Bytes expected: 4. (CANNOT_READ_ALL_DATA), Stack trace (when copying this message, always include the lines below):
+
+0. DB::Exception::Exception(DB::Exception::MessageMasked&&, int, bool) @ 0x00000000137ab5df
+1. DB::Exception::Exception(String&&, int, String, bool) @ 0x000000000caeae8e
+2. DB::Exception::Exception(PreformattedMessage&&, int) @ 0x000000000caea940
+3. DB::Exception::Exception<unsigned long&, String>(int, FormatStringHelperImpl<std::type_identity<unsigned long&>::type, std::type_identity<String>::type>, unsigned long&, String&&) @ 0x000000000f0958eb
+4. DB::ReadBuffer::readStrict(char*, unsigned long) @ 0x00000000138952c5
+5. void std::__function::__policy_invoker<void ()>::__call_impl[abi:ne190107]<std::__function::__default_alloc_func<ThreadFromGlobalPoolImpl<true, true>::ThreadFromGlobalPoolImpl<Coordination::ZooKeeper::ZooKeeper(std::vector<zkutil::ShuffleHost, std::allocator<zkutil::ShuffleHost>> const&, zkutil::ZooKeeperArgs const&, std::shared_ptr<DB::ZooKeeperLog>, std::shared_ptr<DB::AggregatedZooKeeperLog>)::$_1>(Coordination::ZooKeeper::ZooKeeper(std::vector<zkutil::ShuffleHost, std::allocator<zkutil::ShuffleHost>> const&, zkutil::ZooKeeperArgs const&, std::shared_ptr<DB::ZooKeeperLog>, std::shared_ptr<DB::AggregatedZooKeeperLog>)::$_1&&)::'lambda'(), void ()>>(std::__function::__policy_storage const*) @ 0x000000001a91b116
+6. ThreadPoolImpl<std::thread>::ThreadFromThreadPool::worker() @ 0x00000000138fe752
+7. void* std::__thread_proxy[abi:ne190107]<std::tuple<std::unique_ptr<std::__thread_struct, std::default_delete<std::__thread_struct>>, void (ThreadPoolImpl<std::thread>::ThreadFromThreadPool::*)(), ThreadPoolImpl<std::thread>::ThreadFromThreadPool*>>(void*) @ 0x000000001390621a
+8. ? @ 0x0000000000094ac3
+9. ? @ 0x0000000000125a74
+ (version 25.9.5.21 (official build))
+2025.12.15 14:58:32.892378 [ 782 ] {} <Information> ZooKeeperClient: Finalizing session 144115199787927653. finalization_started: false, queue_finished: false, reason: 'Exception in receiveThread'
+2025.12.15 14:58:32.892561 [ 799 ] {} <Error> ZooKeeperClient: Code: 210. DB::NetException: I/O error: Broken pipe, while writing to socket (10.0.9.77:56356 -> 10.0.5.130:2181). (NETWORK_ERROR), Stack trace (when copying this message, always include the lines below):
+
+0. DB::Exception::Exception(DB::Exception::MessageMasked&&, int, bool) @ 0x00000000137ab5df
+1. DB::Exception::Exception(String&&, int, String, bool) @ 0x000000000caeae8e
+2. DB::NetException::NetException<String, String, String>(int, FormatStringHelperImpl<std::type_identity<String>::type, std::type_identity<String>::type, std::type_identity<String>::type>, String&&, String&&, String&&) @ 0x00000000139d71b3
+3. DB::WriteBufferFromPocoSocket::nextImpl() @ 0x00000000139d7eda
+4. DB::WriteBuffer::next() @ 0x000000000cafb5de
+5. DB::WriteBuffer::write(char const*, unsigned long) @ 0x00000000138b9640
+6. non-virtual thunk to Coordination::ZooKeeperRemoveRequest::writeImpl(DB::WriteBuffer&) const @ 0x000000001a8dda4e
+7. Coordination::ZooKeeperMultiRequest::writeImpl(DB::WriteBuffer&) const @ 0x000000001a8e3279
+8. void std::__function::__policy_invoker<void ()>::__call_impl[abi:ne190107]<std::__function::__default_alloc_func<ThreadFromGlobalPoolImpl<true, true>::ThreadFromGlobalPoolImpl<Coordination::ZooKeeper::ZooKeeper(std::vector<zkutil::ShuffleHost, std::allocator<zkutil::ShuffleHost>> const&, zkutil::ZooKeeperArgs const&, std::shared_ptr<DB::ZooKeeperLog>, std::shared_ptr<DB::AggregatedZooKeeperLog>)::$_0>(Coordination::ZooKeeper::ZooKeeper(std::vector<zkutil::ShuffleHost, std::allocator<zkutil::ShuffleHost>> const&, zkutil::ZooKeeperArgs const&, std::shared_ptr<DB::ZooKeeperLog>, std::shared_ptr<DB::AggregatedZooKeeperLog>)::$_0&&)::'lambda'(), void ()>>(std::__function::__policy_storage const*) @ 0x000000001a919434
+9. ThreadPoolImpl<std::thread>::ThreadFromThreadPool::worker() @ 0x00000000138fe752
+10. void* std::__thread_proxy[abi:ne190107]<std::tuple<std::unique_ptr<std::__thread_struct, std::default_delete<std::__thread_struct>>, void (ThreadPoolImpl<std::thread>::ThreadFromThreadPool::*)(), ThreadPoolImpl<std::thread>::ThreadFromThreadPool*>>(void*) @ 0x000000001390621a
+11. ? @ 0x0000000000094ac3
+12. ? @ 0x0000000000125a74
+ (version 25.9.5.21 (official build)){noformat}
+
+
+
+The remediation was to redeploy SUSE Observability with {{--set zookeeper.jvmFlags=""-Djute.maxbuffer=2097150""}}
+
+
+
+It was also reported by internal user [https://suse.slack.com/archives/C079ANFDS2C/p1766073722284289|https://suse.slack.com/archives/C079ANFDS2C/p1766073722284289|smart-link]  , they also have Clickhouse in HA mode.
+
+We can increase the default value in the Chart, though we need to consider negative implications
+
+Potential Negative Consequences
+*Increased Memory Usage*: Each connection can now potentially use up to 2MB for buffering, which means:
+
+* Higher heap memory requirements for the ZooKeeper JVM
+* With many concurrent connections, memory usage could increase significantly
+* You may need to increase the JVM heap size (-Xmx) accordingly
+
+*Performance Implications*:
+
+* Larger buffers mean potentially longer garbage collection pauses
+* Network transfer times increase for larger packets
+* Synchronization between ZooKeeper nodes takes longer with larger data transfers
+* Can impact latency for operations involving large znodes
+
+*Cluster Synchronization Risks*:
+
+* During leader election or follower synchronization, larger data transfers can take more time
+* This could potentially impact cluster stability under heavy load
+* May increase the time needed for snapshots and transaction log operations
+
+
+
+Or maybe tune Clickhouse somehow.
+
+See also from the company behind ClickHouse (Altinity): [https://kb.altinity.com/altinity-kb-setup-and-maintenance/altinity-kb-zookeeper/jvm-sizes-and-garbage-collector-settings/|https://kb.altinity.com/altinity-kb-setup-and-maintenance/altinity-kb-zookeeper/jvm-sizes-and-garbage-collector-settings/|smart-link] . They set that buffer to 8 megs
+
+But they also configure it with way more memory than we do. There is also a relation to the number of paritions we create (from that page):
+
+{quote}{{jute.maxbuffer}} limits the maximum size of znode content. By default it’s 1Mb. In some usecases (lot of partitions in table) ClickHouse® may need to create bigger znodes.{quote}
+
+
+
+*update*: Then number of active parts on the sandbox instance was very low (< 20 on any table), on nightly this was around 60 (for traces table) with many more inactive parts (800 for the biggest table). 
+
+See also this Github issue for more explanation on why the # of parts would matter: [https://github.com/ClickHouse/ClickHouse/issues/11933|https://github.com/ClickHouse/ClickHouse/issues/11933|smart-link] . The only thing that is different with the test setup that showed the problem (and was fixed with a jute.maxbuffer of 2MB) is that there were (lots of) backup restore tests done.
+
+This metric is pretty useful (the total size of all znodes in memory): [https://nightly-champagne.preprod.stackstate.io/#/metrics?alias=%24%7Bpod_name%7D&promql=max%20by%20%28pod_name%29%28stackstate_approximate_data_size%7Bnamespace%3D%22stac-23374-ha%22%7D%29&timeRange=1759910561387_1766592161387&timestamp=1765809181681&unit=bytes|https://nightly-champagne.preprod.stackstate.io/#/metrics?alias=%24%7Bpod_name%7D&promql=max%20by%20%28pod_name%29%28stackstate_approximate_data_size%7Bnamespace%3D%22stac-23374-ha%22%7D%29&timeRange=1759910561387_1766592161387&timestamp=1765809181681&unit=bytes|smart-link] 
+
+It seems mostly stuck at the same level but for some reason it fails at that same level. I suspect it may be related to the ClickHouse task_queue node sizes and not the parts. But even that is a bit unclear.
+
+
+The metrics we have from the zookeeper nodes we see some throttling (up to 30%) on the zookeeper pods, while their memory usage is maxed out. However inspecting the JVM memory metrics shows the GC is nicely doing its job and there is no memory pressure while the CPU usage metric shows the pod is not even close to its requested CPU (apparently only some spikes). See [https://nightly-champagne.preprod.stackstate.io/#/dashboards/114111271011866?dashboardVariables=cluster%7Ca%7Csandbox-main.sandbox.stackstate.io%2Bnamespace%7Cv%7Cstac-23374-ha&timeRange=1765792800000_1766239200000&timestamp=1765809181681|https://nightly-champagne.preprod.stackstate.io/#/dashboards/114111271011866?dashboardVariables=cluster%7Ca%7Csandbox-main.sandbox.stackstate.io%2Bnamespace%7Cv%7Cstac-23374-ha&timeRange=1765792800000_1766239200000&timestamp=1765809181681|smart-link] 
+
+!image-20251224-163629.png|width=1237,alt=""image-20251224-163629.png""!
+
+ 
+
+In short, I can’t point to a clear cause anymore (the logs are lost). For safety it makes sense to increase the {{jute.maxbuffer}}. There is no proof that in general more memory is needed, nor that CPU needs to be increased. I suspect the throttling and GC load gets triggered because of failures and retries.",,Remco Beckers,Vladimir Iliakov,,,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,61b198bc744c4d006987cf03,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,24/Dec/25 5:36 PM;rbeckers;image-20251224-163629.png;https://stackstate.atlassian.net/rest/api/3/attachment/content/26565,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@31dcfbc8,,,,,"{repository={count=2, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":2,""lastUpdated"":""2026-01-15T09:26:22.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":2,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02nkf:oaz29,,,,,,,,,,,,,,Dashboards release?,Wrapping up dashboarding,,,,Borg,,,,,,,,,,,,,2026-01-06 14:45:19.819,10107_*:*_1_*:*_1613009644_*|*_10007_*:*_1_*:*_690336527_*|*_3_*:*_3_*:*_22606309_*|*_10400_*:*_2_*:*_64457675_*|*_10401_*:*_2_*:*_9199,,"06/Jan/26 3:45 PM;557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa;After exploring the options increasing the buffer size seems the best solution but there is no obvious reason yet to also increase memory or CPU. Let’s first see how this behaves now. 
+
+NOTE: we want to be careful with increasing too much, decreasing the value later will potentially cause problems because some znodes may be bigger now than the max size.",,,,,,,Done,15/Jan/26 10:24 AM
+PV(C) usage metrics have multiple timeseries in the charts,STAC-24102,50021,Bug,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,18/Dec/25 12:14 PM,14/Jan/26 12:22 PM,,19/Dec/25 10:01 AM,suse-observability/2.7.0,,0,,,"_Actual behavior_:
+
+PV(C) usage metrics have multiple timeseries in the charts because the volume is used on different hosts. 
+
+_Expected behavior_:
+
+Only 1 usage and 1 capacity line is present (also in the legend). The data is still about the same PVC, so it should be aggregated per PVC instead (the {{sts_host}} label should be ignored)
+
+_Steps to reproduce_:
+
+_Technical note_:",,Remco Beckers,,,,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@5363b228,,,,,"{repository={count=2, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":2,""lastUpdated"":""2025-12-18T12:21:30.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":2,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02vsf:,,,,,,Improved PV and PVC metric charts to only show a single timeseries for usage and capacity.,,,,,,,,Dashboards release?,,,,,Borg,,,,,,,,,,,,,,10107_*:*_1_*:*_5765_*|*_3_*:*_1_*:*_184376_*|*_10400_*:*_1_*:*_74524647_*|*_10401_*:*_1_*:*_0,,,,,,,,,Done,19/Dec/25 10:01 AM
+YAML parsing (during import or stackpack install) fails when field only has `${value}` as value,STAC-24098,50015,Bug,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,18/Dec/25 10:29 AM,14/Jan/26 12:23 PM,,18/Dec/25 10:31 AM,suse-observability/2.7.0,,0,,,"_Actual behavior_:
+
+Yaml like this doesn’t parse (fails stackpack installation):
+
+{noformat}...
+  alias: ${value}
+...{noformat}
+
+_Expected behavior_:
+
+Yaml does parse and stackpack can be installed
+
+_Steps to reproduce_:
+
+
+
+_Technical note_:",,Remco Beckers,,,,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@19a574ed,,,,,{},,,,,,,,,,,,,,,,A,1|i02vrr:,,,,,,"Fix YAML parsing when a YAML value is a variable reference, for example `alias: ${cluster-name}`.",,,,,,,,Dashboards release?,,,,,Borg,,,1.0,,,,,,,,,,,10107_*:*_1_*:*_6331_*|*_3_*:*_1_*:*_2088_*|*_10400_*:*_1_*:*_6082_*|*_10401_*:*_1_*:*_0,,18/Dec/25 10:29 AM;557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa;Fixed as part of STAC-23449,,,,,,,Done,18/Dec/25 10:31 AM
+Deploy the stackpacks2 documentation from trunk,STAC-24095,50011,User Story,Merging,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,akash.raj,712020:6ecb03b8-e16f-4d92-a6b7-260c913ae4ac,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,17/Dec/25 10:03 AM,19/Jan/26 12:54 PM,,,,,0,,,"We want to deploy the stackpacks documentation, which will be developed under a feature flag, to a stable netlify-based deployment such that we can shared the link with early access customers.
+
+We would like the early-access preview to be based on the main branch (trunk) with the feature flag enabled.
+
+Current netlify links are based on PR number: [+https://deploy-preview-141--suse-obs.netlify.app+|https://deploy-preview-141--suse-obs.netlify.app/]+,+ this should not change. But in addition to the current setup we would like [+https://deploy-preview-stackpacks--suse-obs.netlify.app+|https://deploy-preview-141--suse-obs.netlify.app/]  which is deployed from the main branch with the feature flag enabled.
+
+* Make sure the netlify is updated new commits get added to the main branch
+
+When the feature is released we will (not part of this story, but future plan):
+
+* Remove the feature flag, enabling the feature documentation in our main docs
+* Decommision the [+https://deploy-preview-stackpacks--suse-obs.netlify.app+|https://deploy-preview-141--suse-obs.netlify.app/] deployment.",,akash.raj,Bram Schuur,,,712020:6ecb03b8-e16f-4d92-a6b7-260c913ae4ac,5a3a740aea5fc812d8afd681,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@52edbdb,,,,,{},,,,,,,,,,,,,,,,A,1|hzz6gf:,,,,,,,,,,,,,,Marvin - Spacks2 & AgentBump 2,Marvin - AgentBump 3,,,,Marvin,,,,,,,,,,,,,2026-01-19 11:53:33.426,,,19/Jan/26 12:53 PM;712020:6ecb03b8-e16f-4d92-a6b7-260c913ae4ac;Completed and merged.,,,,49945,STAC-24075,Document Stackpacks 2.0,In Progress,06/Jan/26 8:19 AM
+Adding scenarios for Metric Query,STAC-24085,49993,Sub-task,In Progress,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,daniel.barra,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,15/Dec/25 2:13 PM,19/Jan/26 4:05 PM,,,,,0,,,,,daniel.barra,,,,712020:f4589f06-9db5-485b-af7b-3002e0842d3b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@334f5753,,,,,{},,,,,,,,,,,,,,,,A,1|i02vp3:,,,,,,,,,,,,,,Marvin - Spacks2 & AgentBump 2,Marvin - AgentBump 3,,,,Marvin,,,,,,,,,,,,,,,,,,,,49983,STAC-24080,[QA] Add scenarios to validate UI by playwright,In Progress,19/Jan/26 4:05 PM
+Handle restore operations running in parallel,STAC-24078,49981,User Story,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Vladimir Iliakov,61b198bc744c4d006987cf03,Vladimir Iliakov,61b198bc744c4d006987cf03,Vladimir Iliakov,61b198bc744c4d006987cf03,15/Dec/25 1:49 PM,15/Jan/26 9:37 AM,,15/Jan/26 9:37 AM,,,0,,,"As of now it is possible to run restore operations in parallel even for the same type of the datastore. The restore and check-and-finalize commands can potentially scale up the deployments/statefulsets downscaled by the other types of restore operations.
+
+AC.
+
+* Prevent parallel restore operations for the same data store.
+* -Ensure that multiple restore operations for different data stores do not scale up overlapping deployments/statefulsets.- → At the moment there is nothing that overlaps and we are not sure this will happen in the future.
+* Stackgraph and settings restore should be mutually exclusive and not run in parallel.
+** We can add an annotation when a restore is in progress",,Vladimir Iliakov,,,,61b198bc744c4d006987cf03,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@780f5c0d,,,,,{},,,,,,,,,,,,,,,,A,1|i02nkf:oaz2,,,,,,,,,,,,,,Dashboards release?,Wrapping up dashboarding,,,,Borg,,,5.0,,,,,,,,,,,10107_*:*_1_*:*_1286378164_*|*_3_*:*_1_*:*_1201642531_*|*_10400_*:*_1_*:*_95408818_*|*_10401_*:*_1_*:*_0,,,,,,46449,STAC-23374,Single command restore of backup data,Done,15/Jan/26 9:37 AM
+Investigate corruption on performance/chaos champagne,STAC-24077,49979,Bug,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,15/Dec/25 12:06 PM,14/Jan/26 12:22 PM,17/Dec/25 11:05 AM,29/Dec/25 9:32 AM,suse-observability/2.7.0,,0,,,"We did an analysis, ticket was filed:
+
+[https://issues.apache.org/jira/browse/HBASE-29784|https://issues.apache.org/jira/browse/HBASE-29784|smart-link] 
+
+A short analysis and full WAL segment has been attached
+
+Also reproduced on chaos, without the WAL archiving:
+
+{noformat}│ MissingEdgeTableEntryForVertexEdgeReference(vertexId=53737617929464, isOutEdge=false, edgeId=72629206247679, edgeLabel=HAS_SOURCE, otherVertexId=103142338038004, edgeCreatedTx=1765857902622000000[2025-12-16T04:05:02.622Z])                       │
+│ MissingEdgeTableEntryForVertexEdgeReference(vertexId=53737617929464, isOutEdge=false, edgeId=199211608506813, edgeLabel=HAS_SOURCE, otherVertexId=70872835339625, edgeCreatedTx=1765857902622000000[2025-12-16T04:05:02.622Z])                       │
+│ MissingEdgeTableEntryForVertexEdgeReference(vertexId=53871521423809, isOutEdge=true, edgeId=165044025660076, edgeLabel=SYNCED_FROM, otherVertexId=116816419978034, edgeCreatedTx=1765857902622000000[2025-12-16T04:05:02.622Z])                      │
+│ MissingEdgeTableEntryForVertexEdgeReference(vertexId=53997078270673, isOutEdge=true, edgeId=280726868778752, edgeLabel=SYNCED_FROM, otherVertexId=201759525181374, edgeCreatedTx=1765857902622000000[2025-12-16T04:05:02.622Z])                      │
+│ MissingEdgeTableEntryForVertexEdgeReference(vertexId=54019788470677, isOutEdge=false, edgeId=177484743238220, edgeLabel=HAS_SOURCE, otherVertexId=241414590239039, edgeCreatedTx=1765857902622000000[2025-12-16T04:05:02.622Z])                      │
+│ MissingEdgeTableEntryForVertexEdgeReference(vertexId=54019788470677, isOutEdge=false, edgeId=262198812238497, edgeLabel=HAS_SOURCE, otherVertexId=25294302079702, edgeCreatedTx=1765857902622000000[2025-12-16T04:05:02.622Z])                       │
+│ MissingEdgeTableEntryForVertexEdgeReference(vertexId=54098912538205, isOutEdge=false, edgeId=53834947398347, edgeLabel=SYNCED, otherVertexId=24343068113158, edgeCreatedTx=1765857902622000000[2025-12-16T04:05:02.622Z])                            │
+│ MissingEdgeTableEntryForVertexEdgeReference(vertexId=54142681688731, isOutEdge=true, edgeId=96419966621386, edgeLabel=HAS_TARGET, otherVertexId=19766814280970, edgeCreatedTx=1765857902622000000[2025-12-16T04:05:02.622Z])                         │
+│ MissingEdgeTableEntryForVertexEdgeReference(vertexId=54178502574383, isOutEdge=false, edgeId=13135136027438, edgeLabel=CREATED_BY_STREAM, otherVertexId=87490707144290, edgeCreatedTx=1765857902622000000[2025-12-16T04:05:02.622Z])                 │
+│ MissingEdgeTableEntryForVertexEdgeReference(vertexId=54178502574383, isOutEdge=false, edgeId=56184783503933, edgeLabel=SYNCED_FROM, otherVertexId=64111103487066, edgeCreatedTx=1765857902622000000[2025-12-16T04:05:02.622Z])                       │
+│ MissingEdgeTableEntryForVertexEdgeReference(vertexId=54478116004970, isOutEdge=false, edgeId=231732160716518, edgeLabel=SYNCED, otherVertexId=52979515745229, edgeCreatedTx=1765857902622000000[2025-12-16T04:05:02.622Z])                           │
+│ MissingEdgeTableEntryForVertexEdgeReference(vertexId=54509532016802, isOutEdge=true, edgeId=19937090445081, edgeLabel=HAS_TARGET, otherVertexId=83568250164257, edgeCreatedTx=1765857902622000000[2025-12-16T04:05:02.622Z])                         │
+│                                                                                                                                                                                                                                {noformat}
+
+I repaired chaos to see how often we keep finding issues there",,Bram Schuur,Release StackState,,,5a3a740aea5fc812d8afd681,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,18/Dec/25 8:53 AM;bschuur;checkit.txt;https://stackstate.atlassian.net/rest/api/3/attachment/content/26531,18/Dec/25 8:53 AM;bschuur;problemWAL.txt;https://stackstate.atlassian.net/rest/api/3/attachment/content/26530,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@b8d21a7,,,,,"{repository={count=3, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":3,""lastUpdated"":""2025-12-19T19:06:32.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":3,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02vnb:,,,,,,[Platform] Fixed StackGraph corruption issue that could arise due to long-running scans.,,,,,,,,Marvin - Spacks2 & AgentBump 2,,,,,Marvin,,,,,,,,,,,,,2025-12-19 14:36:36.108,10107_*:*_1_*:*_8621_*|*_3_*:*_1_*:*_1200298444_*|*_10408_*:*_1_*:*_59224_*|*_10400_*:*_1_*:*_1771_*|*_10401_*:*_1_*:*_0,,18/Dec/25 10:55 AM;5a3a740aea5fc812d8afd681;We also got another instance of this on chaos-1,"18/Dec/25 11:44 AM;5a3a740aea5fc812d8afd681;Idea: also retain hfiles to dertermine whether the DeleteFamilyVersion is part of the flushed data, and what else is inthere (using {{hbase.master.cleaner.interval}})",19/Dec/25 3:32 PM;5a3a740aea5fc812d8afd681;TODO: Make integration test to show correctness of Delete handling during compaction with slices,19/Dec/25 3:36 PM;5f0c19c95ee2c3002363e486;[Frank van Lankvelt|https://gitlab.com/fvlankvelt] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9405] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-24077-bump-stackgraph|https://gitlab.com/stackvista/stackstate/-/tree/STAC-24077-bump-stackgraph]:{quote}STAC-24077: bump stackgraph{quote},,,,Done,29/Dec/25 9:32 AM
+Reuse generated OpenAPI model in DTOs objects,STAC-24071,49940,Sub-task,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,12/Dec/25 12:34 PM,13/Jan/26 5:20 PM,,13/Jan/26 5:20 PM,,,0,,,,,Lukasz Marchewka,Release StackState,,,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@2341b04,,,,,"{repository={count=14, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":14,""lastUpdated"":""2026-01-07T09:01:05.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":14,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|hzz6ge:zr,,,,,,,,,,,,,,Dashboards release?,Stackpacks 2 - 1,,,,Borg,,,,,,,,,,,,,2025-12-31 07:55:53.385,10107_*:*_1_*:*_345249612_*|*_3_*:*_1_*:*_590365553_*|*_10400_*:*_1_*:*_1298007101_*|*_10401_*:*_1_*:*_0,,31/Dec/25 8:55 AM;5f0c19c95ee2c3002363e486;[Lukasz Marchewka|https://gitlab.com/lukasz.marchewka_stackstate] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9416] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-24071-use-generated-api|https://gitlab.com/stackvista/stackstate/-/tree/STAC-24071-use-generated-api]:{quote}STAC-24071 Delete Otel*Mapping DTO and use generated API model{quote},,,,46811,STAC-23427,Create OTel Mapping API,Done,13/Jan/26 5:20 PM
+Generate OpenAPI code to another sbt module,STAC-24070,49938,Sub-task,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,12/Dec/25 12:31 PM,13/Jan/26 1:21 PM,,13/Jan/26 1:21 PM,,,0,,,,,Lukasz Marchewka,Release StackState,,,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@616b8a07,,,,,"{repository={count=11, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":11,""lastUpdated"":""2025-12-18T13:26:01.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":11,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|hzz6ge:zi,,,,,,,,,,,,,,Dashboards release?,Stackpacks 2 - 1,,,,Borg,,,,,,,,,,,,,2025-12-12 12:06:00.194,10107_*:*_1_*:*_169555_*|*_3_*:*_1_*:*_345232907_*|*_10400_*:*_1_*:*_590362826_*|*_10401_*:*_1_*:*_0,,12/Dec/25 1:06 PM;5f0c19c95ee2c3002363e486;[Lukasz Marchewka|https://gitlab.com/lukasz.marchewka_stackstate] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9390] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-24070-stackstate-api-generated|https://gitlab.com/stackvista/stackstate/-/tree/STAC-24070-stackstate-api-generated]:{quote}STAC-24070 Create `stackstate-api-ganerated` model and move generated OpenAPI code there{quote},,,,46811,STAC-23427,Create OTel Mapping API,Done,13/Jan/26 1:21 PM
+Document monitors and metrics binding DTOs for stackpacks 2.0,STAC-24067,49934,User Story,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,,,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,11/Dec/25 2:39 PM,20/Jan/26 11:33 AM,,20/Jan/26 11:33 AM,,,0,,,"Currently we do not document how to create monitors or metric bindings for stackpacks. Being the first concepts that internal teams can work with, we want those documented as part of the feature-flagged stackpacks 2.0 effort.
+
+Acceptance criteria*)
+
+* Create an (copy-pastable) example+tutorial and explanation which works with our out-of-the-box-data (there is already an example in the stackpacks 2 template) – tutorial
+* Document the relevant fields for those concepts – reference (schema + interpretation)
+* We also document related Layout concepts (MetricPerspectiveSection etc.)
+* 5.1 might include some reference docs on these already, we also have UI docs for monitors
+
+Open questions:
+
+* Do we document all metricbinding feature and placements?
+** Yes, we document everything, including the layout section, priority etc.
+* Do we bring this documentation live, or should we keep it under the stackpacks2 documentation feature flag
+** We keep this feature flagged, netlifying is another stories
+
+Note:
+
+* Update the {{setup/custom-integrations/develop.adoc}} links in the docs repo where we recommend the user how to customize/develop their own monitors/metric bindings",,Bram Schuur,,,,5a3a740aea5fc812d8afd681,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@1f5f84e3,,,,,{},,,,,,,,,,,,,,,,A,1|hzz6ge:,,,,,,,,,,,,,,Stackpacks 2 - 1,,,,,,,,5.0,,,,,,,,,,,10107_*:*_1_*:*_2229571316_*|*_3_*:*_1_*:*_594996106_*|*_10004_*:*_1_*:*_112465999_*|*_10400_*:*_1_*:*_0,,,,,,49945,STAC-24075,Document Stackpacks 2.0,Done,20/Jan/26 11:33 AM
+OpenAPI spec for otel mappings,STAC-24059,49891,Sub-task,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,10/Dec/25 3:09 PM,13/Jan/26 1:21 PM,,13/Jan/26 1:21 PM,,,0,,,,,Lukasz Marchewka,,,,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@310a6a7b,,,,,"{repository={count=11, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":11,""lastUpdated"":""2025-12-23T15:12:58.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":11,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|hzz6ge:z,,,,,,,,,,,,,,Dashboards release?,Stackpacks 2 - 1,,,,Borg,,,,,,,,,,,,,,10107_*:*_1_*:*_66114960_*|*_3_*:*_1_*:*_1555279390_*|*_10400_*:*_1_*:*_605970770_*|*_10401_*:*_1_*:*_0,,,,,,46811,STAC-23427,Create OTel Mapping API,Done,13/Jan/26 1:21 PM
+Kubernetes RBAc agent does not refresh service token on platform,STAC-24038,49824,Bug,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,Critical,Done,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,08/Dec/25 8:57 AM,14/Jan/26 12:23 PM,17/Dec/25 3:20 PM,18/Dec/25 8:52 AM,suse-observability/2.7.0,,0,,,Described/reproduced here: The k8s rbac agent does not update the service token. Preventing it from forwarding roles/bindings in the platform deployment after a token roll. See [https://suse.slack.com/archives/C079ANFDS2C/p1764620154300089|https://suse.slack.com/archives/C079ANFDS2C/p1764620154300089|smart-link] ,,Bram Schuur,,,,5a3a740aea5fc812d8afd681,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@3f952059,,,,,"{repository={count=14, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":14,""lastUpdated"":""2025-12-18T06:53:36.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":14,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02vbp:,,,,,,"[Platform] Fix issue where the rbac-agent does not refresh its serviceaccount token, causing it to lose authentication.",,,,https://jira.suse.com/browse/SURE-11045,,,,Marvin - Spacks2 & AgentBump 2,,,,,Marvin,,,5.0,,,,,,,,,,,10107_*:*_1_*:*_356983604_*|*_3_*:*_1_*:*_259206703_*|*_10400_*:*_1_*:*_1654_*|*_10401_*:*_1_*:*_0,,,,,,,,,Done,18/Dec/25 8:52 AM
+Replace Eslint by Biome linter,STAC-24018,49637,Sub-task,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,01/Dec/25 9:55 AM,20/Jan/26 9:32 AM,,20/Jan/26 9:32 AM,,,0,,,"The idea is to have ALL Biome .linter.rules groups as {{error}} so and override rules in for the following cases *with a commend* explaining the reason WHY it is adjusted:
+
+# opt-out from rule we do not want to use at all
+# explicitly lower severity, handy for autofixable things, or just minor violations that are alright to have around, or as a temporary workaround if it requires refinement and planning for big code changes to satisfy the rule
+# custom rule configurations, as for some rules they only work properly when configured
+
+{code:json}{
+  ""linter"": {
+    ""enabled"": true,
+    ""rules"": {
+      ""a11y"": ""error"",
+      ""complexity"": ""error"",
+      ""correctness"": ""error"",
+      ""performance"": ""error"",
+      ""nursery"": ""error"",
+      ""style"": ""error"",
+      ""security"": ""error"",
+      ""suspicious"": ""error""
+    }
+  }
+}{code}
+
+h2. Acceptance criteria
+
+# All autofixable changes are applied, *DO NOT* edit code manually
+# {{biome check}} passes, *DO* add subtasks and lover severity for rules requiring code changes",,Anton Ovechkin,Release StackState,,,61d2f4ebce3652006aaa23ca,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@65f0d98f,,,,,"{repository={count=100, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":100,""lastUpdated"":""2026-01-19T15:11:36.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":100,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02vcf:,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,,,,,,,,,,,2025-12-04 19:24:20.935,10107_*:*_1_*:*_3195476915_*|*_3_*:*_1_*:*_611324630_*|*_10400_*:*_1_*:*_166098492_*|*_10401_*:*_1_*:*_0,,04/Dec/25 8:24 PM;5f0c19c95ee2c3002363e486;[Anton Ovechkin|https://gitlab.com/suse.anton.ovechkin] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9377] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-24018-eslint-to-biome|https://gitlab.com/stackvista/stackstate/-/tree/STAC-24018-eslint-to-biome]:{quote}Draft: STAC-24018 ESLint to Biome{quote},,,,49633,STAC-24016,Migrate from Prettier+ESLint to Biome,Done,20/Jan/26 9:32 AM
+Migrate from Prettier+ESLint to Biome,STAC-24016,49633,Technical Debt,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,01/Dec/25 9:37 AM,20/Jan/26 9:32 AM,,20/Jan/26 9:32 AM,,,0,dx,,,,Anton Ovechkin,Release StackState,,,61d2f4ebce3652006aaa23ca,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@488d2e84,,,,,"{repository={count=6, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":6,""lastUpdated"":""2025-12-10T11:45:08.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":6,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02vbz:,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,,,,,,,,,,,2025-12-01 15:16:41.149,10107_*:*_1_*:*_3196372257_*|*_3_*:*_1_*:*_0,,"01/Dec/25 11:59 AM;61d2f4ebce3652006aaa23ca;Report case 
+
+
+
+{noformat}const getComponentForChartType = (type: TimeSeriesChartType) => {
+  return {
+    line: LineChart,
+    bar: BarChart,
+  }[type];
+};{noformat}
+
+formatted as
+
+
+{noformat}const getComponentForChartType = (type: TimeSeriesChartType) => {
+    line: LineChart,
+    bar: BarChart,
+  }[type];{noformat}",01/Dec/25 4:16 PM;5f0c19c95ee2c3002363e486;[Anton Ovechkin|https://gitlab.com/suse.anton.ovechkin] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9368] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-24016-biome|https://gitlab.com/stackvista/stackstate/-/tree/STAC-24016-biome]:{quote}Draft: STAC-24016 Replace Prettier+ESLint by Biome{quote},,,,,,Done,20/Jan/26 9:32 AM
+[Dashboards] Gauge widget text size when zooming out in browser,STAC-24012,49595,Bug,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,Medium,Done,Samuel Jones,712020:a950806e-86c0-42f7-b531-66e40f57b9ee,Samuel Jones,712020:a950806e-86c0-42f7-b531-66e40f57b9ee,Samuel Jones,712020:a950806e-86c0-42f7-b531-66e40f57b9ee,28/Nov/25 4:22 PM,13/Jan/26 1:40 PM,,13/Jan/26 1:40 PM,,,0,,,"!image-20251128-152241.png|width=509,alt=""image-20251128-152241.png""!
+
+See second widget across, the text size looks larger than it probably should be. This was when, during a demo, the page was zoomed from 100% to 90%",,Release StackState,Samuel Jones,,,5f0c19c95ee2c3002363e486,712020:a950806e-86c0-42f7-b531-66e40f57b9ee,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,28/Nov/25 4:23 PM;2c7f65e7-1aed-45a4-98cc-76247f1519da;image-20251128-152241.png;https://stackstate.atlassian.net/rest/api/3/attachment/content/26365,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@397627b2,"*Actual behavior*:
+
+
+*Expected behavior*:
+
+
+*Steps to reproduce*:
+
+
+*Technical note*:
+
+",,,,"{repository={count=9, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":9,""lastUpdated"":""2026-01-13T13:40:22.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":9,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02vwk:x,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,2.0,,,,,,,,,,2026-01-12 11:16:05.569,10107_*:*_1_*:*_3548576111_*|*_3_*:*_1_*:*_325683579_*|*_10400_*:*_1_*:*_16759925_*|*_10401_*:*_1_*:*_0,,12/Jan/26 12:16 PM;5f0c19c95ee2c3002363e486;[Sam Jones|https://gitlab.com/sdjnes] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9432] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-24012-fix-gauge-widget-text-size|https://gitlab.com/stackvista/stackstate/-/tree/STAC-24012-fix-gauge-widget-text-size]:{quote}STAC-24012 Update gauge font size calculation{quote},,,,38662,STAC-22375,Dashboards as 1st class citizen,Done,13/Jan/26 1:40 PM
+Init container for otel-collector to wait for Kafka,STAC-24008,49590,User Story,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Alejandro Acevedo Osorio,5ae88e681864357363fa4192,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,28/Nov/25 2:26 PM,13/Jan/26 11:29 AM,,13/Jan/26 11:29 AM,,,0,,,"When installing SUSE Observability from scratch it can happen that Kafka is late to startup. In the mean time the OTel collector has restarted already 6 times. To avoid confusing users with this seemingly buggy behavior we should add an init container to the otel collector that waits for its dependencies to have started:
+
+* Kafka
+* ClickHouse
+* vmagent",,Remco Beckers,,,,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@1d6872af,,,,,"{repository={count=7, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":7,""lastUpdated"":""2026-01-12T16:08:05.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":7,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|hzz6ge:zyi,,,,,,,,,,,,,,Stackpacks 2 - 1,,,,,Borg,,,3.0,,,,,,,,,,,10107_*:*_1_*:*_3634420818_*|*_3_*:*_1_*:*_258328824_*|*_10400_*:*_1_*:*_1349525_*|*_10401_*:*_1_*:*_0,,,,,,43083,STAC-22861,Stackpacks 2.0 otel,Done,13/Jan/26 11:29 AM
+Kubernetes rbac agent does not adhere to helm provided resources,STAC-24000,49545,Bug,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,High,Done,Alessio Biancalana,712020:24a58295-5746-444b-b60d-728653ec1dd2,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,27/Nov/25 9:17 AM,14/Jan/26 12:23 PM,,28/Nov/25 12:05 PM,suse-observability/2.7.0,,0,,,"Slack discussion here [https://suse.slack.com/archives/C07CF9770R3/p1764086859782519|https://suse.slack.com/archives/C07CF9770R3/p1764086859782519|smart-link] . The fix was pretty much provided, we only need to implement.",,Bram Schuur,,,,5a3a740aea5fc812d8afd681,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@4c730ed7,,,,,"{pullrequest={dataType=pullrequest, state=MERGED, stateCount=4}, json={""cachedValue"":{""errors"":[],""summary"":{""pullrequest"":{""overall"":{""count"":4,""lastUpdated"":""2025-11-28T09:14:28.997+0100"",""stateCount"":4,""state"":""MERGED"",""dataType"":""pullrequest"",""open"":false},""byInstanceType"":{""GitLab"":{""count"":4,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02v93:,,,,,,[Agent] Fix issue where the kubernetes rbac agent would not use the defined resources from the values file,,,,https://jira.suse.com/browse/SURE-11004,,,,Marvin - Spacks2 & AgentBump,,,,,Marvin,,,,,,,,,,,,,,10107_*:*_1_*:*_342512_*|*_3_*:*_1_*:*_28119044_*|*_10400_*:*_1_*:*_4816_*|*_10401_*:*_1_*:*_0,,,,,,,,,Done,28/Nov/25 12:05 PM
+Avoid logging credentials in splunk debug logging,STAC-23997,49509,Bug,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,26/Nov/25 1:42 PM,14/Jan/26 12:22 PM,,27/Nov/25 12:10 PM,suse-observability/2.7.0,,0,,,see image,,Bram Schuur,,,,5a3a740aea5fc812d8afd681,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,26/Nov/25 1:45 PM;bschuur;logs.png;https://stackstate.atlassian.net/rest/api/3/attachment/content/26296,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@5d91b96d,,,,RaboBank,"{repository={count=2, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":2,""lastUpdated"":""2025-11-27T11:47:45.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":2,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02v8f:,,,,,,[agent] avoid logging credentials from the splunk integration when debugging is enabled,,,,,,,,Marvin - Spacks2 & AgentBump,,,,,Marvin,,,,,,,,,,,,,,10107_*:*_1_*:*_70791470_*|*_3_*:*_1_*:*_1971578_*|*_10400_*:*_1_*:*_8048244_*|*_10401_*:*_1_*:*_0,,,,,,,,,Done,27/Nov/25 12:10 PM
+Pods go oom on a node when the pod memory limit is not detected,STAC-23993,49505,Bug,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,Critical,Done,Frank van Lankvelt,5ffe1a6c9edf280075d1b224,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,26/Nov/25 10:32 AM,14/Jan/26 12:23 PM,,15/Dec/25 12:08 PM,suse-observability/2.7.0,,0,,,"Description in the SURE ticket [https://jira.suse.com/browse/SURE-11003|https://jira.suse.com/browse/SURE-11003], this is under investigation.
+
+Slack: [https://suse.slack.com/archives/C07CF9770R3/p1763992618905069|https://suse.slack.com/archives/C07CF9770R3/p1763992618905069|smart-link] 
+
+[https://suse.slack.com/archives/C07B56FCWJE/p1764147459681189|https://suse.slack.com/archives/C07B56FCWJE/p1764147459681189|smart-link] 
+
+I reproduced this on SLES 16, here is the analysis:
+
+
+
+okey, i reproduced the issue using SLES 16, k3s and our latest master. For tephra it is clera it cannot find the mem limit:
+
+{noformat}nobody@bram-instance-hbase-tephra-mono-0:/> java -Xlog:os+container=trace --version
+[0.000s][trace][os,container] OSContainer::init: Initializing Container Support
+[0.000s][debug][os,container] Detected optional pids controller entry in /proc/cgroups
+[0.000s][debug][os,container] controller cpuset is not enabled
+
+[0.000s][debug][os,container] controller cpuacct is not enabled
+
+[0.000s][debug][os,container] controller memory is not enabled
+
+[0.000s][debug][os,container] One or more required controllers disabled at kernel level.
+openjdk 21.0.9 2025-10-21
+OpenJDK Runtime Environment (build 21.0.9+10-suse-1500-x8664)
+OpenJDK 64-Bit Server VM (build 21.0.9+10-suse-1500-x8664, mixed mode, sharing)
+nobody@bram-instance-hbase-tephra-mono-0:/> {noformat}
+
+This stackoverflow post confirms the issue combining java 21, kernel 6.12 and cgroupsv2: [https://stackoverflow.com/a/79634679|https://stackoverflow.com/a/79634679|smart-link] The issue for this exact combination is fixed in jvm 25: [https://bugs.openjdk.org/browse/JDK-8347811|https://bugs.openjdk.org/browse/JDK-8347811]
+The backport for this particular issue is done in JVM 21.0.10: [https://bugs.openjdk.org/browse/JDK-8371005|https://bugs.openjdk.org/browse/JDK-8371005]I am not sure what to recommend to the user here. We will do another round of bumping JVM versions and verifying on my reproduction, but that will take some time to release.The stackoverflow recommmends recompiling the kernel, which is not great, downgrading SLES might be an option if the customer want to get started quickly. Otherwise i don't immediately see an option but to wait
+
+!https://slack-imgs.com/?c=1&o1=wi32.he32.si&url=https%3A%2F%2Fstackoverflow.com%2FContent%2FSites%2Fstackoverflow%2FImg%2Fapple-touch-icon.png%3Fv%3Dc78bd457575a|width=250,alt=""Stack Overflow""!
+
+Stack Overflow
+
+[*Docker Container JVM not picking up cgroups memory limit*|https://stackoverflow.com/a/79634679]
+
+OS: CachyOS (Arch-based Linux Distro)
+Docker Version: 28.1.1
+Cgroup Driver: systemd
+Cgroup Version: 2
+Why isn't the JVM running inside the container picking the memory limits as I would expect? If ...
+
+
+
+hmm, 21.0.10 will be released in januari according to [https://www.java.com/releases/|https://www.java.com/releases/|smart-link] 
+
+and 25.0 is not on the bci images yet, which we use as base, we also do not want to upgrade to 25.0 on a whim (this is a more structured effort).
+
+For now the idea is:
+
+* Hardcode Xmx for all services that derive their memory from cgroups.",,Bram Schuur,,,,5a3a740aea5fc812d8afd681,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@759ce72b,,,,,"{repository={count=4, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":4,""lastUpdated"":""2025-12-12T12:32:02.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":4,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02v7j:,,,,,,"[Platform] Fix issue where several pod (hbase, tephra) go OOM on SLES 16 due to cgroups v2",,,,https://jira.suse.com/browse/SURE-11003,,,,Marvin - Spacks2 & AgentBump,Marvin - Spacks2 & AgentBump 2,,,,Marvin,,,,,,,,,,,,,,10107_*:*_1_*:*_7721_*|*_10007_*:*_2_*:*_196915960_*|*_3_*:*_3_*:*_1190027884_*|*_10400_*:*_1_*:*_7375058_*|*_10401_*:*_1_*:*_0,,,,,,,,,Done,15/Dec/25 12:08 PM
+Create example stackpack 2.0 with OtelComponentMapping and ComponentPresentation,STAC-23932,49427,User Story,In Progress,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,Alejandro Acevedo Osorio,5ae88e681864357363fa4192,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,24/Nov/25 1:55 PM,15/Jan/26 11:40 AM,16/Jan/26 11:34 AM,,,,0,,,"The man goal here is to gather integration usescases to validate the OTEL mapping and componentpresentation definitions to be used by other teams.
+
+Look at current extensions (for overview pages):
+
+* Complete Otel Stackpack current example
+
+* Java (Xmx
+* .NET (dunno)
+* SUSE ai
+* Aegir tenants
+
+Look at wanted extensions:
+
+* Kubewarden (communicate with kubewarden teams)
+* Harvester
+* CRs
+
+Stretch:
+
+* Virtual clusters
+* Multi-linux manager (managing linux installs)
+* (check work from Ravan)
+
+Acceptance criteria * )
+
+* Come up with as many stackpacks we think make sense
+* Write actual OTEL mappings for them (if needed)
+* Write pseudo-config for the component presentation and how that interacts with the current presentation. Bring this into the stackpacks repo
+* We should capture as best as possible what is needed in the pseudo code, without actually getting into any real design just yet
+* We don’t need to be exhaustive with the entire stackpacks, but we should be exhaustive with the use-cases",,Bram Schuur,,,,5a3a740aea5fc812d8afd681,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@5409bca1,,,,,"{pullrequest={dataType=pullrequest, state=OPEN, stateCount=1}, json={""cachedValue"":{""errors"":[],""summary"":{""pullrequest"":{""overall"":{""count"":1,""lastUpdated"":""2026-01-14T16:57:21.926+0100"",""stateCount"":1,""state"":""OPEN"",""dataType"":""pullrequest"",""open"":true},""byInstanceType"":{""GitLab"":{""count"":1,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|hzz6ge:zzi,,,,,,,,,,,,,,Stackpacks 2 - 1,,,,,,,,8.0,,,,,,,,,,,,,,,,,49387,STAC-23912,ComponentPresentation for OTEL,In Progress,13/Jan/26 11:34 AM
+"Design component presentation API(s), potentially hiding the current DTOs behind a backend API",STAC-23917,49397,User Story,In Progress,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,Frank van Lankvelt,5ffe1a6c9edf280075d1b224,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,24/Nov/25 11:15 AM,20/Jan/26 11:09 AM,16/Jan/26 11:34 AM,,,,0,,,"We want to introduce the ComponentPresentation while staying backwards compatible with the current MainMenu/ComponentType/Overview pages. We want to to do that by hiding more of the presentation logic/configuration behind a backend api. This story is to investigate
+
+how we can do that in our api(s).
+
+The initial idea is to ‘hide’ the current MainMenu/ComponenType etc presentations behind a backend api. APIs that need to be adapted for that:
+
+* Topology Snapshot api
+* FullComponent/PreviewComponent/ViewComponent api
+* ComponentOverview (we would like the proprties to be fetched by backend, not frontend)
+* Component Highlights
+* Events api?
+* RelatedHealthViolations
+* Main Menu API
+
+Acceptance criteria * )
+
+* We should use our openapi definitions as much as possible, not the node api
+* The api does not have to be backwards compatible, functionality should be
+* Move onto openapi as much as we can (without making a frankenmonster)
+* We’ll have to strike a balance between refactoring/improving our current apis and making progress here (we can’t redo the entirity of the api)
+* Goal of this story is to get to an overall api approach for the presented refactoring. Individual apis (for overview/highlight/related resources) will be designed in their respective stories. This story investigates/prescribes how thos will be implemented and what existing apis need to change.
+* Revisit the way overview data is fetched w.r.t:
+** static (structure/presentation)/dynamic (metrics) data
+** batch retrieval (per row or column)
+** pagination (this should be timeboxed)
+* *Deliverable:* A design document giving guidelines for the api implementations/refactorings in this epic. We can include an (psuedo) api spec if that makes the design more clear.
+
+Idea:
+
+* Have an api per perspective (overview, highlight)??? <= would be great to do this, also reducing the amount of requests per perspective.
+** Overview example: Request for overview, and one single request (set of) row (or column).
+* Open questions:
+** Should we retrieve all data for a perspective in one go? Including metrics for example?
+*** The tenative answer is no, data form different backend stores/latencies/error modes should remain separate, we also have some nice separation in data apis between topo/metrics etc so we should collapse all in singular calls.
+** Will there the topology data also be produced per-perspective/overview? Will the component/relation presentation be unique to each perspective, or do we make some prescription on how to get data in a perspective form a common component/relation presentation that can be retrieved through a data api.
+** ",,Bram Schuur,Frank van Lankvelt,,,5a3a740aea5fc812d8afd681,5ffe1a6c9edf280075d1b224,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@49a0574f,,,,,{},,,,,,,,,,,,,,,,A,1|hzz6ge:zzv,,,,,,,,,,,,,,Stackpacks 2 - 1,,,,,,,,8.0,,,,,,,,,,2026-01-19 09:25:11.527,,,"19/Jan/26 10:25 AM;5ffe1a6c9edf280075d1b224;Deprecated APIs now in use:
+
+* the GlobalStore uses websockets to maintain an up-to-date set of
+** QueryView
+** ComponentType
+** RelationType
+* The Node API is used to fetch
+** MainMenuGroup
+** ViewType
+** ComponentType/RelationType (for selecting parameters in forms)
+** pretty much the whole settings page
+
+Overview pages are now created by provisioning a MainMenuGroup.  That refers to a couple of QueryViews and each of those specifies a ViewType.
+It is not clear to me how the “overview columns” are supposed to aggregate into a view and/or menu item.","19/Jan/26 2:34 PM;5ffe1a6c9edf280075d1b224;In overview pages, requests are dominated by promql/metric-binding columns.  For each cell, three calls are made.  One for the metric-binding/parameter substitution, one for the instantaneous value and one for the mini-graph.  Batching of these by grouping multiple components together would make them much more efficient.  Am not sure how hard this would be to implement on the frontend though, as this is quite a departure from “render a component and it fetches the necessary data”.","19/Jan/26 5:10 PM;5ffe1a6c9edf280075d1b224;For the highlights page, it appears that moving the FullComponent to openapi would already get us a long way.  It defines the component type (with highlights), binds metrics and traces.
+Now the type will have to turn into something that is composed of the different presentations, but that seems possible without disrupting the frontend too much.
+
+It’s probably best to create a new API for fetching components with properties/tags for the overview page.  It currently uses the snapshot API which returns all kinds of stuff that’s not relevant for presentations.
+
+The {{type}} field of the ViewComponent is only used to determine a name or icon to display.  As the ViewComponent is in the result of the snapshot API, it is used extensively throughout the frontend.  So the quickest way to align the UI with presentations is to replace that field with name and icon - to be determined by the most fitting presentation.  (an iconbase64 field is even already present on the ViewComponent!)  And strangle the rest of ViewComponent to just that which is used by the graph visualizer.
+
+Getting the main-menu items is now done in a simple call to the Node API.  It seems straightforward to move this to openapi.  Menu items themselves consist of a query-view and a view-type.  The query-view is mainly a topology visualization specification - even though we only really need the stql query.  (should we move the topo settings into the component presentation?)","20/Jan/26 11:09 AM;5ffe1a6c9edf280075d1b224;the topology snapshot api now uses websocket for the live view.  This way, only diffs need to be sent and processed.  It might make sense to have a similar API for the overviews - query the diff between two time slices.  This should be quite light on stackgraph as well, as we can push most of the processing to the index level.  (i.e. we don’t need to re-populate components with full data)",49387,STAC-23912,ComponentPresentation for OTEL,In Progress,16/Jan/26 9:51 AM
+Design binding and rank fields for the ComponentPresentation,STAC-23916,49395,User Story,In Progress,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,Deon Taljaard,712020:27cbf957-6036-4080-9f6b-fdb179fd6007,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,24/Nov/25 11:13 AM,14/Jan/26 3:54 PM,16/Jan/26 11:33 AM,,,,0,,,"Acceptance criteria*)
+
+* Design what properties can be specified in the binding and rank field, and how those behave.
+* The interpretation of the rank field needs ot be clear to users. E.g. when we might use specificy we should define what range means what
+* Update the ComponentPresentation examples with the proposals/designed concepts
+* Sync with the examples story ([https://stackstate.atlassian.net/browse/STAC-23932|https://stackstate.atlassian.net/browse/STAC-23932|smart-link] ) such that ranking and binding gets verified for the produced examples (or verified).
+* Work our some compositional examples, taking a stack of stackpacks and reason how the highlight/overview pages would look with the designed rank and binding rules.
+* Validate the design by applying the design to our examples and be confident that it will work for those use-cases given the design.
+* Make sure the ranking scheme is as simple as possible. If this has differences with the current ordering/ui we can also debate what is required.
+* If for a proper design we need additional user input, we should involve ovidiu, goal is to design this in a way that does not need additional input from the end-user. 
+* Think about performance of the chose solutions
+* We are free to move concepts like rank around (maybe per stackpack?) if that suits the desired goal.
+* 
+
+Open/design questions:
+
+* The proposed ‘specificy’ model allows extending/replacing fields/columns but might not be the ordering that is always wanted. We might need another ranking criteria (like importance?) to allow more fine-grained ordering of fields
+* How do we combine presentations for the overview when some pods may have .net metrics and others java metrics? How should that visualize?
+* How doe we determine the column names in the overview in a paginated situation? Can we derive those based on just indices/partial data?
+** Is it determined by context, or maybe component presentations that overlap?",,Bram Schuur,,,,5a3a740aea5fc812d8afd681,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@513cacb2,,,,,"{pullrequest={dataType=pullrequest, state=OPEN, stateCount=1}, json={""cachedValue"":{""errors"":[],""summary"":{""pullrequest"":{""overall"":{""count"":1,""lastUpdated"":""2026-01-16T14:01:36.123+0100"",""stateCount"":1,""state"":""OPEN"",""dataType"":""pullrequest"",""open"":true},""byInstanceType"":{""GitLab"":{""count"":1,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|hzz6ge:zzr,,,,,,,,,,,,,,Stackpacks 2 - 1,,,,,,,,8.0,,,,,,,,,,,,,,,,,49387,STAC-23912,ComponentPresentation for OTEL,In Progress,14/Jan/26 3:54 PM
+Stackpack contains incorrect URL for Openshift clusterLogForwarder,STAC-23908,49349,Bug,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Vladimir Iliakov,61b198bc744c4d006987cf03,Vladimir Iliakov,61b198bc744c4d006987cf03,Vladimir Iliakov,61b198bc744c4d006987cf03,21/Nov/25 12:35 PM,14/Jan/26 12:22 PM,,24/Nov/25 9:34 AM,suse-observability/2.7.0,,0,,,"Reported by Customer, ‘receiver/’ is duplicated.
+
+
+
+{noformat}apiVersion: observability.openshift.io/v1
+kind: ClusterLogForwarder
+metadata:
+  name: instance
+  namespace: openshift-logging
+spec:
+  serviceAccount:
+    name: ""logging-collector""
+  outputs:
+    - name: stackstate
+      type: loki
+      loki:
+        authentication:
+          username:
+            secretName: suse-observability-agent-logging-secret
+            key: username
+          password:
+            secretName: suse-observability-agent-logging-secret
+            key: password
+        url: ""https://aegir.prod.stackstate.io/receiver/receiver/stsAgent/logs/openshift""
+  pipelines:{noformat}
+
+
+
+[https://gitlab.com/stackvista/integrations/stackpacks/-/blob/master/stackpacks/kubernetes-v2/src/main/stackpack/resources/enabled.md?ref_type=heads&plain=1#L297|https://gitlab.com/stackvista/integrations/stackpacks/-/blob/master/stackpacks/kubernetes-v2/src/main/stackpack/resources/enabled.md?ref_type=heads&plain=1#L297|smart-link] ",,Vladimir Iliakov,,,,61b198bc744c4d006987cf03,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@8191abe,,,,,"{repository={count=2, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":2,""lastUpdated"":""2025-11-21T13:51:19.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":2,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02v0f:,,,,,,- Fix the Stackpack page with the correct url used by Openshift ClusterLogForwarder.,,,,,,,,Prepare dashboards release,,,,,Borg,,,,,,,,,,,,,,10107_*:*_1_*:*_79579_*|*_3_*:*_1_*:*_339556_*|*_10400_*:*_1_*:*_207384626_*|*_10401_*:*_1_*:*_0,,,,,,,,,Done,24/Nov/25 9:34 AM
+Package and validate stackpack 2.0 stackpacks through the new CLI commands,STAC-23880,49336,User Story,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Deon Taljaard,712020:27cbf957-6036-4080-9f6b-fdb179fd6007,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,20/Nov/25 10:03 AM,14/Jan/26 11:40 AM,,14/Jan/26 11:40 AM,,,0,,,"We want to show the entire user flow for our first stackpacks 2.0 setup, including building with the CLI.
+
+We also want to make sure we build all our stackpacks 2.0 with the CLI in our stackpacks repository
+
+Acceptance cirteria*)
+
+* Package and test the stackpack 2.0 stackpacks in the stackpacks repo through our CLI, also in gitlab CI
+* Can we avoid/prohibit buildoing stackpacks 2.0 with the (java) sdk to fully standardize on the CLI?
+
+Refinement*)
+
+* Against which stackstate do we use the test command?
+** -Write a story to include the test command in integration test.-
+** -Do not run it against a current instance, we defer this to beest. The test command is more meant for manual flow-
+** Rename test to 'test-deploy’. Yes
+** Bram updates stories
+** Deferred: make a story for validate command which validates the schema
+** Rename cli test to 'test-deploy’
+* Versioning of stackpacks in CI
+** How are version increments effected by the cli?
+*** Package command takes a version and writes it to yaml, this is all from the CLI side
+** CI should:
+*** Version should be generated by CI scripts
+*** Make the verison bug-for-bug compatible with the current schema
+*** Ideally we’d fully automate the semver in CI to avoid publishing snapshot versions ← out of scope
+* What version of the CLI do we pull in into stackpacks repo?
+** Latest version, download CLI every time, given it is our trunk.",,Bram Schuur,,,,5a3a740aea5fc812d8afd681,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@3fc6c582,"*Actual behavior*:
+
+
+*Expected behavior*:
+
+
+*Steps to reproduce*:
+
+
+*Technical note*:
+
+",,,,"{repository={count=17, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":17,""lastUpdated"":""2026-01-14T11:40:00.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":17,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|hzz6ge:v,,,,,,,,,,,,,,Stackpacks 2 - 1,,,,,,,,5.0,,,,,,,,,,,10107_*:*_1_*:*_4336319751_*|*_3_*:*_1_*:*_417205059_*|*_10400_*:*_1_*:*_4304280_*|*_10401_*:*_1_*:*_0,,,,,,46550,STAC-23383,First StackPack 2.0,Done,14/Jan/26 11:40 AM
+Clean install HA setup often has Kafka stuck on startup,STAC-23763,48824,Bug,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,High,Done,Bram Schuur,5a3a740aea5fc812d8afd681,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,07/Nov/25 4:21 PM,14/Jan/26 12:22 PM,,26/Nov/25 2:01 PM,suse-observability/2.7.0,,0,,,"_Actual behavior_:
+
+During a clean install Kafka is started, but the Kafka operator has not yet configured the broker protocol in the pods (it seems to do it via the stateful set).
+
+This results in the {{0}} and {{1}} kafka pods waiting endlessly for the env var to be set (there is an init container with a {{while do}}). The only way to get them out of this state and get stackstate to boot is to kill the waiting pods.
+
+For some reason {{kafka-2}} does get a restart earlier and gets the new config defined on the statefulset
+
+_Expected behavior_:
+
+No endless waiting. Either the operator sets the env var directly on the pod, it stops the pods (a statefulset restart will wait for the pods to first become ready before restarting them iirc) or the init containers fail in such a way the pod gets recreated.
+
+_Steps to reproduce_:
+
+I get this most of the time when installing the HA setup while testing a Kafka upgrade (this happens on the currently released version). It may be related to startup order and speed of the kafka operator though.
+
+_Technical note_:
+
+Fix:
+
+* Somehow make sure the pod get rolled in a way that makes progress bu maintains HA.
+* See if we can isolate the startup from upgrade and make that fast and immediate rather than the kafka-up operator path.",,Remco Beckers,,,,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@225d97d7,,,,,"{repository={count=5, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":5,""lastUpdated"":""2025-11-26T10:28:06.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":5,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02uyb:,,,,,,[Platform] Fix issue where kafka init container gets stuck upon new install,,,,,,,,Marvin - Spacks2 & AgentBump,,,,,Marvin,,,5.0,,,,,,,,,,,10107_*:*_1_*:*_1446196389_*|*_3_*:*_1_*:*_82547724_*|*_10004_*:*_1_*:*_1931_*|*_10400_*:*_1_*:*_90400833_*|*_10401_*:*_1_*:*_0,,,,,,,,,Done,26/Nov/25 2:01 PM
+Create platform quorum observer service to monitor the health of the installation and report on it through cluster restarts/node cycles,STAC-23748,48776,User Story,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,High,Done,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,05/Nov/25 9:57 AM,14/Jan/26 12:22 PM,,24/Nov/25 3:21 PM,suse-observability/2.7.0,,0,,,"Goal of this story is to make a very low-level check (in a separate pod) for the health of all databases in the cluster. Idea is to report on this through its logs which we can ship through our support package. Logs should be written to a PVC to assure they survive node rotation/eviction and we still get a full overview.
+
+Acceptance criteria*)
+
+* We want to obtain the following information:
+** Continuously monitor all pods/workloads of the SUSE Observability installation and report on those who are below their desired replicas.
+*** We may use the K8s api (watcher) or do our own readyness probe per pod, this is TBD
+** Present a warning when a workload is below quorum (< 2/3)
+* We might split the logs into a periodic status update of the entire cluster state and another log for transitions to get closer to the relevant changes. We should try to make the logging as actionable as possible, be complete but not drown the end user in too much information.
+* We should carefully throttle the rate of logging and the PVC size such that we are sure to be getting 7 days of pod history
+* Add to the support package script to pick up the logs
+* Potential follow-ups:
+** Add restart counts for pods, to also observe these from before a reinstall or node cycle.
+** Add additional checks to report on the health/replication of our databases, most importantly hdfs.
+*** Check which tephra became leader when
+** Potentially we turn this into a system notification to warn the end-user earlier",,Bram Schuur,,,,5a3a740aea5fc812d8afd681,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@116c43a8,,,,,"{repository={count=24, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":24,""lastUpdated"":""2025-11-24T09:20:58.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":24,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02u8v:,,,,,,[Platform] Create a small logging adaemon that observes the quorum of redundant services in the platform installation,,,,,,,,Marvin - Spacks2 & Agent,Marvin - Spacks2 & AgentBump,,,,Marvin,,,,,,,,,,,,,,10107_*:*_1_*:*_780734689_*|*_3_*:*_1_*:*_453772689_*|*_10400_*:*_1_*:*_405233019_*|*_10401_*:*_1_*:*_0,,,,,,48725,STAC-23736,StackGraph corruption,Done,24/Nov/25 3:21 PM
+Update documentation with compatibility matrix,STAC-23742,48764,Sub-task,In Review,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,yash.tripathi,712020:be333e7e-12bf-42a6-8e72-90eef7cda584,rajukumar.macha,712020:05b3e11c-41bc-4bbd-aaf2-6a1139bf2a60,rajukumar.macha,712020:05b3e11c-41bc-4bbd-aaf2-6a1139bf2a60,05/Nov/25 8:45 AM,14/Jan/26 9:15 AM,,,,,0,,,"will do the compatibility test execution plan
+
+Branch:
+
+[https://github.com/rancher/suse-observability-functional-tests/tree/feature/k8s_compatibility_tests|https://github.com/rancher/suse-observability-functional-tests/tree/feature/k8s_compatibility_tests|smart-link] 
+
+We discussed the following do changes:
+
+* Restructure the current release notes section in into a Release document section with subdocuments:
+** Release
+*** Release Notes
+*** Compatibility Matrix ←  put the compatibility matrix here
+*** Release Strategy
+* Link to the compatibility matrix from the rancher prime (on-prem) install instructions [https://deploy-preview-168--suse-obs.netlify.app/suse-observability/latest/en/k8s-suse-rancher-prime#_requirements|https://deploy-preview-168--suse-obs.netlify.app/suse-observability/latest/en/k8s-suse-rancher-prime#_requirements|smart-link] 
+* Link to the compatibility matrix from the install docs [https://deploy-preview-168--suse-obs.netlify.app/suse-observability/latest/en/setup/install-stackstate/requirements#_kubernetes_and_openshift|https://deploy-preview-168--suse-obs.netlify.app/suse-observability/latest/en/setup/install-stackstate/requirements#_kubernetes_and_openshift|smart-link] 
+* Linking from our cloud docs is out of scope
+
+Docs repo usage:
+
+* Make an MR against main branch because the matrix is populated.
+* Akash needs to do a review on top of one of the team",,rajukumar.macha,,,,712020:05b3e11c-41bc-4bbd-aaf2-6a1139bf2a60,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@2e0f247c,,,,,{},,,,,,,,,,,,,,,,A,1|i02u7j:,,,,,,,,,,,,,,Marvin - Spacks2 & Agent,Marvin - Spacks2 & AgentBump,Marvin - Spacks2 & AgentBump 2,Marvin - AgentBump 3,,Marvin,,,,,,,,,,,,,,,,,,,,47471,STAC-23522,Kubernetes compatibility testing & documentation,In Progress,09/Jan/26 10:56 AM
+Metrics are freezing UI,STAC-23733,48659,Bug,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,High,Done,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,04/Nov/25 9:00 AM,14/Jan/26 12:23 PM,,09/Jan/26 9:31 AM,suse-observability/2.7.0,,0,frontend,,"Go to [nightly|https://nightly-champagne.preprod.stackstate.io/#/metrics?promql=count%28kubernetes_pods_running%29&timeRange=LAST_24_HOURS] and switch form 1h to 15 mins - observe the lag and UI freeze while switching. 
+
+This only appears in Chrome, in Firefox it is only marginally noticeable.",,Anton Ovechkin,Release StackState,,,61d2f4ebce3652006aaa23ca,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@1f25583e,"*Actual behavior*:
+
+
+*Expected behavior*:
+
+
+*Steps to reproduce*:
+
+
+*Technical note*:
+
+",,,,"{repository={count=100, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":100,""lastUpdated"":""2026-01-08T11:31:43.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":100,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02u22:zzzw,,,,,,Resolved an issue where the user interface would occasionally become unresponsive when viewing metric charts,,,,,,,,Prepare dashboards release,Dashboards release?,Wrapping up dashboarding,,,Borg,,,5.0,,,,,,,,,,2026-01-05 11:03:26.803,10107_*:*_1_*:*_3021505642_*|*_3_*:*_1_*:*_2423618539_*|*_10400_*:*_1_*:*_179934374_*|*_10401_*:*_1_*:*_0,,05/Jan/26 12:03 PM;5f0c19c95ee2c3002363e486;[Anton Ovechkin|https://gitlab.com/suse.anton.ovechkin] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9418] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-23733-fix-freezing-metrics|https://gitlab.com/stackvista/stackstate/-/tree/STAC-23733-fix-freezing-metrics]:{quote}Draft: STAC-23733 Fix freezing metrics{quote},,,,,,,Done,09/Jan/26 9:31 AM
+[Timeboxed + recurring] Fix biggest impact non-os platform CVEs,STAC-23727,48527,User Story,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,High,Done,Deon Taljaard,712020:27cbf957-6036-4080-9f6b-fdb179fd6007,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,03/Nov/25 9:07 AM,14/Jan/26 12:22 PM,,25/Nov/25 8:53 PM,suse-observability/2.7.0,,0,backend,,"We’re well behind with reducing CVE’s on SUSE Observability, platform and agent. Recent security scans have shown a significant list of issues again.
+
+We’ve divided the work between our 2 teams, for the time being, such that we focus on non-os platform CVEs. This ends up being Golang and Java libraries for our own code but also for our dependencies (for example ClickHouse).
+
+We want to timebox this and use the scan results to pick the most impactful changes:
+
+* Version upgrades that resolve the most High and Critical CVEs
+* Version upgrades that resolve the Critical CVEs
+* Resolve CVEs we’ve been asked questions about already (only 1 afaik): [https://stackstate.atlassian.net/browse/STAC-22509|https://stackstate.atlassian.net/browse/STAC-22509|smart-link] 
+
+Re-running scans on newly created images can be done using the [https://gitlab.com/stackvista/devops/anchore-engine-configuration/|https://gitlab.com/stackvista/devops/anchore-engine-configuration/|smart-link]  Gitlab project, check with Louis Parkin for the details and the best/preferred way to do that.
+
+To get a quick overview of the docker images that are most in need of an upgrade, you can use the latest pipeline results in the Anchore repository [https://gitlab.com/stackvista/devops/anchore-engine-configuration/-/pipelines|https://gitlab.com/stackvista/devops/anchore-engine-configuration/-/pipelines]. The Grype scan reports a summary at the end of the {{obersvability}} job. 
+
+In case of Minio upgrades being needed, instead look into [https://stackstate.atlassian.net/browse/STAC-23466|https://stackstate.atlassian.net/browse/STAC-23466|smart-link] . 
+
+This should be a timebox per sprint until we have the # CVEs back under control.",,Remco Beckers,,,,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,,,,,,,,,,,,,,,,,,,STAC-23616,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@23594734,,,,,"{pullrequest={dataType=pullrequest, state=MERGED, stateCount=2}, json={""cachedValue"":{""errors"":[],""summary"":{""pullrequest"":{""overall"":{""count"":2,""lastUpdated"":""2025-12-08T15:01:08.385+0100"",""stateCount"":2,""state"":""MERGED"",""dataType"":""pullrequest"",""open"":false},""byInstanceType"":{""GitLab"":{""count"":2,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02u22:zzzm,,,,,,"Updates to the base OS packages and runtime dependencies for the jmx-exporter, kafkaup-operator, clickhouse-backup, and kafka images.",,,,,,,,Prepare dashboards release,,,,,Borg,,,5.0,,,,,,,,,,,10107_*:*_1_*:*_1489341300_*|*_3_*:*_1_*:*_0,,,,,,,,,Done,25/Nov/25 8:53 PM
+Document the new backup tool replacing the existing backups,STAC-23602,47880,User Story,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Done,Vladimir Iliakov,61b198bc744c4d006987cf03,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,17/Oct/25 10:14 AM,14/Jan/26 12:23 PM,,23/Dec/25 9:53 AM,suse-observability/2.7.0,,0,devops,,"*Acceptance criteria*
+
+* Re-organize backup documentation:
+** Separate page for enabling backups
+*** Cleanup the way to enable backups for all stores at once
+*** We still keep the {{settings}} backup enabled by default and the rest is opt-in
+** Separate page for restoring backups with the new Cli
+*** Restore is always allowed, no need to enable restore
+** Separate page for legacy backups → current backup documentation
+* Review Settings backup page → does it have to be separate or can it be part of the other backup pages
+* Include release notes documenting any settings changes
+* Make a note for Gitops users that restore operations change the deployed resources:
+** number or replicas for downscaled deployments/statefulsets
+** annotations on the deployments/statefulsets to prevent mutually exclusive parallel operations",,Remco Beckers,Vladimir Iliakov,,,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,61b198bc744c4d006987cf03,,,,,,,,,,,,,STAC-24021,STAC-24015,STAC-24013,STAC-24020,,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@2594774d,,,,,"{pullrequest={dataType=pullrequest, state=MERGED, stateCount=2}, json={""cachedValue"":{""errors"":[],""summary"":{""pullrequest"":{""overall"":{""count"":2,""lastUpdated"":""2025-12-23T12:04:33.201+0100"",""stateCount"":2,""state"":""MERGED"",""dataType"":""pullrequest"",""open"":false},""byInstanceType"":{""GitLab"":{""count"":2,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02nkf:oaz,,,,,,"- backup: Replacing `backup.enabled` Helm value with `global.backup.enabled` Helm value. `backup.enabled=true` will cause the deployment to FAIL.
+- backup:  Backups are managed globally with global.backup.enabled and can't be enabled/disabled per datastore (Settings backups are always enabled).
+- backup: Removing `*.backup.restore.enable` Helm values in favor of `global.backup.enabled`
+- backup: The new cli tool, `sts-backup`, is introduced to restore backups. See the documentation xref:/setup/data-management/backup_restore/backup_enable.adoc[here] and  xref:/setup/data-management/backup_restore/backup_restore.adoc[here]",,,,,,,,Prepare dashboards release,Dashboards release?,,,,Borg,,,3.0,,,,,,,,,,2025-12-01 12:03:48.083,10107_*:*_1_*:*_3376293068_*|*_10007_*:*_1_*:*_1802742795_*|*_3_*:*_3_*:*_528523928_*|*_10400_*:*_2_*:*_5010171_*|*_10401_*:*_1_*:*_0,,"01/Dec/25 1:03 PM;61b198bc744c4d006987cf03;The mr-s are ready for review
+
+[https://github.com/rancher/stackstate-product-docs/pull/141|https://github.com/rancher/stackstate-product-docs/pull/141|smart-link] 
+[https://gitlab.com/stackvista/devops/helm-charts/-/merge_requests/1709|https://gitlab.com/stackvista/devops/helm-charts/-/merge_requests/1709|smart-link] 
+
+Though there are some bug tickets that block the merge",,,,46449,STAC-23374,Single command restore of backup data,Done,23/Dec/25 9:53 AM
+Do not generate an api key by default,STAC-23542,47603,User Story,In Review,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,13/Oct/25 9:03 AM,15/Jan/26 4:57 PM,,,,,0,,,"Requested here: [https://suse.slack.com/archives/C07AJQZCDEU/p1760102059110619|https://suse.slack.com/archives/C07AJQZCDEU/p1760102059110619|smart-link] 
+
+It makes sense now we have service tokens, to be able to not generate an api key altogether.
+
+Acceptance criteria*)
+
+* Do not generate a api key by default
+* Do not require an api key by default, also *on the platform backend*
+* We don’t want to allow generating the api key. If users still want this, they will need to provide it explicitly via the api key value on the helm chart. This should also allow for backward compatibility
+* Update documentation:
+** Instead of API key use per cluster service token
+** Or if you really want a global key: create a service token or bootstrap token yourself that has unscoped access with the *metric ingest permission* to use instead of the “global” api key.
+** How to migrate from api key to service token
+* Add a conditional part in the {{NOTES.txt}} to tell the user to switch to service tokens when still using the API key (linking to the relevant docs page).
+* *WON’T DO:* Mark api key deprecated with a minimal deprecation time of 6 months.
+
+
+
+*Rationale for WON’T DO*
+
+We cannot remove the api key in the future. Providing the api key via the values.yaml is the only way to get a predictable value (service tokens are randomly generated). Deprecating and removing that would make migrating much harder, especially when the backup with the old service tokens is lost.
+
+We also rely on this for using the same api key on our branch deploys as on nightly champagne etc. 
+
+Removing them would mean finding an alternative for both use cases (maybe being able to provide token when creating a service token). Instead we might as well keep the current api key options but make them a lot less prominent in the docs (maybe not at all in the docs but only when there are support questions).
+
+Note that using a bootstrap service token is not a solution: there is only 1 bootstrap service token, so using it as a replacement for the api key makes it unavailable for anything else (like its intended use-case for a GitOps work flow)",,Bram Schuur,Remco Beckers,,,5a3a740aea5fc812d8afd681,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,,,,,,,,,,,STAC-23392,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@4b174903,,,,,"{pullrequest={dataType=pullrequest, state=OPEN, stateCount=1}, json={""cachedValue"":{""errors"":[],""summary"":{""pullrequest"":{""overall"":{""count"":1,""lastUpdated"":""2026-01-14T14:39:05.377+0100"",""stateCount"":1,""state"":""OPEN"",""dataType"":""pullrequest"",""open"":true},""byInstanceType"":{""GitLab"":{""count"":1,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02vwj:r,,,,,,,,,,,,,,Wrapping up dashboarding,,,,,Borg,,,5.0,,,,,,,,,,2026-01-12 16:35:40.12,,,"12/Jan/26 5:35 PM;557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa;To be verified, but it looks like the api key is already optional for the receiver and server.",,,,,,,In Progress,12/Jan/26 1:31 PM
+[Dashboards] Sorting and other widget state disappears when scrolling the dashboard due to virtualization widgets,STAC-23452,46959,Bug,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,Medium,Done,Anton Ovechkin,61d2f4ebce3652006aaa23ca,rajukumar.macha,712020:05b3e11c-41bc-4bbd-aaf2-6a1139bf2a60,rajukumar.macha,712020:05b3e11c-41bc-4bbd-aaf2-6a1139bf2a60,25/Sep/25 1:29 PM,14/Jan/26 10:20 AM,,14/Jan/26 10:20 AM,,,0,frontend,,"sorting disappear when a  widget is scrolled out of view on the dashboard
+
+_Technical note_:",,rajukumar.macha,Release StackState,Samuel Jones,,712020:05b3e11c-41bc-4bbd-aaf2-6a1139bf2a60,5f0c19c95ee2c3002363e486,712020:a950806e-86c0-42f7-b531-66e40f57b9ee,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@3998d8a8,,,,,"{repository={count=5, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":5,""lastUpdated"":""2026-01-12T19:02:33.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":5,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02vwk:r,,,,,,,,,,,,,,Dashboarding 13 & OTel topo,Wrapping up dashboarding,,,,Borg,,,5.0,,,,,,,,,,2026-01-12 09:44:00.08,10107_*:*_2_*:*_9160425002_*|*_3_*:*_2_*:*_252127510_*|*_10400_*:*_1_*:*_28670032_*|*_10401_*:*_1_*:*_0,,15/Oct/25 5:13 PM;712020:05b3e11c-41bc-4bbd-aaf2-6a1139bf2a60;[~accountid:712020:a950806e-86c0-42f7-b531-66e40f57b9ee] I am not able to reproduce issue now.attached my  screen recording to this jira,12/Jan/26 10:44 AM;5f0c19c95ee2c3002363e486;[Anton Ovechkin|https://gitlab.com/suse.anton.ovechkin] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9431] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-23452-persist-virtualized-widget-state|https://gitlab.com/stackvista/stackstate/-/tree/STAC-23452-persist-virtualized-widget-state]:{quote}STAC-23452 Persist virtualized widget state{quote},,,38662,STAC-22375,Dashboards as 1st class citizen,Done,14/Jan/26 10:20 AM
+[Dashboards] Release ,STAC-23448,46953,User Story,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,High,Done,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,25/Sep/25 1:09 PM,14/Jan/26 12:22 PM,,19/Dec/25 4:49 PM,suse-observability/2.7.0,,0,general,,"Prepare for releasing Dashboards:
+
+* Remove feature flags from DTO and Domain model types
+* We keep the feature flag in the configuration for the time being, but enable it by default
+* Make sure that the Helm chart also enables the dashboards by default (or at least doesn’t override the configured default)
+* Verify:
+** Dashboards can be created/edited via
+*** the UI
+*** StackPacks
+*** the Cli",,Release StackState,Remco Beckers,,,5f0c19c95ee2c3002363e486,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,,,,,,,,,,,,,,,,,STAC-23449,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@93eddcd,,,,,"{pullrequest={dataType=pullrequest, state=MERGED, stateCount=3}, json={""cachedValue"":{""errors"":[],""summary"":{""pullrequest"":{""overall"":{""count"":3,""lastUpdated"":""2025-12-19T09:00:25.839+0100"",""stateCount"":3,""state"":""MERGED"",""dataType"":""pullrequest"",""open"":false},""byInstanceType"":{""GitLab"":{""count"":3,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02vd1:,,,,,,"- SUSE Observability now includes Dashboards, allowing you to visualize data from various components like business processes, user flows, and data pipelines in a single location. This update enables easier migration for users of tools like Grafana and Prometheus by providing a familiar environment to recreate existing visualizations and define custom metrics. Integrated directly into the platform, dashboards respect existing RBAC permissions and can be set as private for individual work or made public to share insights across the organization.
+
+The feature includes a versatile set of widgets, such as timeseries charts, bar charts, gauges, and markdown fields, all of which support manual resizing and dragging. You can define variables for use in queries, set thresholds, and customize the chart visualisation. Dashboards can also be included in StackPacks and can be constructed ad-hoc, while troubleshooting, from existing metric widgets.",,,,,,,,Dashboards release?,,,,,Borg,,,3.0,,,,,,,,,,2025-12-18 15:01:44.83,10107_*:*_1_*:*_7258140132_*|*_3_*:*_2_*:*_76327601_*|*_10400_*:*_2_*:*_3690_*|*_10401_*:*_1_*:*_10993,,18/Dec/25 4:01 PM;5f0c19c95ee2c3002363e486;[Remco Beckers|https://gitlab.com/rembo] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9404] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [stac-23448|https://gitlab.com/stackvista/stackstate/-/tree/stac-23448]:{quote}STAC-23448 Remove dashboards feature flag and update schemas{quote},,,,38662,STAC-22375,Dashboards as 1st class citizen,Done,19/Dec/25 4:49 PM
+Create OTel Mapping API,STAC-23427,46811,User Story,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,High,Done,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,23/Sep/25 10:38 AM,14/Jan/26 9:11 AM,14/Jan/26 5:44 PM,13/Jan/26 5:20 PM,,,0,backend,,"_User Story_
+\{panel}
+As a developer or stackpack builder
+I want to be able to make small changes to the component/relation mappings 
+such that I can test out changes quickly without having to resort to the full stackpack workflow
+\{panel}
+
+_Acceptance Criteria_
+
+* Create an OpenAPI endpoint for CRUD actions on Component mappings and relation mappings. 
+* Add tests that verify the types are in sync with the DTOs for stackpacks: for example by converting to json and back via the different types (dto → json → openapi → json → dto for example)
+* Add instance permissions for CRUD interactions with mappings and assign them to admins and power users.
+* For the “get mapping status” api that already exist, check if permissions should be applied here too. We want to have the same behavior as for the {{Sync}} type
+
+
+
+Separate story: CLI command for CRUD actions (similar to the dashboard CLI command)
+
+_Failure Modes_
+
+_Documentation Impact_
+
+_INVEST Check_
+
+A good user story should be:
+
+""I"" ndependent (of all others)
+""N"" egotiable (not a specific contract for features)
+""V"" aluable (or vertical)
+""E"" stimable (to a good approximation)
+""S"" mall (so as to fit within an iteration)
+""T"" estable (in principle, even if there isn't a test for it yet)
+
+_Refinement Notes_
+
+_Notes_",,Release StackState,Remco Beckers,,,5f0c19c95ee2c3002363e486,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@48b78820,,,,,"{repository={count=7, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":7,""lastUpdated"":""2026-01-14T11:31:29.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":7,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|hzz6fk:,,,,,,,,,,,,,,Dashboards release?,Stackpacks 2 - 1,,,,Borg,,,5.0,,,,,,,,,,2026-01-13 09:38:09.934,10107_*:*_1_*:*_6652045097_*|*_3_*:*_1_*:*_3021181366_*|*_10400_*:*_1_*:*_1840_*|*_10401_*:*_1_*:*_0,,13/Jan/26 10:38 AM;5f0c19c95ee2c3002363e486;[Lukasz Marchewka|https://gitlab.com/lukasz.marchewka_stackstate] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9436] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-23427-fix-lazy-loading-otel-mapping|https://gitlab.com/stackvista/stackstate/-/tree/STAC-23427-fix-lazy-loading-otel-mapping]:{quote}STAC-23427 Load full domain object in OtelMappingService{quote},14/Jan/26 9:11 AM;5f0c19c95ee2c3002363e486;[Lukasz Marchewka|https://gitlab.com/lukasz.marchewka_stackstate] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9439] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-23427-rename-expireAfterMs-property|https://gitlab.com/stackvista/stackstate/-/tree/STAC-23427-rename-expireAfterMs-property]:{quote}STAC-23427 Rename expireAfterMs to expireAfter (to unify naming used by StackPacks){quote},,,43083,STAC-22861,Stackpacks 2.0 otel,Done,13/Jan/26 5:20 PM
+Replace our value generation helm chart with global values in the main helm chart.,STAC-23392,46593,User Story,In Review,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,Fedor Zhdanov,712020:6185b2ed-4292-407f-be91-3e9a29e07a7c,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,17/Sep/25 10:24 AM,19/Jan/26 1:02 PM,15/Jan/26 11:57 AM,,,,0,devops,,"It turns out that the separate values file is confusing for users, documentation and developers:
+
+* Users have this slightly quirky flow of running a {{helm template}} command before they can run {{helm install}}, this is not common at all and raises questions and requires extra documentation. 
+* Users are confused about which version of the values generator to use for each version of SUSE Observability (they are indeed not always compatible).
+* Documentation always needs to take into account the two steps. Especially when we add things to the generator things get complicated because the file needs to be re-generated or edited manually. This is a recipe for mistakes
+* It is very hard to embed this 2 step installation in gitops flows because it is non-standard
+* It is very hard to embed this 2 step installation in an easy Rancher installation because it is non-standard
+* When changing the Helm values developers always have to consider if it should be added to the generated values or not and what the consequences of that are.
+
+
+
+Vladimir suggested to replace it by pulling the values generator into the normal Helm chart and using global values to solve the reasons why we added the separate generator. This has become possible because we now have forked/copied all our dependencies into our own Helm chart anyway. So we are in full control.
+
+
+
+*Acceptance criteria:*
+
+* Be backwards compatible with the generated values file in some way.
+* Configurations now done via suse-observability-values  are still possible via a single value, but now directly on the suse-observability chart
+* Documentation is updated
+* Take a look at the limitations/preferences of the Rancher questions.yaml format, we can try to be compatible with that as much as possible",,Fedor Zhdanov,Remco Beckers,,,712020:6185b2ed-4292-407f-be91-3e9a29e07a7c,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,,,,,,,,,,,,STAC-23542,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-23291,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@5b1473a8,,,,,"{pullrequest={dataType=pullrequest, state=OPEN, stateCount=1}, json={""cachedValue"":{""errors"":[],""summary"":{""pullrequest"":{""overall"":{""count"":1,""lastUpdated"":""2026-01-13T12:50:26.318+0100"",""stateCount"":1,""state"":""OPEN"",""dataType"":""pullrequest"",""open"":true},""byInstanceType"":{""GitLab"":{""count"":1,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|hzz6qz:009cdsxt2a8y9028zyyxun662kkkq,,,,,,,,,,,,,,Dashboarding 16 & OTel mapping,Prepare dashboards release,Dashboards release?,Wrapping up dashboarding,,Borg,,,13.0,,,,,,,,,,2025-12-22 23:08:10.794,,,"23/Dec/25 12:08 AM;712020:6185b2ed-4292-407f-be91-3e9a29e07a7c;
+
+[https://gitlab.com/stackvista/devops/helm-charts/-/merge_requests/1724|https://gitlab.com/stackvista/devops/helm-charts/-/merge_requests/1724|smart-card]",13/Jan/26 3:45 PM;712020:6185b2ed-4292-407f-be91-3e9a29e07a7c;[https://github.com/rancher/stackstate-product-docs/pull/199|https://github.com/rancher/stackstate-product-docs/pull/199|smart-link] ,,,,,,In Progress,18/Nov/25 11:49 AM
+[Dashboard] Release Cli commands (remove feature flag),STAC-23271,45558,User Story,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,High,Done,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Vladimir Iliakov,61b198bc744c4d006987cf03,Vladimir Iliakov,61b198bc744c4d006987cf03,26/Aug/25 10:00 AM,14/Jan/26 12:23 PM,,23/Dec/25 10:19 AM,suse-observability/2.7.0,,0,backend,,"The `sts dashboard` command is only available/visible when the environment variable is set [https://github.com/StackVista/stackstate-cli/pull/109|https://github.com/StackVista/stackstate-cli/pull/109|smart-link] .
+
+When Dashboard is GA we need to make {{dashboard}} command available unconditionally.
+
+AC.
+
+* Remove the experimental flag [https://github.com/StackVista/stackstate-cli/blob/main/cmd/sts.go#L36|https://github.com/StackVista/stackstate-cli/blob/main/cmd/sts.go#L36|smart-link] 
+* Release new version of stackstate-cli without the experimental flag
+* Do a final test that the commands still work",,Vladimir Iliakov,,,,61b198bc744c4d006987cf03,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@4db1a119,,,,,{},,,,,,,,,,,,,,,,A,1|i02vd2:,,,,,,- `sts` supports `dashboard` command to manage SUSE  Observability Dashboards.,,,,,,,,Dashboards release?,,,,,Borg,,,2.0,,,,,,,,,,,10107_*:*_1_*:*_9946634889_*|*_3_*:*_1_*:*_17594863_*|*_10400_*:*_1_*:*_319578734_*|*_10401_*:*_1_*:*_0,,,,,,38662,STAC-22375,Dashboards as 1st class citizen,Done,23/Dec/25 10:19 AM
+Stackpack validate CLI command,STAC-23221,44971,User Story,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Duplicate,,,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,12/Aug/25 11:55 AM,13/Jan/26 12:56 PM,,13/Jan/26 12:56 PM,,,0,,,"_User Story_
+\{panel}
+As a user
+I want to validate my stackpack without installing it
+such that I can do a basic and quick check (also or maybe mainly from CI) that the stackpack is not broken
+\{panel}
+
+_Acceptance Criteria_
+
+* Introduce a Stackpack API for validation (of StackPacks v2)  that does everything up to and including a fake install of the stackpack
+** It takes a stackpack package and, if needed arguments for the stackpack
+** It does all the validation already  built-in to the upload API
+** It performs all the steps needed for an installation, for example:
+*** Checks that dependencies exist
+*** Renders the templates and parses the settings into DTOs using the provided arguments
+*** Can we also trigger the validations that are only on the domain level? Does that even bring value
+* Introduce a sts stackpack validate command that can validate a stackpack using the described  API.
+
+_Refinement Notes_
+
+_Notes_",,Remco Beckers,,,,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@bf21778,,,,,{},,,,,,,,,,,,,,,,A,1|i02v5i:r,,,,,,,,,,,,,,,,,,,Borg,,,,,,,,,,,,,,10107_*:*_1_*:*_13312886765_*|*_6_*:*_1_*:*_0,,,,,,40442,STAC-22566,Stackpacks 2.0,Done,13/Jan/26 12:56 PM
+Scaling the OTel collector for Topology mapping,STAC-23182,44701,User Story,In Progress,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,,Lukasz Marchewka,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,Remco Beckers,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,05/Aug/25 10:12 AM,20/Jan/26 3:52 PM,16/Jan/26 11:32 AM,,,,0,,,"_User Story_
+To be able to handle arbitrary data volumes we need to be able to scale the collector out for topology mapping. So we want to run multiple collectors that process the data. See also [the design in Lucid|https://lucid.app/lucidchart/a21a3bfe-f6f1-440c-ad5f-da0649405020/edit?page=0_0&invitationId=inv_d24a88ba-1da5-41a1-b4f1-a7992fec4b3e#], specifically:
+
+!image-20250805-081423.png|width=1141,height=557,alt=""image-20250805-081423.png""!
+
+The Load balancer can likely be another OTEL collector that uses the [load balancing exporter|https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/loadbalancingexporter]. 
+
+_Acceptance Criteria_
+
+* The Helm chart for SUSE Observability supports deployment of dedicated topology mapping collectors in the configuration shown in the above diagram:
+** Every collector applies all Component and Relation mappings
+** Each collector only gets parts of the data for processing
+** The data volume is (roughly) evenly distributed across the available collectors
+* Discussed during refinement: there is nothing stateful in our current collector (including the topology mappings), so we can use a normal load balancer like our Envoy Router that we already run. As long as it supports gRPC loadbalancing.
+* We can configure the number of collectors manually in the Helm chart
+* One or more metrics and monitors are added to the SUSE Observability stackpack that tell the SUSE Observability administrator if the collector needs to be scaled out, scaled in or is ok.
+* Make sure to cover the configuration with unit tests for the Helm chart.
+* Additional point from a stand-up discussion: we are concerned about the performance under load and when to scale up/out. So we need an easy and reproducible way to simulate higher load than generated by our current setups. This will make it easier to measure how effective our scaling policies are and how performant the actual topology pipeline (code) is → There are some otel tools to generate data, but it is not clear if they are “reproducible” enough and work for our use-case
+
+_Failure Modes_
+
+_Documentation Impact_
+
+
+
+_Refinement Notes_
+
+_Notes_",,Lukasz Marchewka,Release StackState,Remco Beckers,,712020:53754a01-8a5d-46de-87ad-b4fe8696d28b,5f0c19c95ee2c3002363e486,557058:fc82be0d-ff60-45e9-bb3f-9492ad8305aa,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,05/Aug/25 10:18 AM;rbeckers;image-20250805-081423.png;https://stackstate.atlassian.net/rest/api/3/attachment/content/24254,16/Jan/26 2:25 PM;712020:53754a01-8a5d-46de-87ad-b4fe8696d28b;image-20260116-131127.png;https://stackstate.atlassian.net/rest/api/3/attachment/content/26709,16/Jan/26 2:25 PM;712020:53754a01-8a5d-46de-87ad-b4fe8696d28b;image-20260116-131730.png;https://stackstate.atlassian.net/rest/api/3/attachment/content/26710,19/Jan/26 2:14 PM;712020:53754a01-8a5d-46de-87ad-b4fe8696d28b;image-20260119-131240.png;https://stackstate.atlassian.net/rest/api/3/attachment/content/26743,20/Jan/26 1:57 PM;712020:53754a01-8a5d-46de-87ad-b4fe8696d28b;image-20260120-125327.png;https://stackstate.atlassian.net/rest/api/3/attachment/content/26782,20/Jan/26 2:59 PM;712020:53754a01-8a5d-46de-87ad-b4fe8696d28b;image-20260120-132502.png;https://stackstate.atlassian.net/rest/api/3/attachment/content/26785,20/Jan/26 2:59 PM;712020:53754a01-8a5d-46de-87ad-b4fe8696d28b;image-20260120-135800.png;https://stackstate.atlassian.net/rest/api/3/attachment/content/26784,20/Jan/26 3:32 PM;712020:53754a01-8a5d-46de-87ad-b4fe8696d28b;image-20260120-142834.png;https://stackstate.atlassian.net/rest/api/3/attachment/content/26787,20/Jan/26 3:52 PM;712020:53754a01-8a5d-46de-87ad-b4fe8696d28b;image-20260120-144942.png;https://stackstate.atlassian.net/rest/api/3/attachment/content/26788,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@2ad514c4,,,,,{},,,,,,,,,,,,,,,,A,1|hzz6ge:zz,,,,,,,,,,,,,,Dashboards release?,Stackpacks 2 - 1,,,,Borg,,,8.0,,,,,,,,,,2025-10-14 13:33:48.184,,,14/Oct/25 3:33 PM;5f0c19c95ee2c3002363e486;[Deon Taljaard|https://gitlab.com/dtaljaard] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9282] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [stac-23183-otelcol-perf-metrics|https://gitlab.com/stackvista/stackstate/-/tree/stac-23183-otelcol-perf-metrics]:{quote}Draft: STAC-23182(test-branch): otelcol perf metrics{quote},"16/Jan/26 2:25 PM;712020:53754a01-8a5d-46de-87ad-b4fe8696d28b;h1. Setup
+
+* {{sandbox}} environment
+* {{telemetrygen}} project to generate traces. Traces/spans are almost the same and the collector caches so we have to add some “uniqueness” there. I have modified the generator to add an extra attribute, The attribute can be used to create components. The fork is available here: [https://github.com/LukaszMarchewka/opentelemetry-collector-contrib|https://github.com/LukaszMarchewka/opentelemetry-collector-contrib|smart-link] 
+* Load Balancer with enabled L7 for gRPC. Sandbox uses nginx, L7 load balancing is enabled
+* StatefulSet of {{collectors}}
+
+h1. Methodology
+
+h2. telemetrygen
+
+The tool is used to generated random Spans, the command requires some options 
+
+{noformat}telemetrygen traces --otlp-endpoint otlp-suse-lukasz.sandbox-main.sandbox.stackstate.io:443 \
+  --otlp-header Authorization=\""SUSEObservability\ KEY\"" \
+  --service serviceA \
+  --random1-attr-max 1000 \
+  --random2-attr-max 10 \
+  --duration 600s --rate 1000 --workers 2{noformat}
+
+
+
+* {{telemetrygen}} generates traces and spans. Each {{span}} has a {{resource}} attribute with {{service.name}} and a {{span}} attribute with {{random1}} and {{random2}} number.  (UPDATE: the screenshot represent the older version with one {{random}} attribute, instead of {{random1}} and {{random2}})
+!image-20260116-131127.png|width=610,alt=""image-20260116-131127.png""!
+
+We use {{service.name}} attribute to “route” spans to different components mappings, e.g. 
+
+{noformat}""resource"": {
+  ""scope"": {
+    ""span"": {
+      ""action"": ""CREATE"",
+      ""condition"": ""resource.attributes['service.name'] == 'serviceA'""
+    }
+  }
+}{noformat}
+
+We use {{random}} attribute to create/update unique instances of a Component
+
+!image-20260116-131730.png|width=828,alt=""image-20260116-131730.png""!
+
+{{random1}} attribute is a number from {{0}} to {{{--random1-addr-max}}} . It allows to create and update component instances.
+
+{{random2}} attribute is a number from 0 to {{{--random2-addr-max}}}. It is used to change “state” if the component:
+
+!image-20260119-131240.png|width=592,alt=""image-20260119-131240.png""!
+
+* lower value - a component changes a state more frequent, e.g. 2 - changes every request
+* higher value - a component changes a state less frequent, e.g. 10 - changes ~ every 10 times
+
+h2. ComponentMappings
+
+We want to create few components mapping like this one 
+
+{noformat}{
+  ""name"": ""TraceGenServiceA"",
+  ""description"": ""TraceGen serviceA"",
+  ""identifier"": ""urn:stackpack:load-test:shared:otel-component-mapping:serviceA"",
+  ""input"": {
+    ""signal"": [
+      ""TRACES""
+    ],
+    ""resource"": {
+      ""scope"": {
+        ""span"": {
+          ""action"": ""CREATE"",
+          ""condition"": ""resource.attributes['service.name'] == 'serviceA'""
+        }
+      }
+    }
+  },
+  ""vars"": [
+    {
+      ""name"": ""serviceName"",
+      ""value"": ""${resource.attributes['service.name']}""
+    },
+    {
+      ""name"": ""instanceId"",
+      ""value"": ""${span.attributes['random1']}""
+    },
+    {
+      ""name"": ""state"",
+      ""value"": ""${span.attributes['random2'] == '0' ? 'active' : 'inactive'}""
+    }
+  ],
+  ""output"": {
+    ""identifier"": ""urn:load-test:service/${vars.serviceName}:instance/${vars.instanceId}"",
+    ""name"": ""${vars.serviceName}/${vars.instanceId}"",
+    ""typeName"": ""tracegen ${vars.serviceName}"",
+    ""typeIdentifier"": ""urn:stackpack:load-test:shared:component-type:tracegen-${vars.serviceName}"",
+    ""layerName"": ""Load Test Components"",
+    ""layerIdentifier"": ""urn:stackpack:load-test:layer:components"",
+    ""domainName"": ""Load Test"",
+    ""domainIdentifier"": ""urn:stackpack:load-test:shared:domain:loadtest"",
+    ""required"": {
+      ""tags"": [
+        {
+          ""source"": ""load-test"",
+          ""target"": ""stackpack""
+        },
+        {
+          ""source"": ""${vars.serviceName}"",
+          ""target"": ""service.name""
+        },
+        {
+          ""source"": ""${vars.instanceId}"",
+          ""target"": ""service.instance""
+        },
+        {
+          ""source"": ""${vars.state}"",
+          ""target"": ""state""
+        }
+      ]
+    }
+  },
+  ""expireAfterMs"": 30000
+}{noformat}
+
+Each component mapping “processes” spans with different {{service.name}} attribute. It also creates max number of Components (defined by  {{--random1-attr-max}} telemetrygen option). ","16/Jan/26 4:32 PM;712020:53754a01-8a5d-46de-87ad-b4fe8696d28b;h1. Test scenarios:
+
+h2. Introduction
+
+I have configured multiple instances of generator, each of them generates 2k traces / sec (each trace with 2 spans). Each generator also generate 2k of unique components (5 generators - generates 10k unique components). Generated components was configured to update a sate one every ~20  traces.
+
+h2. 1 collector
+
+resources: 
+
+* limits cpu: 500m, memory: 512Mi
+* requests cpu: 250m, memory: 512Mi
+
+load:
+
+* number of generator was increased from 1 to 5 (2k traces to 10k traces / sec). 
+* updated components up  to 1k/sec
+!image-20260120-125327.png|width=1365,alt=""image-20260120-125327.png""!
+
+The collector can receive up to 7k traces / sec. I don’t see any queue issue, refused spans and so on in the collector, also there were available resources (CPU and memory). Ingress also isn’t  the problem, after increasing resources it was able to process even 16k traces / sec.
+
+h2. 1 collector (x4 resources)
+
+resources: 
+
+* limits cpu: 2000m, memory: 2048Mi
+* requests cpu: 1000m, memory: 2048Mi
+
+load:
+
+* number of generator was increased from 1 to 10 (2k traces to 20k traces / sec). 
+* updated components up  to 2.7k/sec
+
+!image-20260120-132502.png|width=1389,alt=""image-20260120-132502.png""!
+
+The collector can receive up to 16k traces / sec. I don’t see any queue issue, refused spans and so on in the collector, also there were available resources (CPU and memory). 
+
+h2. 1 collector (x4 resources, the same requested and limit)
+
+resources: 
+
+* limits cpu: 2000m, memory: 2048Mi
+* requests cpu: 2000m, memory: 2048Mi
+
+load:
+
+* number of generator was increased from 1 to 12 (2k traces to 24k traces / sec). 
+* updated components up  to 2.7k/sec
+
+!image-20260120-135800.png|width=1389,alt=""image-20260120-135800.png""!
+
+The output was almost the same as for the previous execution. Max throughput is 16k traces / sec. 
+
+h2. 2 collectors
+
+resources: 
+
+* limits cpu: 500m, memory: 512Mi
+* requests cpu: 250m, memory: 512Mi
+
+load:
+
+* number of generator was increased from 1 to 8 (2k traces to 16k traces / sec). 
+* updated components up  to 2.5k/sec
+
+!image-20260120-142834.png|width=1389,alt=""image-20260120-142834.png""!
+
+Collectors can receive up to 5-6k traces / sec per node. I don’t see any queue issue, refused spans and so on in the collector, also there were available resources (CPU and memory). Single node was able to process up to 7k traces/sec. So the throughput is improved but not liberally. 
+
+h2. 4 collectors
+
+resources: 
+
+* limits cpu: 500m, memory: 512Mi
+* requests cpu: 250m, memory: 512Mi
+
+load:
+
+* number of generator was increased from 1 to 10 (2k traces to 20k traces / sec). 
+* updated components up  to 5k/sec
+
+!image-20260120-144942.png|width=1389,alt=""image-20260120-144942.png""!
+
+Collectors can receive up to 4.5k traces / sec per node. I don’t see any queue issue, refused spans and so on in the collector, also there were available resources (CPU and memory). Single node was able to process up to 7k traces/sec. So the throughput is improved but not liberally (17k traces vs 7k traces). ",,43083,STAC-22861,Stackpacks 2.0 otel,In Progress,12/Jan/26 9:09 AM
+Slack integration times out and gets rate limited with many public channels,STAC-22771,42521,Bug,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,High,Done,Frank van Lankvelt,5ffe1a6c9edf280075d1b224,Bram Schuur,5a3a740aea5fc812d8afd681,Bram Schuur,5a3a740aea5fc812d8afd681,20/May/25 3:56 PM,14/Jan/26 12:23 PM,16/Dec/25 12:06 PM,17/Dec/25 9:19 AM,suse-observability/2.7.0,,0,,,"An internal user tried to hook up our slack integration to the SUSE Observability slack, which failed first with a timeout and then a ratelimit from slack:
+
+[https://suse.slack.com/archives/C079ANFDS2C/p1747747509482769|https://suse.slack.com/archives/C079ANFDS2C/p1747747509482769|smart-link] 
+
+It is likely there are too many public channels to go through.
+
+Acceptance criteria*)
+
+* We should properly deal we the ‘many’ channel and the rate limit, communicating that to the end user (deal with the 429 response code).
+* We should allow a user to just fill in the channel id/name and document how to do that. Channel id is probably best, to also allow private channels.",,Bram Schuur,Daniel Murga,Davide Rutigliano,Release StackState,5a3a740aea5fc812d8afd681,712020:30a75f3d-65ad-4f1e-a76a-36e048a49749,712020:14ec246a-1542-443b-8d9c-8ee922fdfa77,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@2838cafa,,,,,"{repository={count=14, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":14,""lastUpdated"":""2025-12-16T17:25:59.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":14,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i02vbl:,,,,,,Let user enter Slack Channel ID when there are many channels in a Slack Workspace.,,,,,,,,Marvin - Spacks2 & Agent,Marvin - Spacks2 & AgentBump 2,,,,Marvin,,,5.0,,,,,,,,,,2025-07-14 07:58:16.771,10107_*:*_1_*:*_17788206093_*|*_3_*:*_1_*:*_356148506_*|*_10400_*:*_1_*:*_5602925_*|*_10401_*:*_1_*:*_0,,14/Jul/25 9:58 AM;712020:30a75f3d-65ad-4f1e-a76a-36e048a49749;Is there any update? Thanks!,15/Dec/25 1:28 PM;5f0c19c95ee2c3002363e486;[Frank van Lankvelt|https://gitlab.com/fvlankvelt] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9395] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-22771-push-slack-channels-pagination-to-client|https://gitlab.com/stackvista/stackstate/-/tree/STAC-22771-push-slack-channels-pagination-to-client]:{quote}Draft: STAC-22771: don't paginate on server - let frontend drive it{quote},,,,,,Done,17/Dec/25 9:19 AM
+Handling `ViewSnapshotError` errors ,STAC-22521,40046,Bug,Resolved,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,High,Done,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Matea Antolic,624432b9ed4d6b007012bb7d,Matea Antolic,624432b9ed4d6b007012bb7d,14/Mar/25 2:30 PM,14/Jan/26 12:23 PM,,12/Dec/25 9:34 AM,suse-observability/2.7.0,,0,frontend,,"_Actual behavior_: 
+
+Currently we do not have proper way of handling errors which comes from topology snapshot endpoint {{/api/snapshot}}. It can return {{Error}} or {{ViewSnapshotError}}. {{ViewSnapshotError}} is special type of error which does not extend base {{Error}}, so when displaying on screen we can’t read the reason of error, it will be displayed to user just as {{Unknown error}}
+
+_Expected behavior_:
+
+{{ViewSnapshotError}} can be one of types {{ViewSnapshotDataUnavailable | ViewSnapshotFetchTimeout | ViewSnapshotTooManyActiveQueries | ViewSnapshotTopologySizeOverflow}} we need to handle this types on different way. 
+For example {{ViewSnapshotDataUnavailable}} contains {{unavailableAtEpochMs}} and {{availableSinceEpochMs}}, so instead of just displaying the error we maybe want to redirect user to different time (at some point we had that behaviour, but it’s not there any more, action for that was not used). On the other side {{ViewSnapshotFetchTimeout}} only contain {{usedTimeoutSeconds}} so maybe we just want to show some generic error on screen. 
+
+These error are separately handled for overview/topology/events/highlight? pages. We should either consolidate or at least fix all those places.
+
+Needs to be discussed. cc [~accountid:5a3a745f2466f4393b8ec4ae]  
+
+_Steps to reproduce_:
+
+The easiest way, select come component, go to topology, choose interval of {{Last 30 days}}, shift the telemetry interval to the left until you see error screen. Check the console and check the error details by clicking on {{Something}} link",,Matea Antolic,Release StackState,,,624432b9ed4d6b007012bb7d,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,STAC-24134,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@3dc85191,,,,,"{repository={count=56, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":56,""lastUpdated"":""2025-12-11T14:55:58.000+0100"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":56,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|hzz6qz:009cdsxt2a8y9028zyyxun662kkkhj,,,,,,Improved error handling and error messages for all perspectives,,,,,,,,Dashboarding 14 & OTel mapping,Dashboarding 15 & OTel mapping,Dashboarding 16 & OTel mapping,Prepare dashboards release,Dashboards release?,Borg,,,3.0,,,,,,,,,,2025-11-21 08:08:25.963,10107_*:*_1_*:*_21665823290_*|*_3_*:*_1_*:*_1639867257_*|*_10400_*:*_1_*:*_176247945_*|*_10401_*:*_1_*:*_0,,21/Nov/25 9:08 AM;5f0c19c95ee2c3002363e486;[Anton Ovechkin|https://gitlab.com/suse.anton.ovechkin] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9358] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [STAC-22521-handle-view-errors|https://gitlab.com/stackvista/stackstate/-/tree/STAC-22521-handle-view-errors]:{quote}STAC-22521 Handle `ViewSnapshotError` gracefully{quote},24/Nov/25 5:23 PM;5f0c19c95ee2c3002363e486;[Remco Beckers|https://gitlab.com/rembo] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/9359] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [stac-22521|https://gitlab.com/stackvista/stackstate/-/tree/stac-22521]:{quote}STAC-22521 Handle query parsing errors{quote},,,,,,Done,12/Dec/25 9:34 AM
+Use eslint-config-canonical,STAC-23946,33334,Technical Debt,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Won't Do,,,Anton Ovechkin,61d2f4ebce3652006aaa23ca,Anton Ovechkin,61d2f4ebce3652006aaa23ca,09/Aug/24 2:05 PM,19/Jan/26 10:29 AM,,19/Jan/26 10:29 AM,,,0,frontend,,"The canonical eslint config looks promising from the perspective of a single shared config that applies many good practices 
+
+
+
+[https://github.com/gajus/eslint-config-canonical|https://github.com/gajus/eslint-config-canonical|smart-link] ",,Anton Ovechkin,,,,61d2f4ebce3652006aaa23ca,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@4738e8f6,,,,,{},,,,,,,,,,,,,,,,A,1|i02isb:,,,,,,,,,,,,,,Team Borg - Next up frontend,,,,,Borg,,,,,,,,,,,,,,10107_*:*_2_*:*_17976729108_*|*_10403_*:*_1_*:*_22894988570,,19/Jan/26 10:29 AM;61d2f4ebce3652006aaa23ca;ESLint is replaced by Biome,,,,32148,STAC-23937,New folder structure,Done,19/Jan/26 10:29 AM
+Remove enzyme + convert class components components/react/filter,STAC-22585,29626,Technical Debt,Closed,STAC,StackState Backlog,software,Mark Bakker,557058:6a6da778-1d40-416c-95b8-2ad35dec7b9d,,,None,Won't Do,Alessio Biancalana,712020:24a58295-5746-444b-b60d-728653ec1dd2,Matea Antolic,624432b9ed4d6b007012bb7d,Matea Antolic,624432b9ed4d6b007012bb7d,18/Oct/22 9:03 AM,19/Jan/26 10:57 AM,,19/Jan/26 10:57 AM,,,0,,,,,Anton Ovechkin,Matea Antolic,Release StackState,,61d2f4ebce3652006aaa23ca,624432b9ed4d6b007012bb7d,5f0c19c95ee2c3002363e486,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@50637485,,,,,"{repository={count=4, dataType=repository}, json={""cachedValue"":{""errors"":[],""summary"":{""repository"":{""overall"":{""count"":4,""lastUpdated"":""2025-04-08T11:33:16.000+0200"",""dataType"":""repository""},""byInstanceType"":{""GitLab"":{""count"":4,""name"":""GitLab""}}}}},""isStale"":true}}",,,,,,,,,,,,,,,,A,1|i0210v:,,,,,,,,,,,,,,Team Borg - Next up frontend,,,,,Borg,,,,,,,,,,,,,2025-04-08 07:50:13.203,10107_*:*_2_*:*_76060888075_*|*_10403_*:*_1_*:*_1971875797_*|*_3_*:*_1_*:*_2969_*|*_10400_*:*_1_*:*_0,,08/Apr/25 9:50 AM;5f0c19c95ee2c3002363e486;[Alessio|https://gitlab.com/dottorblaster] mentioned this issue in [a merge request|https://gitlab.com/stackvista/stackstate/-/merge_requests/8967] of [StackVista / stackstate|https://gitlab.com/stackvista/stackstate] on branch [stac-22585-filter-polishing|https://gitlab.com/stackvista/stackstate/-/tree/stac-22585-filter-polishing]:{quote}Draft: STAC-22585: filter polishing{quote},19/Jan/26 10:57 AM;61d2f4ebce3652006aaa23ca;The components have been recently replaced by common components from `src/components/*`,,,28078,STAC-23885,Remove enzyme + convert class components,Done,19/Jan/26 10:57 AM

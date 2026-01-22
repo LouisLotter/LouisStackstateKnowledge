@@ -1,0 +1,17 @@
+- Blog post held up by wordpress bugs. Nuno is helping.
+
+- Fedor Zhdanov Dubai Relocation Request
+    - Fedor wants to relocate to Dubai (voluntary move, he covers costs)
+    - Timeline: Autumn 2025, around September-October
+    - HR confirmed it's possible, pending approvals from me, HRBP, and local managers
+    - Process: Full transfer to SUSE UAE entity (Dubai payroll/visa)
+    - Visa takes 1.5-2 months, must be initiated by me
+    - Requires approval from Facilities Management (visa slot quota)
+    - Salary: Current converts to ~36,190 AED/month; Fedor mentioned 5-10% increase would be welcome but visa is main focus
+    - Need: Your guidance on how to proceed and any approvals needed from your side
+
+
+-Discuss Claude Code etc. my role as leader and having to know how and how well these tools work 
+and if I can get access paid for by suse.
+
+

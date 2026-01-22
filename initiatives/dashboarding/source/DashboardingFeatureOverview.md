@@ -165,8 +165,24 @@ One of the most powerful aspects of dashboarding is its **deep integration with 
 - Links can open in same tab or new tab
 - Manual links can be added (internal or external URLs)
 
+### Time Markers
+Time markers are a visual correlation aid for use during a single investigation session.
+
+**How to create:**
+- Shift-click on any widget with a time axis to create a vertical line at that moment
+
+**Behavior:**
+- Markers appear on all other time-based visualizations in your current session (dashboards, component views, traces)
+- Markers are temporary and session-only; they cannot be saved or shared
+- Useful for correlating events across different widgets during active investigation
+
+**Use cases:**
+- Mark the moment an incident started while investigating
+- Visually align events across multiple widgets on a dashboard
+- Quickly identify whether spikes on different charts occurred at the same moment
+
 ### Correlation & Investigation
-- Drag markers on charts to identify correlations
+- Use time markers (shift-click) to visually correlate events across widgets during your session
 - Compare metrics from different components side-by-side
 - Time range synchronization across all widgets
 - Share investigation dashboards with colleagues
@@ -275,9 +291,10 @@ While inspired by Grafana, SUSE Observability dashboards offer unique advantages
 1. **Topology Integration**: Widgets link back to components in the topology view
 2. **Troubleshooting Workflow**: Pin metrics during investigation and promote to dashboards
 3. **Time Travel**: View dashboard state at any historical point
-4. **RBAC-Aware**: Data visibility respects existing permissions
-5. **StackPack Bundling**: Dashboards can be packaged with integrations
-6. **Unified Platform**: No need for separate dashboarding tool
+4. **Time Markers**: Shift-click to create temporary markers for correlating events across widgets during investigation
+5. **RBAC-Aware**: Data visibility respects existing permissions
+6. **StackPack Bundling**: Dashboards can be packaged with integrations
+7. **Unified Platform**: No need for separate dashboarding tool
 
 ---
 

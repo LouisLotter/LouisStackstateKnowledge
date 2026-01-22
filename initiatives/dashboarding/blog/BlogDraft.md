@@ -24,7 +24,7 @@ Here's the thing: most dashboards are just pixels. They show you *that* somethin
 
 **The cross-component visibility gap:** Your business processes span multiple services. A checkout flow touches the frontend, cart, payment gateway, inventory. But dashboards are static. You have to predict what you'll need to see together *before* the incident happens.
 
-**The troubleshooting friction:** You see a memory spike on one chart. Is it related to the latency spike on another? The charts don't know. They show their data, but not how it connects to the rest of your system.
+**The troubleshooting friction:** You see a memory spike on one chart. Is it related to the latency spike on another? The charts can't show you the connection. They show their data, but not how it relates to the rest of your system.
 
 **The missing piece:** Whether you're running a separate dashboarding tool or doing without, there's a gap: custom dashboards that integrate with your troubleshooting workflow and link directly to your architecture.
 
@@ -55,7 +55,7 @@ Most dashboards are destinations. You go there to look at data. SUSE Observabili
 
 ### The Pin-to-Dashboard Workflow
 
-You're investigating a latency spike on the catalog service. While looking at the component, you notice memory usage correlating with the spike: a jump from 1.2GB to 1.8GB right when HTTP latency hit 340ms. One click to pin the metric. Another click to add it to a dashboard. You keep investigating, pinning more metrics as you go.
+You're investigating a latency spike on the catalog service. While looking at the component, you notice memory usage correlating with the spike: a jump from 1.2GB to 1.8GB right when HTTP latency hit 340ms. Shift-click to drop a time marker at that moment. The marker appears across every widget, so you can instantly see what else was happening at 02:43. One click to pin the metric. Another click to add it to a dashboard. You keep investigating, pinning more metrics as you go.
 
 > **📸 VISUAL: GIF or Strip Image**
 > *Create a GIF showing the "Pin to Dashboard" action from a component view. Alternatively, use `DashboardDemo3.png` with caption: "Pin it. Build it. Fix it."*
@@ -72,7 +72,7 @@ When your VP asks "What happened at 2:47 AM?", you don't scrub timelines hoping 
 - Share the exact instant with colleagues: "Look at 2:47 AM when the spike happened"
 - Everyone sees the same context, the same health states, the same component relationships
 
-No Slack thread asking "Are you looking at UTC or local time?" No manual correlation. The system remembers what your infrastructure looked like at any point in history.
+No Slack thread asking "Are you looking at UTC or local time?" No manual correlation. The system preserves what your infrastructure looked like at any point in history.
 
 ---
 
@@ -142,7 +142,7 @@ When the success rate dips, your VP clicks the markdown link to the payment serv
 Built on-the-fly during an outage:
 
 - **Time Series:** Memory spike on catalog-service-7d4f8b, jumped from 1.2GB to 1.8GB at 02:43
-- **Time Series:** HTTP latency on the same pod, 340ms spike correlating with memory
+- **Time Series:** HTTP latency on the same pod, 340ms spike correlating with memory (shift-click the spike, see the marker line up across both charts)
 - **Stat:** Error rate hit 2.3% during the incident window
 - **Markdown:** "Root cause: OOM pressure from uncached product queries. Fix deployed 02:58."
 
@@ -154,9 +154,9 @@ Each widget links back to its source component. The dashboard becomes your incid
 
 **Dashboarding is available now in SUSE Observability.**
 
-→ **[Explore the playground](https://observability.suse.com/#/welcome)** — see topology-aware dashboards in action, no setup required
+→ **[Explore dashboards on the playground](https://observability.suse.com/#/dashboards?dashboardFilter=shared)** to see topology-aware dashboards in action, no setup required
 
-→ **[Read the documentation](https://docs.stackstate.com/use/dashboards)** — build your first dashboard in 5 minutes
+→ **[Read the documentation](https://docs.stackstate.com/use/dashboards)** to build your first dashboard in 5 minutes
 
 Already a customer? Open SUSE Observability, click "Dashboards," and start building.
 

@@ -1,3 +1,9 @@
 - When is our stocks bein valued again.
 - Share blog met cassie en my methodology en some videos.
+
+--Get back to Kelly about Lukasz' invoices.
+
+------
+Bram Schuur  [1:12 PM]just as a heads-up: the premium support guy has only joined 1 meeting with bosch, that flow we setup is not really working, also got alex to help them with otel setup the other day.[1:12 PM]not sure whether this is good or bad, just felt like keeping you in the loopLouis Lotter  [2:13 PM]Hi. thanks for letting me know.[2:14 PM]I would like to highlight this to @Mike Latimer and @David Noland and @Sheng Yang. Can you give me some details about the meetings you had. Who was invited. Who showed up and what you think is not working.Bram Schuur  [2:14 PM]we'll have to do that eod, now in meetingsLouis Lotter  [2:15 PM]yeah no rush[2:15 PM]thanks !
+------
  

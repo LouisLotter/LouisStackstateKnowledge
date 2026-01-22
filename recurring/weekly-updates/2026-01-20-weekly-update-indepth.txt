@@ -1,0 +1,486 @@
+================================================================================
+WEEKLY UPDATE - IN DEPTH REFERENCE
+January 20, 2026 (covering 8 days: Jan 13 - Jan 20, 2026)
+================================================================================
+
+================================================================================
+TEAM BORG
+================================================================================
+
+v2.7.0 RELEASE (STAC-24134)
+--------------------------------------------------------------------------------
+Status: COMPLETE - Released and published
+
+Parent Issue: STAC-24134 - [Release] SUSE Observability Release v2.7.0
+- Target date: January 12, 2026 (completed Jan 14)
+- Assignee: daniel.barra
+- Priority: High
+- Final version: v2.6.4-pre.96
+
+Release Sub-tasks (All Done):
+- STAC-24136: Testing Nightly champagne - Done Jan 13
+- STAC-24137: Freeze version - Done Jan 13
+- STAC-24138: SaaS roll-out - Done Jan 13
+- STAC-24139: Determine Helm chart public version - Done Jan 13
+- STAC-24140: Create MR for docs with release notes - Done Jan 14
+- STAC-24141: Publish the Release - Done Jan 14
+- STAC-24142: Put fix version on all released tickets - Done Jan 14
+- STAC-24143: Update the tenants - Done Jan 14
+
+Release Notes MR: https://github.com/rancher/stackstate-product-docs/pull/172
+Tenants MR: https://gitlab.com/stackvista/devops/o11y-tenants/-/merge_requests/94
+Bump master version: https://gitlab.com/stackvista/devops/helm-charts/-/merge_requests/1738
+
+
+DASHBOARDING POLISH (Epic: STAC-22375)
+--------------------------------------------------------------------------------
+Done:
+- STAC-24012: Gauge widget text size when zooming out in browser - Done Jan 13
+  - Text size looked larger than expected at 90% zoom
+  - Updated gauge font size calculation
+  - Assignee: Samuel Jones
+  - Story Points: 2
+
+- STAC-23452: Sorting and widget state disappears when scrolling - Done Jan 14
+  - Virtualization was resetting widget state when scrolled out of view
+  - Persisted virtualized widget state
+  - Assignee: Anton Ovechkin
+  - Story Points: 5
+
+
+DEVELOPER EXPERIENCE - BIOME MIGRATION (STAC-24016)
+--------------------------------------------------------------------------------
+Status: Major milestone - ESLint fully replaced by Biome
+
+Done:
+- STAC-24016: Migrate from Prettier+ESLint to Biome - Done Jan 20 (Parent Epic)
+  - Assignee: Anton Ovechkin
+
+- STAC-24018: Replace ESLint by Biome linter - Done Jan 20
+  - All rule groups set to "error" with documented overrides
+  - 100+ repository references updated
+  - Assignee: Anton Ovechkin
+
+- STAC-24177: Generate biome.jsonc from biome.mjs - Done Jan 15
+  - Assignee: Anton Ovechkin
+
+- STAC-24158: Migrate twin.macro pattern #3 (css/tw prop → className) - Done Jan 20
+  - Converting css={tw`...`} and tw="..." to className="..."
+  - 37 repository references
+  - Assignee: Samuel Jones
+  - Story Points: 3
+
+- STAC-24162: Migrate twin.macro pattern #7 (Theme Access) - Done Jan 19
+  - Replaced theme`colors.blue.600` with theme() helper
+  - Created twin-migration.ts helper
+  - 10 repository references
+  - Assignee: Anton Ovechkin
+  - Story Points: 2
+
+- STAC-24164: Migrate twin.macro pattern #2 (!important Modifier) - Done Jan 14
+  - Aligned ! positioning to prefix in all cases
+  - Assignee: Anton Ovechkin
+  - Story Points: 2
+
+- STAC-24163: Migrate twin.macro pattern #1 (twin.macro groups) - Done Jan 14
+  - Won't Do - No instances found in codebase
+  - Assignee: Anton Ovechkin
+  - Story Points: 2
+
+Merging:
+- STAC-24159: Migrate twin.macro pattern #4 (Conditional Styles with css)
+  - Converting css={[tw`...`, condition && tw`...`]} to cx()
+  - 29 repository references
+  - Assignee: Samuel Jones
+  - Story Points: 3
+
+In Progress:
+- STAC-24160: Migrate twin.macro pattern #5 (Styled Components → Regular)
+  - Converting styled.button`${tw`...`}` to className
+  - MR opened Jan 20
+  - Assignee: Anton Ovechkin
+  - Story Points: 3
+
+- STAC-24161: Migrate twin.macro pattern #6 (Complex Styled Components with Props)
+  - Using cv() for variant-based styling
+  - Assignee: Samuel Jones
+  - Story Points: 3
+
+Closed (Won't Do):
+- STAC-23946: Use eslint-config-canonical - Won't Do Jan 19
+  - ESLint replaced by Biome, no longer relevant
+  - Assignee: Anton Ovechkin
+
+- STAC-22585: Remove enzyme + convert class components - Won't Do Jan 19
+  - Components recently replaced by common components
+  - Assignee: Alessio Biancalana
+
+
+INFRASTRUCTURE
+--------------------------------------------------------------------------------
+Done:
+- STAC-24104: Zookeeper "message too large" in ClickHouse HA mode - Done Jan 15
+  - jute.maxbuffer increased from 1MB to 2MB
+  - Affected HA setups with many partitions
+  - Assignee: Remco Beckers
+  - Priority: High
+
+- STAC-24078: Handle restore operations running in parallel - Done Jan 15
+  - Prevent parallel restore for same data store
+  - Stackgraph and settings restore mutually exclusive
+  - Added annotation when restore in progress
+  - Assignee: Vladimir Iliakov
+  - Story Points: 5
+
+In Review:
+- STAC-23392: Replace values generation helm chart with global values
+  - Removes confusing 2-step helm template + helm install flow
+  - Better GitOps and Rancher compatibility
+  - MR: https://gitlab.com/stackvista/devops/helm-charts/-/merge_requests/1724
+  - Docs: https://github.com/rancher/stackstate-product-docs/pull/199
+  - Assignee: Fedor Zhdanov
+  - Story Points: 13
+
+- STAC-23542: Do not generate API key by default
+  - Use per-cluster service tokens instead
+  - API key still available for backward compatibility
+  - Assignee: Remco Beckers
+  - Story Points: 5
+
+
+================================================================================
+TEAM MARVIN
+================================================================================
+
+STACKGRAPH STABILITY
+--------------------------------------------------------------------------------
+Done:
+- STAC-24173: WAL mismatch on chaos champagne - Done Jan 19
+  - Analysis filed with Apache HBase: HBASE-29784
+  - Bumped stackgraph with fix
+  - Assignee: Bram Schuur
+
+In Progress:
+- STAC-24188: Productize sync-service without readcache - In Progress Jan 15
+  - Investigating memory reduction for Bosch scale
+  - Running performance tests without readcache
+  - Assignee: Bram Schuur
+
+- STAC-24176: Work on Bosch sync memory pressure - In Progress
+  - Sub-task: STAC-24191 - Free memory after initial load (In Review)
+  - MR opened Jan 19
+  - Assignee: Bram Schuur
+
+Closed:
+- STAC-24184: Extended logging for baseUrl/ingress mismatch - Duplicate Jan 15
+  - Assignee: Bram Schuur
+
+
+DEVOPS
+--------------------------------------------------------------------------------
+Merging:
+- STAC-24178: Decommission old 5.1 and 6.x tenants - Merging Jan 20
+  - Removing: ao, se, steadybit, se-test
+  - 8 PRs merged
+  - Assignee: Vladimir Iliakov
+
+- STAC-24095: Deploy stackpacks2 documentation from trunk - Merging Jan 19
+  - Netlify preview for early access customers
+  - Assignee: akash.raj
+
+
+QA (Epic: STAC-22482)
+--------------------------------------------------------------------------------
+Done:
+- STAC-24172: Update snapshots after release - Done Jan 19
+  - 18 repository references
+  - Assignee: daniel.barra
+
+In Progress:
+- STAC-24085: Adding scenarios for Metric Query - In Progress
+  - Assignee: daniel.barra
+
+In Review:
+- STAC-23742: Update documentation with compatibility matrix - In Review Jan 14
+  - Restructuring release notes section
+  - Adding compatibility matrix page
+  - Assignee: yash.tripathi
+
+
+================================================================================
+STACKPACKS 2.0 (CROSS-TEAM)
+================================================================================
+
+OTEL MAPPING API (Epic: STAC-23427)
+--------------------------------------------------------------------------------
+Status: COMPLETE - Epic closed Jan 14
+
+All sub-tasks done:
+- STAC-24115: Implement API handlers - Done Jan 13
+- STAC-24116: Implement permissions for Otel Mappings - Done Jan 13
+- STAC-24059: OpenAPI spec for otel mappings - Done Jan 13
+- STAC-24070: Generate OpenAPI code to another sbt module - Done Jan 13
+- STAC-24071: Reuse generated OpenAPI model in DTOs - Done Jan 13
+
+Assignee: Lukasz Marchewka
+
+
+COMPONENT PRESENTATION (Epic: STAC-23912)
+--------------------------------------------------------------------------------
+In Progress:
+- STAC-23917: Design component presentation API(s) - In Progress
+  - Hiding current DTOs behind backend API
+  - APIs to adapt: Topology Snapshot, FullComponent, ComponentOverview, etc.
+  - Detailed design notes added Jan 19-20
+  - Assignee: Frank van Lankvelt
+  - Story Points: 8
+
+- STAC-23916: Design binding and rank fields - In Progress
+  - Designing specificity model for extending/replacing fields
+  - MR opened Jan 16
+  - Assignee: Deon Taljaard
+  - Story Points: 8
+
+- STAC-23932: Create example stackpack 2.0 with OtelComponentMapping - In Progress
+  - Gathering integration use cases
+  - Looking at: Java, .NET, SUSE AI, Kubewarden, Harvester
+  - MR opened Jan 14
+  - Assignee: Alejandro Acevedo Osorio
+  - Story Points: 8
+
+
+DOCUMENTATION (Epic: STAC-24075)
+--------------------------------------------------------------------------------
+Done:
+- STAC-24067: Document monitors and metrics binding DTOs - Done Jan 20
+  - Tutorial + reference documentation
+  - Layout concepts (MetricPerspectiveSection etc.)
+  - Assignee: (unassigned, closed by Bram)
+  - Story Points: 5
+
+- STAC-23880: Package and validate stackpack 2.0 through CLI - Done Jan 14
+  - Entire user flow for stackpacks 2.0 setup
+  - Building all stackpacks 2.0 with CLI in repo
+  - 17 repository references
+  - Assignee: Deon Taljaard
+  - Story Points: 5
+
+Closed:
+- STAC-23221: Stackpack validate CLI command - Duplicate Jan 13
+  - Covered by other work
+  - Assignee: (unassigned)
+
+
+OTEL COLLECTOR SCALING (STAC-23182)
+--------------------------------------------------------------------------------
+Status: In Progress - Load testing underway
+
+- STAC-23182: Scaling the OTel collector for Topology mapping - In Progress
+  - Load balancer with L7 for gRPC
+  - StatefulSet of collectors
+  - Testing with telemetrygen tool
+  - Results (Jan 16-20):
+    * 1 collector (500m CPU): 7k traces/sec max
+    * 1 collector (2000m CPU): 16k traces/sec max
+    * 2 collectors: 10-12k traces/sec total
+    * 4 collectors: 17k traces/sec total
+  - Assignee: Lukasz Marchewka
+  - Story Points: 8
+
+
+================================================================================
+KEY OBSERVATIONS FOR 1:1 WITH SHENG
+================================================================================
+
+WINS THIS WEEK:
+1. v2.7.0 Released Successfully
+   - Dashboarding is live - our #1 customer-requested feature
+   - 9 months of development shipped
+   - SaaS deployed, docs published, tenants updated
+
+2. Biome Migration Major Milestone
+   - ESLint fully replaced by Biome
+   - Parent epic STAC-24016 closed
+   - twin.macro patterns 1-4, 7 complete
+   - Only patterns 5 & 6 remaining
+
+3. OTel Mapping API Epic Complete
+   - All 5 sub-tasks merged
+   - Foundation for Security Hub and other integrations
+   - Lukasz delivered entire API
+
+4. StackGraph WAL Mismatch Fixed
+   - Issue filed with Apache HBase (HBASE-29784)
+   - Fix shipped in stackgraph bump
+
+5. Infrastructure Improvements
+   - Zookeeper HA fix for ClickHouse
+   - Parallel restore handling complete
+   - Values generation helm chart replacement in review
+
+
+CONCERNS / RISKS:
+1. Bosch Memory Pressure
+   - Still investigating readcache removal
+   - Bram stretched between multiple priorities
+   - May need dedicated focus time
+
+2. Helm Chart Refactoring Scope
+   - STAC-23392 is 13 story points
+   - Major change to installation flow
+   - Needs careful review and testing
+
+3. ComponentPresentation Design Complexity
+   - Multiple design stories in progress
+   - API design, binding/rank fields, examples
+   - Need to converge on approach
+
+
+TALKING POINTS FOR SHENG:
+
+1. v2.7.0 Success
+   - "Dashboarding shipped successfully. This was our biggest feature in 
+     9 months and addresses our #1 customer request."
+
+2. Technical Debt Progress
+   - "Biome migration is nearly complete. ESLint fully replaced, just 
+     finishing twin.macro cleanup. This significantly improves our 
+     frontend developer experience."
+
+3. Stackpacks 2.0 Foundation
+   - "OTel Mapping API is complete. Now focused on ComponentPresentation 
+     design - this is the more complex piece that enables custom UIs."
+
+4. OTel Collector Scaling
+   - "Lukasz is load testing the collector scaling. Initial results show 
+     we can scale from 7k to 17k traces/sec with 4 collectors. Good 
+     progress on understanding our limits."
+
+
+QUESTIONS TO ASK SHENG:
+1. v2.7.0 feedback - any early customer reactions to dashboarding?
+2. Security Hub timeline - any updates after the scope discussion?
+3. Bosch engagement - should we prioritize memory pressure work?
+4. 2026 goals finalization - any updates on the March stability target?
+
+
+================================================================================
+SPRINT CONTEXT
+================================================================================
+
+Team Borg: "Wrapping up dashboarding"
+- v2.7.0 release COMPLETE
+- Biome migration nearing completion
+- Infrastructure improvements
+
+Team Marvin: "Marvin - AgentBump 3"
+- StackGraph stability (WAL fix done, memory pressure ongoing)
+- DevOps cleanup (tenant decommission)
+- QA automation
+
+Cross-Team: "Stackpacks 2 - 1"
+- OTel Mapping API COMPLETE
+- ComponentPresentation design in progress
+- OTel collector scaling testing
+
+
+================================================================================
+RELEASE NOTES - v2.7.0 (SHIPPED)
+================================================================================
+
+[Dashboards] SUSE Observability now includes Dashboards, allowing you to 
+visualize data from various components like business processes, user flows, 
+and data pipelines in a single location. Includes timeseries charts, bar 
+charts, gauges, stat widgets, and markdown fields. Supports variables, 
+thresholds, and customization.
+
+[Platform] Fixed StackGraph corruption issue that could arise due to 
+long-running scans.
+
+[Platform] Fix issue where several pods (hbase, tephra) go OOM on SLES 16 
+due to cgroups v2.
+
+[Platform] Create a small logging daemon that observes the quorum of 
+redundant services in the platform installation.
+
+[Platform] Fix issue where kafka init container gets stuck upon new install.
+
+[Agent] Fix issue where the kubernetes rbac agent would not use the defined 
+resources from the values file.
+
+[Agent] Fix issue where the rbac-agent does not refresh its serviceaccount 
+token, causing it to lose authentication.
+
+[Agent] Avoid logging credentials from the splunk integration when debugging 
+is enabled.
+
+[Agent] Disabled saved searches in splunk will now be ignored by the splunk 
+check.
+
+Plus: Improved error handling, PV/PVC metric chart fixes, YAML parsing fixes, 
+Slack channel ID support for large workspaces, and more.
+
+
+================================================================================
+ITEMS SHIPPED IN v2.7.0 (from this sprint's Jira)
+================================================================================
+
+- STAC-24171: Scroll bar disappear on traces page
+- STAC-24012: Gauge widget text size when zooming out
+- STAC-24077: StackGraph corruption fix (long-running scans)
+- STAC-23993: Pods OOM on SLES 16 (cgroups v2)
+- STAC-23748: Platform quorum observer service
+- STAC-23763: Kafka init container stuck on startup
+- STAC-24000: K8s rbac agent resources from helm
+- STAC-24038: K8s rbac agent token refresh
+- STAC-23997: Splunk credentials logging
+- STAC-24102: PV(C) usage metrics multiple timeseries
+- STAC-24098: YAML parsing ${value} fix
+- STAC-22771: Slack integration timeout/rate limit
+- STAC-22521: ViewSnapshotError handling
+- STAC-23908: Stackpack OpenShift clusterLogForwarder URL
+- STAC-24104: Zookeeper jute.maxbuffer for ClickHouse HA
+- STAC-23727: CVE fixes (jmx-exporter, kafkaup-operator, etc.)
+- STAC-23602: Backup tool documentation
+- STAC-23271: Dashboard CLI commands (feature flag removed)
+- STAC-23448: Dashboards release (feature flag removed)
+- STAC-24132: HBase regions OOM on chaos-1
+- STAC-24173: WAL mismatch on chaos champagne
+- STAC-23733: Metrics freezing UI
+
+
+================================================================================
+POTENTIAL QUESTIONS & ANSWERS
+================================================================================
+
+Q: What's the v2.7.0 release status?
+A: Complete and shipped. SaaS deployed Jan 13, public release Jan 14. 
+   Dashboarding is the flagship feature.
+
+Q: Biome migration progress?
+A: Major milestone - ESLint fully replaced. Parent epic closed. Only 
+   twin.macro patterns 5 & 6 remaining (styled components conversion).
+
+Q: Stackpacks 2.0 progress?
+A: OTel Mapping API epic complete. Now focused on ComponentPresentation 
+   design - API design, binding/rank fields, and example stackpacks all 
+   in progress.
+
+Q: StackGraph stability?
+A: WAL mismatch fixed and shipped. Bosch memory pressure still being 
+   investigated - looking at readcache removal.
+
+Q: OTel collector scaling?
+A: Load testing in progress. Results show 1 collector handles 7k traces/sec, 
+   4 collectors handle 17k traces/sec. Good baseline for capacity planning.
+
+Q: Infrastructure improvements?
+A: Zookeeper HA fix shipped. Parallel restore handling done. Values 
+   generation helm chart replacement in review (major simplification).
+
+Q: What needs attention next week?
+A: 
+   1. Complete twin.macro patterns 5 & 6 (finish Biome migration)
+   2. Bosch memory pressure investigation
+   3. ComponentPresentation design convergence
+   4. Values generation helm chart review completion
