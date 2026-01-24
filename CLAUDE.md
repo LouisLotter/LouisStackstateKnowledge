@@ -1,213 +1,110 @@
-# Claude Code Context - SUSE Observability Knowledge Base
+# CLAUDE.md
 
-## About the User
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-**Name:** Louis Louw Lotter
-**Role:** Engineering Manager, SUSE Observability
-**Reports to:** Sheng Yang
-**Teams Managed:** Team Borg, Team Marvin
-**Team Technical Leads:** Marvin: Bram Schuur, Borg: Remco Beckers
-**Product Lead:** Mark Bakker
+## About This Repository
 
-## Personal Development Focus
+Personal knowledge management repo for Louis Lotter, Engineering Manager at SUSE Observability (formerly StackState). Used for meeting prep, weekly updates, technical writing, and team management.
 
-**Goal:** Become a stronger technical leader who can speak authoritatively for the team on technical matters and customer needs.
+**Teams Managed:** Team Borg (led by Remco Beckers), Team Marvin (led by Bram Schuur)
+**Reports to:** Sheng Yang | **Product Lead:** Mark Bakker
 
-**How AI Can Help:**
-- Challenge technical understanding with probing questions
-- Help synthesize customer feedback into actionable insights
-- Assist in preparing technically-grounded talking points for stakeholder discussions
-- Review technical writing for clarity and accuracy
+## Useful Commands
+
+```bash
+# Convert markdown to docx for Google Docs upload (requires pandoc)
+./md2docs.sh <markdown-file>
+
+# Generate license (in active/license-gen/)
+./stackstate-license -createlicense 2026-12-12
+```
+
+**Jira Export Filter** (for weekly updates):
+```
+(updated >= -14d OR created >= -14d ) AND Status != "To Bulk" AND Status != "Ready to work on" AND Status != "Needs more info" AND Status != Backlog order by created DESC
+```
+
+## Key Workflows
+
+### Weekly Updates
+
+See `recurring/weekly-updates/weekly-update-prompt.md` for the full template. The workflow:
+1. Export Jira activity to `exports/jira/JiraExport8DaysEnding[DATE].txt`
+2. Run the template to generate three outputs:
+   - `recurring/weekly-updates/YYYY-MM-DD-weekly-update.md` (concise)
+   - `recurring/weekly-updates/YYYY-MM-DD-weekly-update-indepth.txt` (for 1:1 prep)
+   - Slack message (copy/paste to `#prod-suse-observability-mgmt`)
+
+### 1:1 Preparation
+
+For 1:1s with Sheng (`recurring/1on1-sheng/`):
+- Generate talking points with strategic framing
+- Identify potential conflicts and suggest resolution approaches
+- Prepare "DO" and "DON'T" guidance for sensitive topics
 
 ## Repository Structure
 
-```
-LouisStackstateKnowledge/
-├── active/                    # Current work in progress
-│   ├── license-gen/           # License generation scripts
-│   └── todo/                  # Personal action items
-│
-├── exports/                   # External data imports
-│   ├── emails/                # Email exports
-│   │   └── customersatisfaction/
-│   ├── jira/                  # Jira activity exports
-│   └── slack/                 # Slack channel exports
-│       └── Insights/          # AI-generated insights from slack
-│
-├── initiatives/               # Major project work
-│   ├── dashboarding/          # Dashboarding feature
-│   │   ├── blog/              # Blog post drafts
-│   │   ├── images/            # Screenshots and diagrams
-│   │   ├── research/          # Competitor analysis
-│   │   └── source/            # Feature specs and demos
-│   ├── security-hub/          # Security Hub integration
-│   ├── stackgraph/            # StackGraph migration
-│   │   ├── meetings/          # Meeting notes
-│   │   └── research/          # Technical research
-│   └── stackpacks-2.0/        # Stackpacks 2.0 initiative
-│       └── meetings/
-│
-├── recurring/                 # Regular activities
-│   ├── 1on1-sheng/            # 1:1 meeting notes with Sheng
-│   ├── meetings/              # General meeting notes
-│   └── weekly-updates/        # Weekly status updates
-│
-├── reference/                 # Reference materials
-│   ├── ai-musings/            # AI-related notes
-│   ├── documentation/         # General documentation
-│   │   └── Stackpacks2.0/     # Stackpacks 2.0 docs
-│   └── research/              # Deep research documents
-│
-├── team/                      # Team management
-│   ├── asr-2025/              # Annual self-reviews
-│   ├── goals-2026/            # Team goals
-│   │   └── corporate_guides/  # Corporate guidance docs
-│   └── qa/                    # QA coverage reports
-│
-├── Todo/                      # Todo items
-├── .kiro/                     # Kiro agent configuration (see below)
-└── md2docs.sh                 # Markdown to docs converter script
-```
+| Directory | Purpose |
+|-----------|---------|
+| `recurring/1on1-sheng/` | 1:1 meeting notes with Sheng |
+| `recurring/weekly-updates/` | Weekly status updates |
+| `initiatives/` | Major project work (dashboarding, stackgraph, stackpacks-2.0, security-hub) |
+| `exports/jira/` | Jira activity exports for analysis |
+| `exports/slack/` | Slack channel exports; `Insights/` subdirectory has AI-generated summaries |
+| `team/goals-2026/` | Team goals and corporate guides |
+| `team/asr-2025/` | Annual self-reviews |
+| `active/` | Current work in progress |
+| `reference/` | Reference materials and research |
+| `.kiro/` | Kiro agent configuration; check `.kiro/specs/` for initiative planning docs |
 
-## Related Agent Configuration
+## File Naming Conventions
 
-This repo is shared with **Kiro** (AWS's AI coding assistant). Kiro's configuration is in `.kiro/`:
-- `.kiro/steering/context.md` - Detailed context (more comprehensive, use as reference)
-- `.kiro/specs/*/` - Task-specific specs with requirements, design, tasks
+- **Weekly updates:** `YYYY-MM-DD-weekly-update.md`
+- **Meeting notes:** `DDMmmYYYY.txt` (e.g., `14Jan2026.txt`)
+- **Jira exports:** `JiraExport8DaysEnding[DATE].txt`
+- **Time-sensitive docs:** Use `YYYY-MM-DD` prefix
 
-When working on initiatives, check `.kiro/specs/` for existing planning documents.
+## Current Initiatives
 
-## Current Major Initiatives
+| Initiative | Team | Status | Key Directory |
+|------------|------|--------|---------------|
+| Dashboarding | Borg | Released | `initiatives/dashboarding/` (blog in progress) |
+| Stackpacks 2.0 | Both | In progress | `initiatives/stackpacks-2.0/` |
+| StackGraph Migration | Marvin | Analysis phase | `initiatives/stackgraph/research/` |
+| Security Hub | TBD | Timeline under discussion | `initiatives/security-hub/` |
 
-### 1. Dashboarding (Team Borg) - RELEASED
-- #1 customer-requested feature, ~9 months development
-- Widget types: Time Series, Bar Chart, Stat, Gauge, Markdown
-- Variables system for dynamic dashboards
-- Deep integration with troubleshooting workflow
-- **Blog post in progress:** `initiatives/dashboarding/blog/`
-
-### 2. Stackpacks 2.0 (Both Teams)
-- Simplified integration framework using OpenTelemetry
-- OTel Mapping API for topology from traces/metrics
-- ComponentPresentation: unified presentation logic moving to backend
-- Goal: Enable SUSE AI, Harvester, Security Hub to extend platform
-
-### 3. StackGraph Migration (Team Marvin)
-- Current: HBase/Tephra stack causing data corruption issues
-- Evaluating migration to ClickHouse
-- See: `initiatives/stackgraph/research/`
-
-### 4. Security Hub (Timeline Under Discussion)
-- Integration with SUSE Security/NeuVector
-- Timeline misalignment needs resolution
-- Depends on Stackpacks 2.0 work
-
-## Product Context
-
-**SUSE Observability** (formerly StackState) - Unified observability platform
+## Product Context (SUSE Observability)
 
 **Core Differentiators (4T Model):**
 - **Topology:** Real-time visualization
-- **Telemetry:** Metrics (VictoriaMetrics), Logs (Elasticsearch)
+- **Telemetry:** Metrics (VictoriaMetrics/PromQL), Logs (Elasticsearch)
 - **Tracing:** Distributed tracing (ClickHouse)
 - **Time:** Time-travel capability across all data
 
-**Technical Stack:**
-- Metrics: VictoriaMetrics (PromQL)
-- Traces: ClickHouse
-- Logs: Elasticsearch
-- Graph: StackGraph (HBase/Tephra) - migration under evaluation
-
-## Team Structure
-
-**Team Borg** (Led by Remco Beckers)
-- Focus: Frontend, Dashboarding, Stackpacks 2.0, Developer Experience
-- Key members: Sam Jones, Anton Ovechkin (frontend), Lukasz Marchewka
-
-**Team Marvin** (Led by Bram Schuur)
-- Focus: Backend, StackGraph stability, Agent, QA, Releases
-- Key members: Alejandro Acevedo, Daniel Barra (QA), Raju, Yash
-
-## How Claude Can Help
-
-### Primary Tasks
-
-1. **1:1 Preparation** (`recurring/1on1-sheng/`)
-   - Generate talking points with strategic framing
-   - Identify potential conflicts and suggest resolution approaches
-   - Prepare "DO" and "DON'T" guidance for sensitive topics
-
-2. **Weekly Updates** (`recurring/weekly-updates/`)
-   - Summarize Jira activity into concise team updates
-   - Format for Slack posting (bullet points, clear structure)
-   - See `weekly-update-prompt.md` for template
-
-3. **Technical Writing** (`initiatives/*/blog/`)
-   - Help draft and refine blog posts about features
-   - Challenge technical accuracy
-   - Improve clarity and flow
-
-4. **Data Analysis** (`exports/`)
-   - Extract themes from Jira/Slack exports
-   - Identify patterns in team activity
-   - Summarize discussions for decision-making
-
-5. **Technical Analysis**
-   - Analyze architecture decisions
-   - Summarize research documents
-   - Identify risks and trade-offs
-
-### Key Files to Know
-
-| Task | Look Here |
-|------|-----------|
-| 1:1 prep | `recurring/1on1-sheng/` |
-| Weekly update | `recurring/weekly-updates/weekly-update-prompt.md` |
-| Dashboarding blog | `initiatives/dashboarding/blog/` |
-| Customer feedback | `exports/slack/Insights/` |
-| Team goals | `team/goals-2026/` |
-| StackGraph research | `initiatives/stackgraph/research/` |
+**Technical Stack:** VictoriaMetrics, ClickHouse, Elasticsearch, StackGraph (HBase/Tephra, migration to ClickHouse under evaluation)
 
 ## Writing Guidelines (External Content)
 
-When writing customer-facing content (blogs, documentation, marketing), avoid patterns that signal AI-generated text or cause customer confusion:
+When writing customer-facing content (blogs, docs, marketing):
 
 ### Avoid Em-Dashes
-Em-dashes (—) are a clear tell of AI-generated content. Use alternatives:
-- **Instead of:** "the feature—which is great—works well"
-- **Use:** "the feature, which is great, works well" (commas)
-- **Or:** "the feature (which is great) works well" (parentheses)
-- **Or:** "the feature. Which is great. It works well." (periods for emphasis)
-- **Or:** "the feature: it works well" (colons)
+Em-dashes (—) signal AI-generated text. Use commas, parentheses, periods, or colons instead.
+- "the feature—which is great—works well" → "the feature, which is great, works well"
 
 ### Avoid AI-Implying Language
-Phrases like "that knows," "that understands," or "intelligent" applied to software features can:
-1. Confuse customers about whether actual AI/ML is involved
-2. Create hard-to-answer questions about how the "intelligence" works
-3. Signal AI-generated content
-
-**Examples to avoid:**
+Don't apply "knows," "understands," or "intelligent" to software features:
 - "Dashboards that know your architecture" → "Dashboards connected to your architecture"
-- "understands your components" → "linked to your components"
-- "smart defaults" → "sensible defaults" or "pre-configured defaults"
+- "smart defaults" → "sensible defaults"
 
 ### Avoid Vague Marketing Terms
-Terms that sound good but lack clarity:
-- "Native" (native to what?) → Be specific: "built-in," "integrated," "no plugins required"
-- "Seamless" → Describe what actually happens
-- "Powerful" → Show the power with concrete examples
-
-## Conventions
-
-- **File naming:** Use descriptive names, dates in YYYY-MM-DD format for time-sensitive docs
-- **Meeting notes:** Include date in filename (e.g., `14Jan2026.txt`)
-- **Weekly updates:** Named `YYYY-MM-DD-weekly-update.md`
-- **Exports:** Raw exports in `exports/`, insights in `Insights/` subdirectories
+Be specific instead of using "native," "seamless," or "powerful." Describe what actually happens.
 
 ## Key Stakeholders
 
-- **Sheng Yang:** Louis's manager
-- **Mark Bakker:** Product lead
-- **Remco Beckers:** Team Borg lead
-- **Bram Schuur:** Team Marvin lead, StackGraph expert
-- **Ravan:** Solution Architect, Stackpacks 2.0 feedback
+| Person | Role |
+|--------|------|
+| Sheng Yang | Louis's manager |
+| Mark Bakker | Product lead |
+| Remco Beckers | Team Borg lead |
+| Bram Schuur | Team Marvin lead, StackGraph expert |
+| Ravan | Solution Architect, Stackpacks 2.0 feedback |

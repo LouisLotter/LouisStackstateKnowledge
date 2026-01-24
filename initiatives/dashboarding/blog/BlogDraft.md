@@ -86,27 +86,35 @@ Five widget types (Time Series, Bar Chart, Stat, Gauge, and Markdown), purpose-b
 
 ### Use Case 1: The Technical Dashboard
 
-You're responsible for the payment service. You need to know when it's struggling before customers complain.
+You're the engineer responsible for the payment service. The one that processes every transaction and touches half the microservices in your stack. When payment latency creeps up, customers abandon carts. When it goes down, revenue stops.
 
-**Your dashboard:**
-- **Stat:** 847 requests/second, showing current throughput at a glance
-- **Time Series:** Response times over the last hour, with threshold lines at 200ms and 500ms
-- **Time Series:** Top 5 pods by CPU usage using `topk(5, ...)` to cut through the noise
-- **Gauge:** Memory at 73% of limit (orange means watch it, red means act)
+You need a single view that answers: "Is payment healthy right now?" Without opening five tabs.
+
+In SUSE Observability, you create a new dashboard and start adding widgets manually. Request rate and response times are straightforward—add a Stat widget, add a Time Series widget, write your PromQL queries. But for CPU usage, you don't want a chart with 47 lines for every pod in the namespace. You want the top offenders.
+
+So you add a Time Series widget and write a query using `topk()`:
 
 ```promql
-topk(5,sum by(pod_name)(rate(container_cpu_usage{namespace="${namespace}"}[5m])))
+topk(5, sum by(pod_name)(rate(container_cpu_usage{namespace="${namespace}"}[5m])))
 ```
 
-Drop that query into a widget, add a `${namespace}` variable, and you've got a dashboard that works across every namespace. Each data point links back to the actual pod.
+This gives you the top 5 pods by CPU usage—the ones actually worth watching. The chart stays readable, and when one of those pods starts climbing, you'll see it immediately.
 
-See a spike? Click through to the pod, check its logs, trace a request. All without leaving the platform.
+Your finished dashboard:
+- **Stat:** 847 requests/second, current throughput at a glance
+- **Time Series:** Response times over the last hour, with threshold lines at 200ms and 500ms
+- **Time Series:** Top 5 pods by CPU usage (the query above)
+- **Gauge:** Memory at 73% of limit (orange means watch it, red means act)
+
+You use a `${namespace}` variable, so the same dashboard works across dev, staging, and production. Each widget links back to the actual pod in your topology—so when you see a spike, one click takes you to the component, its logs, and its traces. No context switching required.
 
 ### Use Case 2: The Business Dashboard
 
-Your VP wants to know if checkouts are healthy. They don't care about pods. They care about revenue.
+Your VP keeps asking: "Are checkouts healthy?" They don't care about pods or namespaces. They care about revenue.
 
-**Your dashboard:**
+So you build them a dashboard, not in a separate BI tool, but right in SUSE Observability where the data already lives. You pull checkout metrics from the order service, payment success rates from the payment gateway, and latency from the inventory check. Because SUSE Observability already understands how these services connect, you're not wiring up datasources or writing complex joins. You're just selecting the metrics that matter to the business.
+
+The result:
 - **Stat:** "1,247 successful checkouts in the last hour" (the number they actually care about)
 - **Time Series:** Checkout success rate over time (currently 99.2%)
 - **Gauge:** Payment gateway latency at 89ms, well under the 200ms threshold
@@ -115,18 +123,24 @@ Your VP wants to know if checkouts are healthy. They don't care about pods. They
 > **📸 VISUAL: Business Dashboard**
 > *Place `DashboardDemo5.png` here. Caption: "Business KPIs with one-click drill-down to technical details."*
 
-When the success rate dips, your VP clicks the markdown link to the payment service dashboard. They see the technical view. They understand the impact. No Slack thread required.
+Now when the success rate dips, your VP doesn't ping you on Slack. They click the markdown link to the payment service dashboard, see the technical view, and understand the impact. Same platform, different lens.
 
 ### Use Case 3: The Incident War Room
 
-Built on-the-fly during an outage:
+It's 2:43 AM. Alerts fire on the catalog service. You open SUSE Observability, navigate to the component, and see memory climbing fast.
+
+Here's where the workflow changes everything: instead of copying metrics to a notepad or screenshotting Grafana, you click "Pin to Dashboard" and select "New Dashboard." You name it "Catalog Incident 2026-01-15" and keep investigating.
+
+You check HTTP latency on the same pod—there's a 340ms spike correlating with the memory climb. Pin it. You pull up the error rate. Pin it. Each pin takes one click. Within three minutes, you've built a War Room view:
 
 - **Time Series:** Memory spike on catalog-service-7d4f8b, jumped from 1.2GB to 1.8GB at 02:43
-- **Time Series:** HTTP latency on the same pod, 340ms spike correlating with memory (shift-click the spike, see the marker line up across both charts)
+- **Time Series:** HTTP latency on the same pod, 340ms spike correlating with memory
 - **Stat:** Error rate hit 2.3% during the incident window
 - **Markdown:** "Root cause: OOM pressure from uncached product queries. Fix deployed 02:58."
 
-Each widget links back to its source component. The dashboard becomes your incident record: shareable, time-travel-enabled, and permanently tied to your architecture.
+Shift-click on the memory spike to drop a time marker—it appears across every widget, so you can visually confirm the correlation. Share the dashboard URL with your colleague. They see exactly what you see, at exactly the same moment in time.
+
+The dashboard isn't just a view. It's your incident record: shareable, time-travel-enabled, and permanently linked to the components involved. Tomorrow's post-mortem writes itself.
 
 ---
 
@@ -134,7 +148,7 @@ Each widget links back to its source component. The dashboard becomes your incid
 
 **Dashboarding is available now in SUSE Observability.**
 
-→ **[Explore dashboards on the playground](https://observability.suse.com/#/dashboards?dashboardFilter=shared)** to see topology-aware dashboards in action, no setup required
+→ **[Explore dashboards on the playground](https://www.suse.com/products/rancher/observability/)** to see topology-aware dashboards in action, no setup required
 
 → **[Read the documentation](https://docs.stackstate.com/use/dashboards)** to build your first dashboard in 5 minutes
 
@@ -142,7 +156,7 @@ Already a customer? Open SUSE Observability, click "Dashboards," and start build
 
 ---
 
-**Your metrics deserve more than scattered views. Give them a home connected to your architecture.**
+**Your engineers deserve more than scattered views. Give them dashboards connected to your architecture.**
 
 ---
 
