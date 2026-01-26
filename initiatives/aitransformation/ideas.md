@@ -1,0 +1,4 @@
+- Most Saas Software that costs money can be replaced by a repo + claude code.
+- most cloud cost can be reduced funding ai tokens.
+- Running your own cloud from desktop machines doable with AI assistants ?
+- Local AI models ?.
